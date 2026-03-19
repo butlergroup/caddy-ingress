@@ -1,10 +1,39 @@
 FROM alpine:latest AS certs
-RUN apk --update add ca-certificates
+RUN apk update && \
+    apk add --no-cache --upgrade \
+        ca-certificates
 
 FROM alpine:latest
 
-EXPOSE 80 443
-ENTRYPOINT ["/ingress-controller"]
+# added zlib to address CVE-2026-22184
+RUN apk update && \
+    apk add --no-cache --upgrade \
+        zlib \
+        libcap
 
+# Define username and working directory
+ARG username="caddyingress"
+ENV HOME="/home/$username"
+ENV USER=$username
+
+# Create a new user and home directory
+RUN adduser -D -g '' $username && \
+    mkdir -p $HOME /etc/caddy && \
+    chown -R $username:$username $HOME /etc/caddy && \
+    chmod -R 700 $HOME /etc/caddy
+
+# Copy files
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY ingress-controller /
+COPY ingress-controller $HOME
+
+# Set the working directory inside the container
+WORKDIR $HOME
+
+# Allow the app to bind to ports below 1024
+RUN setcap 'cap_net_bind_service=+ep' $HOME/ingress-controller
+
+# Switch to local non-root user
+USER $username
+
+EXPOSE 80 443
+ENTRYPOINT ["/home/caddyingress/ingress-controller"]

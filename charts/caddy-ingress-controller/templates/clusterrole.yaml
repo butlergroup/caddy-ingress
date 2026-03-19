@@ -14,7 +14,7 @@ rules:
       - ingresses/status
       - secrets
       - leases
-    verbs: ["*"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]
   - apiGroups:
       - ""
     resources:

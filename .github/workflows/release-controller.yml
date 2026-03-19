@@ -1,24 +1,33 @@
 name: Release Controller
 
+permissions:
+  contents: read
+
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   goreleaser:
+    permissions: write-all
     runs-on: ubuntu-latest
     name: GoReleaser release
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: 1.25
+          go-version: 1.26.1
           check-latest: true
 
       - name: Set up QEMU
@@ -42,28 +51,3 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  bump-charts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Set appVersion
-        uses: mikefarah/yq@v4
-        with:
-          cmd: yq -i '.appVersion = "${{ github.ref_name }}"' 'charts/caddy-ingress-controller/Chart.yaml'
-
-      - name: Set image tag
-        uses: mikefarah/yq@v4
-        with:
-          cmd: yq -i '.image.tag = "${{ github.ref_name }}"' 'charts/caddy-ingress-controller/values.yaml'
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: update-charts
-          commit-message: Update caddy-ingress charts to ${{ github.ref_name }}
-          title: Update caddy-ingress charts to ${{ github.ref_name }}
-          body: |
-            This is an automated pull request to update charts.

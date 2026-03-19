@@ -45,6 +45,12 @@ spec:
               {{- if .Values.minikube }}
               hostPort: 443 # optional, required if running in minikube
               {{- end }}
+            - name: quic
+              containerPort: 443
+              protocol: UDP
+              {{- if .Values.minikube }}
+              hostPort: 443 # optional, required if running in minikube
+              {{- end }}
             - name: metrics
               containerPort: 9765
               protocol: TCP
@@ -62,6 +68,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- with .Values.ingressController.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           volumeMounts:
           - name: tmp
             mountPath: /tmp

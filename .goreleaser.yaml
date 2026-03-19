@@ -1,4 +1,5 @@
-project_name: ingress
+project_name: caddy-ingress
+version: 2
 before:
   hooks:
     - go mod tidy
@@ -20,9 +21,8 @@ dockers:
     goos: linux
     goarch: amd64
     dockerfile: ./Dockerfile
-    skip_push: "true"
     image_templates:
-      - "caddy/{{ .ProjectName }}:test-image"
+      - "butlergroup/{{ .ProjectName }}:test-image"
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--pull"
@@ -36,7 +36,7 @@ dockers:
     goarch: amd64
     dockerfile: ./Dockerfile
     image_templates:
-      - "caddy/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64"
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--pull"
@@ -50,7 +50,7 @@ dockers:
     goarch: arm64
     dockerfile: ./Dockerfile
     image_templates:
-      - "caddy/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
     build_flag_templates:
       - "--platform=linux/arm64/v8"
       - "--pull"
@@ -64,7 +64,7 @@ dockers:
     goarch: s390x
     dockerfile: ./Dockerfile
     image_templates:
-      - "caddy/{{ .ProjectName }}:{{ .Tag }}-s390x"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x"
     build_flag_templates:
       - "--platform=linux/s390x"
       - "--pull"
@@ -75,26 +75,26 @@ dockers:
 
 docker_manifests:
   # https://goreleaser.com/customization/docker_manifest/
-  - name_template: caddy/{{ .ProjectName }}:latest
+  - name_template: butlergroup/{{ .ProjectName }}:latest
     image_templates:
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: caddy/{{ .ProjectName }}:v{{ .Major }}
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
+  - name_template: butlergroup/{{ .ProjectName }}:v{{ .Major }}
     image_templates:
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: caddy/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
+  - name_template: butlergroup/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}
     image_templates:
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: caddy/{{ .ProjectName }}:{{ .Tag }}
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
+  - name_template: butlergroup/{{ .ProjectName }}:{{ .Tag }}
     image_templates:
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - caddy/{{ .ProjectName }}:{{ .Tag }}-s390x
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
+      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
 
 release:
   disable: true
@@ -102,7 +102,7 @@ release:
 checksum:
   name_template: "checksums.txt"
 snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+  version_template: "{{ incpatch .Version }}-next"
 changelog:
   sort: asc
   filters:

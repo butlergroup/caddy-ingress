@@ -16,12 +16,14 @@ type ConfigMapOptions struct {
 	AcmeCA                string         `json:"acmeCA,omitempty"`
 	AcmeEABKeyID          string         `json:"acmeEABKeyId,omitempty"`
 	AcmeEABMacKey         string         `json:"acmeEABMacKey,omitempty"`
+	AcmeDNSProvider       string         `json:"acmeDNSProvider,omitempty"`
+	AcmeDNSResolvers      []string       `json:"acmeDNSResolvers,omitempty"`
 	Email                 string         `json:"email,omitempty"`
 	ExperimentalSmartSort bool           `json:"experimentalSmartSort,omitempty"`
 	ProxyProtocol         bool           `json:"proxyProtocol,omitempty"`
 	Metrics               bool           `json:"metrics,omitempty"`
 	OnDemandTLS           bool           `json:"onDemandTLS,omitempty"`
-	OnDemandAsk           string         `json:"onDemandAsk,omitempty"`
+	PermissionEndpoint    string         `json:"permissionEndpoint,omitempty"`
 	OCSPCheckInterval     caddy.Duration `json:"ocspCheckInterval,omitempty"`
 }
 

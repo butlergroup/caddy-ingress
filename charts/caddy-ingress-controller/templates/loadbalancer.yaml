@@ -28,6 +28,10 @@ spec:
       port: 443
       protocol: TCP
       targetPort: https
+    - name: quic
+      port: 443
+      protocol: UDP
+      targetPort: 443
   selector:
     {{- include "caddy-ingress-controller.selectorLabels" . | nindent 4 }}
 {{- end }}

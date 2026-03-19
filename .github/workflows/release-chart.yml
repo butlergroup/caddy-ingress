@@ -1,14 +1,22 @@
 name: Release Charts
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [main]
     paths:
-      - 'charts/**'
-      - '.github/workflows/release-chart.yml'
+      - "charts/**"
+      - ".github/workflows/release-chart.yml"
 
 jobs:
   release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
