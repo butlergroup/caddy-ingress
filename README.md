@@ -2,6 +2,7 @@
 [![CodeQL](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql)
 [![Go CI](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/butlergroup/caddy-ingress)](https://goreportcard.com/report/github.com/butlergroup/caddy-ingress)
+[![OSV-Scanner](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml)
 [![Snyk Security-Monitored](https://img.shields.io/badge/Snyk%20Security-Monitored-purple)](https://app.snyk.io/share/784f6fef-6aaf-47ed-81ba-99e05b854665)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12136/badge)](https://www.bestpractices.dev/projects/12136)
 [![Scorecard supply-chain security](https://github.com/butlergroup/caddy-ingress/actions/workflows/scorecard.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/scorecard.yml)
