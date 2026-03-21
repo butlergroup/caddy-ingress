@@ -4,20 +4,17 @@ updates:
     directory: "/"
     schedule:
       interval: daily
-    labels:
-      - "dependencies"
-      - "dependabot"
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
       interval: daily
-    labels:
-      - "dependencies"
-      - "dependabot"
-    groups:
-      kubernetes-dependencies:
-        patterns:
-          - "k8s.io/api"
-          - "k8s.io/apimachinery"
-          - "k8s.io/client-go"
-          - "k8s.io/component-base"
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  # Enable version updates for Helm
+  - package-ecosystem: "helm"
+    directory: "/"
+    schedule:
+      interval: "daily"
