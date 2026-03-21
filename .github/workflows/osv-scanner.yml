@@ -24,6 +24,7 @@ on:
 permissions:
   # Read commit contents
   contents: read
+  actions: read
 
 jobs:
   scan-scheduled:
