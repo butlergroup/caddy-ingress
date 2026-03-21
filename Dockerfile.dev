@@ -10,7 +10,7 @@ RUN go mod download
 COPY . .
 RUN go build -o ./bin/ingress-controller ./cmd/caddy
 
-FROM alpine:3.18
+FROM alpine:3.23
 
 EXPOSE 80 443
 
