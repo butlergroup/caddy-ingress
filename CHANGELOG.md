@@ -1,11 +1,25 @@
-## Helm Chart Version 1.4.2
-## Ingress Controller Version v0.3.2 
+## Helm Chart Version 1.4.3
+## Ingress Controller Version v0.3.3
+
+#### New Features
+- Added badge for Dependabot Updates to README.md
+
+#### Improvements
+- Updated go.mod dependencies
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.4.2 (03-21-2026)
+## Ingress Controller Version v0.3.2 (03-21-2026)
 
 #### New Features
 
 
 #### Improvements
-
+- Updated go.mod dependencies
 
 #### Fixes
 

@@ -82,7 +82,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.9.0 // indirect
+	github.com/jackc/pgx/v5 v5.9.1 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.18.5 // indirect
@@ -114,7 +114,7 @@ require (
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/slackhq/nebula v1.10.3 // indirect
-	github.com/smallstep/certificates v0.30.1 // indirect
+	github.com/smallstep/certificates v0.30.2 // indirect
 	github.com/smallstep/cli-utils v0.12.2 // indirect
 	github.com/smallstep/linkedca v0.25.0 // indirect
 	github.com/smallstep/nosql v0.8.0 // indirect

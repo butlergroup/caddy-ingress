@@ -1,6 +1,7 @@
 [![](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CodeQL](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql)
 [![Go CI](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml)
+[![Dependabot Updates](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates)
 [![Go Report Card](https://goreportcard.com/badge/github.com/butlergroup/caddy-ingress)](https://goreportcard.com/report/github.com/butlergroup/caddy-ingress)
 [![OSV-Scanner](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml)
 [![Snyk Security-Monitored](https://img.shields.io/badge/Snyk%20Security-Monitored-purple)](https://app.snyk.io/share/784f6fef-6aaf-47ed-81ba-99e05b854665)
