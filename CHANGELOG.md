@@ -1,5 +1,19 @@
-## Helm Chart Version 1.4.4
-## Ingress Controller Version v0.3.4
+## Helm Chart Version 1.4.5 (03-23-2026)
+## Ingress Controller Version v0.3.5 (03-23-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Reverted change to values.yaml that set "readOnlyRootFilesystem"
+
+-----
+
+## Helm Chart Version 1.4.4 (03-23-2026)
+## Ingress Controller Version v0.3.4 (03-23-2026)
 
 #### New Features
 
