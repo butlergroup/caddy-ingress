@@ -18,9 +18,9 @@ ENV USER=$username
 
 # Create a new user and home directory
 RUN adduser -D -g '' $username && \
-    mkdir -p $HOME /etc/caddy && \
-    chown -R $username:$username $HOME /etc/caddy && \
-    chmod -R 700 $HOME /etc/caddy
+    mkdir -p $HOME /etc/caddy/certs && \
+    chown -R $username:$username $HOME /etc/caddy/certs && \
+    chmod -R 700 $HOME /etc/caddy/certs
 
 # Copy files
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt

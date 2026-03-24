@@ -1,5 +1,19 @@
-## Helm Chart Version 1.4.3
-## Ingress Controller Version v0.3.3
+## Helm Chart Version 1.4.4
+## Ingress Controller Version v0.3.4
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies
+
+#### Fixes
+- Corrected Dockerfile to use /etc/caddy/certs instead of /etc/caddy
+
+-----
+
+## Helm Chart Version 1.4.3 (03-22-2026)
+## Ingress Controller Version v0.3.3 (03-22-2026)
 
 #### New Features
 - Added badge for Dependabot Updates to README.md
