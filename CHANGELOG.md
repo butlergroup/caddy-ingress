@@ -1,3 +1,17 @@
+## Helm Chart Version 1.4.7 (03-24-2026)
+## Ingress Controller Version v0.3.7 (03-24-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Reverted all "securityContext" related settings in values.yaml
+
+-----
+
 ## Helm Chart Version 1.4.6 (03-23-2026)
 ## Ingress Controller Version v0.3.6 (03-23-2026)
 
