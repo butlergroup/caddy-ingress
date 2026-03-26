@@ -1,3 +1,19 @@
+## Helm Chart Version 1.4.8 
+## Ingress Controller Version v0.3.8 
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies
+- Updated Dockerfile to expose both TCP and UDP port 443 to enable QUIC
+- Updated Github action versions in osv-scanner.yml
+
+#### Fixes
+- Restored all "securityContext" related settings in values.yaml
+
+-----
+
 ## Helm Chart Version 1.4.7 (03-24-2026)
 ## Ingress Controller Version v0.3.7 (03-24-2026)
 

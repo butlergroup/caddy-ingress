@@ -35,5 +35,7 @@ RUN setcap 'cap_net_bind_service=+ep' $HOME/ingress-controller
 # Switch to local non-root user
 USER $username
 
-EXPOSE 80 443
+EXPOSE 443/tcp
+EXPOSE 443/udp
+EXPOSE 80 
 ENTRYPOINT ["/home/caddyingress/ingress-controller"]

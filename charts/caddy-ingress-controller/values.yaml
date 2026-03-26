@@ -9,7 +9,7 @@ minikube: false
 image:
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.3.7"
+  tag: "v0.3.8"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -97,7 +97,15 @@ podDisruptionBudget:
   minAvailable: 1
   maxUnavailable:
 
-securityContext: {}
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - SYS_ADMIN
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
