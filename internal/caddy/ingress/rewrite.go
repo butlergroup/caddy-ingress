@@ -1,10 +1,10 @@
 package ingress
 
 import (
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
 	"github.com/caddyserver/caddy/v2/caddyconfig"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp/rewrite"
-	"github.com/caddyserver/ingress/pkg/converter"
 )
 
 type RewritePlugin struct{}

@@ -6,8 +6,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/caddyserver/ingress/internal/caddy"
-	"github.com/caddyserver/ingress/internal/controller"
+	"github.com/butlergroup/caddy-ingress/internal/caddy"
+	"github.com/butlergroup/caddy-ingress/internal/controller"
 	"go.uber.org/zap"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/wait"

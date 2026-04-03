@@ -1,12 +1,12 @@
 package caddy
 
 import (
-	"github.com/caddyserver/ingress/pkg/converter"
-	"github.com/caddyserver/ingress/pkg/store"
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 
 	// Load default plugins
-	_ "github.com/caddyserver/ingress/internal/caddy/global"
-	_ "github.com/caddyserver/ingress/internal/caddy/ingress"
+	_ "github.com/butlergroup/caddy-ingress/internal/caddy/global"
+	_ "github.com/butlergroup/caddy-ingress/internal/caddy/ingress"
 )
 
 type Converter struct{}

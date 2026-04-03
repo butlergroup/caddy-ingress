@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"slices"
 
-	"github.com/caddyserver/ingress/internal/controller"
-	"github.com/caddyserver/ingress/pkg/converter"
-	"github.com/caddyserver/ingress/pkg/store"
+	"github.com/butlergroup/caddy-ingress/internal/controller"
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 )
 
 type TLSPlugin struct{}

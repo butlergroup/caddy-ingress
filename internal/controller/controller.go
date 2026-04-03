@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/butlergroup/caddy-ingress/internal/k8s"
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/certmagic"
-	"github.com/caddyserver/ingress/internal/k8s"
-	"github.com/caddyserver/ingress/pkg/store"
 	"go.uber.org/zap"
 	networkingv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/util/runtime"
@@ -23,12 +23,12 @@ import (
 	"k8s.io/client-go/util/workqueue"
 
 	// load required caddy plugins
+	_ "github.com/butlergroup/caddy-ingress/pkg/storage"
 	_ "github.com/caddyserver/caddy/v2/modules/caddyhttp/proxyprotocol"
 	_ "github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy"
 	_ "github.com/caddyserver/caddy/v2/modules/caddytls"
 	_ "github.com/caddyserver/caddy/v2/modules/caddytls/standardstek"
 	_ "github.com/caddyserver/caddy/v2/modules/metrics"
-	_ "github.com/caddyserver/ingress/pkg/storage"
 )
 
 const (

@@ -3,10 +3,10 @@ package global
 import (
 	"encoding/json"
 
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-	"github.com/caddyserver/ingress/pkg/converter"
-	"github.com/caddyserver/ingress/pkg/store"
 )
 
 type IngressPlugin struct{}

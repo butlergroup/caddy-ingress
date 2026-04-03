@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/caddyserver/ingress/internal/k8s"
+	"github.com/butlergroup/caddy-ingress/internal/k8s"
 	"go.uber.org/zap"
 	"gopkg.in/go-playground/pool.v3"
 	networkingv1 "k8s.io/api/networking/v1"

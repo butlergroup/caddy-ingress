@@ -1,10 +1,10 @@
 package ingress
 
 import (
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-	"github.com/caddyserver/ingress/pkg/converter"
 	v1 "k8s.io/api/networking/v1"
 )
 

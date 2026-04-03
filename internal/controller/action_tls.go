@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/caddyserver/ingress/internal/k8s"
+	"github.com/butlergroup/caddy-ingress/internal/k8s"
 	apiv1 "k8s.io/api/core/v1"
 )
 

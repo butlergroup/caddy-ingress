@@ -3,8 +3,8 @@ package global
 import (
 	"testing"
 
-	"github.com/caddyserver/ingress/pkg/converter"
-	"github.com/caddyserver/ingress/pkg/store"
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 
 	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

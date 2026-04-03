@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/butlergroup/caddy-ingress/pkg/converter"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-	"github.com/caddyserver/ingress/pkg/converter"
 	"github.com/stretchr/testify/require"
 	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

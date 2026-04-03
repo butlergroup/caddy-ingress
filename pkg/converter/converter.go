@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/butlergroup/caddy-ingress/pkg/store"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-	"github.com/caddyserver/ingress/pkg/store"
 	v1 "k8s.io/api/networking/v1"
 )
 

@@ -1,5 +1,34 @@
-## Helm Chart Version 1.4.8 
-## Ingress Controller Version v0.3.8 
+## Helm Chart Version 1.4.10 
+## Ingress Controller Version v0.3.10 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.4.9 (04-02-2026)
+## Ingress Controller Version v0.3.9 (04-02-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies (resolved a vulnerability in go-jose)
+- Modified module name to point to github.com/butlergroup/caddy-ingress
+
+#### Fixes
+- Removed fsGroup from securityContext in values.yaml
+
+-----
+
+## Helm Chart Version 1.4.8 (03-26-2026)
+## Ingress Controller Version v0.3.8 (03-26-2026)
 
 #### New Features
 
