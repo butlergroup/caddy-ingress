@@ -1,5 +1,5 @@
-## Helm Chart Version 1.4.10 
-## Ingress Controller Version v0.3.10 
+## Helm Chart Version 1.4.11 
+## Ingress Controller Version v0.3.11 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.4.10 (04-02-2026)
+## Ingress Controller Version v0.3.10 (04-02-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Modified module import for caddy-dns/cloudflare to point to github.com/butlergroup/caddy-dns-cloudflare to address CVE-2026-22184
 
 -----
 
