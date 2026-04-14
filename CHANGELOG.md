@@ -1,5 +1,5 @@
-## Helm Chart Version 1.4.11 
-## Ingress Controller Version v0.3.11 
+## Helm Chart Version 1.4.12 
+## Ingress Controller Version v0.3.12
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.4.11 (04-13-2026)
+## Ingress Controller Version v0.3.11 (04-13-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies
+
+#### Fixes
+- added openssl to Dockerfile to address CVE-2026-2673
 
 -----
 
