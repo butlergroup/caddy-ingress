@@ -7,10 +7,12 @@ FROM alpine:latest
 
 # added zlib to address CVE-2026-22184
 # added openssl to address CVE-2026-2673
+# added musl to address CVE-2026-40200
 RUN apk update && \
     apk add --no-cache --upgrade \
         zlib \
         openssl \
+        musl \
         libcap
 
 # Define username and working directory

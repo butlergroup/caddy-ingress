@@ -1,5 +1,5 @@
-## Helm Chart Version 1.4.12 
-## Ingress Controller Version v0.3.12
+## Helm Chart Version 1.4.13 
+## Ingress Controller Version v0.3.13 
 
 #### New Features
 
@@ -9,6 +9,22 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.4.12 (04-13-2026)
+## Ingress Controller Version v0.3.12 (04-13-2026)
+
+#### New Features
+
+
+#### Improvements
+- Modified .github/workflows/release-controller.yml workflow to use latest Go version (1.26.2)
+- Modified .github/workflows/main.yml workflow to use latest Go version (1.26.2)
+
+#### Fixes
+- added musl to Dockerfile to address CVE-2026-40200
+- Updated go.mod to use latest Go version (1.26.2) to address multpile CVEs
 
 -----
 
