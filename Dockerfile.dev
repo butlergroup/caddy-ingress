@@ -10,7 +10,16 @@ RUN go mod download
 COPY . .
 RUN go build -o ./bin/ingress-controller ./cmd/caddy
 
-FROM alpine:3.23
+FROM alpine:latest
+
+# added zlib to address CVE-2026-22184
+# added openssl to address CVE-2026-2673
+# added musl to address CVE-2026-40200
+RUN apk update && \
+    apk add --no-cache --upgrade \
+        zlib \
+        openssl \
+        musl 
 
 EXPOSE 80 443
 
