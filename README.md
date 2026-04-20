@@ -21,7 +21,8 @@ ingress resources that it is managing.
 
 ## Notes on this fork
 
-- Modified to work with Cloudflare
+- **Modified to work with Cloudflare**
+- **Modified to write auto-generated certs to the source namespace instead of the Caddy installation namespace. This aligns with established K8s best practices regarding namespace-constrained secret access.**
 - Created to update dependencies and include the latest version of Caddy when building the ingress-controller binary
 - Several security scanners have been added to the repo to ensure any issues are found quickly
 - Will be maintained (depenencies/packages updated & CVEs addressed in a timely manner, etc.)

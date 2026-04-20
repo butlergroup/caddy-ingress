@@ -47,11 +47,32 @@ func cleanKey(key string, prefix string) string {
 
 // SecretStorage facilitates storing certificates retrieved by certmagic in kubernetes secrets.
 type SecretStorage struct {
-	Namespace string
-	LeaseID   string
+	Namespace          string            `json:"namespace,omitempty"`
+	LeaseID            string            `json:"lease_id,omitempty"`
+	DomainNamespaceMap map[string]string `json:"domainNamespaceMap,omitempty"`
+	kubeClient         *kubernetes.Clientset
+	logger             *zap.Logger
+}
 
-	kubeClient *kubernetes.Clientset
-	logger     *zap.Logger
+func extractDomain(key string) string {
+	parts := strings.Split(key, "/")
+	if len(parts) < 2 {
+		return ""
+	}
+	return parts[len(parts)-2]
+}
+
+func (s *SecretStorage) resolveNamespace(key string) string {
+	domain := extractDomain(key)
+
+	if ns, ok := s.DomainNamespaceMap[domain]; ok {
+		return ns
+	}
+
+	// fallback (important for:
+	// - ACME account keys
+	// - unknown domains
+	return s.Namespace
 }
 
 func init() {
@@ -87,7 +108,8 @@ func (s *SecretStorage) CertMagicStorage() (certmagic.Storage, error) {
 // Exists returns true if key exists in fs.
 func (s *SecretStorage) Exists(ctx context.Context, key string) bool {
 	s.logger.Debug("finding secret", zap.String("name", key))
-	secrets, err := s.kubeClient.CoreV1().Secrets(s.Namespace).List(context.TODO(), metav1.ListOptions{
+	ns := s.resolveNamespace(key)
+	secrets, err := s.kubeClient.CoreV1().Secrets(ns).List(context.TODO(), metav1.ListOptions{
 		FieldSelector: fmt.Sprintf("metadata.name=%v", cleanKey(key, keyPrefix)),
 	})
 
@@ -106,6 +128,22 @@ func (s *SecretStorage) Exists(ctx context.Context, key string) bool {
 	return found
 }
 
+func (s *SecretStorage) existsInNamespace(ctx context.Context, key, ns string) bool {
+	secrets, err := s.kubeClient.CoreV1().Secrets(ns).List(context.TODO(), metav1.ListOptions{
+		FieldSelector: fmt.Sprintf("metadata.name=%v", cleanKey(key, keyPrefix)),
+	})
+	if err != nil {
+		return false
+	}
+
+	for _, i := range secrets.Items {
+		if i.ObjectMeta.Name == cleanKey(key, keyPrefix) {
+			return true
+		}
+	}
+	return false
+}
+
 // Store saves value at key. More than certs and keys are stored by certmagic in secrets.
 func (s *SecretStorage) Store(ctx context.Context, key string, value []byte) error {
 	se := corev1.Secret{
@@ -118,13 +156,14 @@ func (s *SecretStorage) Store(ctx context.Context, key string, value []byte) err
 		},
 	}
 
+	ns := s.resolveNamespace(key)
 	var err error
-	if s.Exists(ctx, key) {
+	if s.existsInNamespace(ctx, key, ns) {
 		s.logger.Debug("creating secret", zap.String("name", key))
-		_, err = s.kubeClient.CoreV1().Secrets(s.Namespace).Update(context.TODO(), &se, metav1.UpdateOptions{})
+		_, err = s.kubeClient.CoreV1().Secrets(ns).Update(context.TODO(), &se, metav1.UpdateOptions{})
 	} else {
 		s.logger.Debug("updating secret", zap.String("name", key))
-		_, err = s.kubeClient.CoreV1().Secrets(s.Namespace).Create(context.TODO(), &se, metav1.CreateOptions{})
+		_, err = s.kubeClient.CoreV1().Secrets(ns).Create(context.TODO(), &se, metav1.CreateOptions{})
 	}
 
 	if err != nil {
@@ -136,7 +175,8 @@ func (s *SecretStorage) Store(ctx context.Context, key string, value []byte) err
 
 // Load retrieves the value at the given key.
 func (s *SecretStorage) Load(ctx context.Context, key string) ([]byte, error) {
-	secret, err := s.kubeClient.CoreV1().Secrets(s.Namespace).Get(context.TODO(), cleanKey(key, keyPrefix), metav1.GetOptions{})
+	ns := s.resolveNamespace(key)
+	secret, err := s.kubeClient.CoreV1().Secrets(ns).Get(context.TODO(), cleanKey(key, keyPrefix), metav1.GetOptions{})
 	if err != nil {
 		if errors.IsNotFound(err) {
 			return nil, fs.ErrNotExist
@@ -150,7 +190,8 @@ func (s *SecretStorage) Load(ctx context.Context, key string) ([]byte, error) {
 
 // Delete deletes the value at the given key.
 func (s *SecretStorage) Delete(ctx context.Context, key string) error {
-	err := s.kubeClient.CoreV1().Secrets(s.Namespace).Delete(context.TODO(), cleanKey(key, keyPrefix), metav1.DeleteOptions{})
+	ns := s.resolveNamespace(key)
+	err := s.kubeClient.CoreV1().Secrets(ns).Delete(context.TODO(), cleanKey(key, keyPrefix), metav1.DeleteOptions{})
 	if err != nil {
 		return err
 	}
@@ -163,28 +204,37 @@ func (s *SecretStorage) Delete(ctx context.Context, key string) error {
 func (s *SecretStorage) List(ctx context.Context, prefix string, recursive bool) ([]string, error) {
 	var keys []string
 
-	s.logger.Debug("listing secrets", zap.String("name", prefix))
-	secrets, err := s.kubeClient.CoreV1().Secrets(s.Namespace).List(context.TODO(), metav1.ListOptions{
-		LabelSelector: labels.SelectorFromSet(matchLabels).String(),
-	})
-	if err != nil {
-		return keys, err
+	namespaces := map[string]struct{}{}
+	for _, ns := range s.DomainNamespaceMap {
+		namespaces[ns] = struct{}{}
 	}
+	namespaces[s.Namespace] = struct{}{} // include fallback
 
-	// TODO :- do we need to handle the recursive flag?
-	for _, secret := range secrets.Items {
-		key := secret.ObjectMeta.Name
-		if strings.HasPrefix(key, cleanKey(prefix, keyPrefix)) {
-			keys = append(keys, strings.TrimPrefix(key, keyPrefix))
+	s.logger.Debug("listing secrets", zap.String("name", prefix))
+	for ns := range namespaces {
+		secrets, err := s.kubeClient.CoreV1().Secrets(ns).List(context.TODO(), metav1.ListOptions{
+			LabelSelector: labels.SelectorFromSet(matchLabels).String(),
+		})
+		if err != nil {
+			return keys, err
+		}
+
+		// TODO :- do we need to handle the recursive flag?
+		for _, secret := range secrets.Items {
+			key := secret.ObjectMeta.Name
+			if strings.HasPrefix(key, cleanKey(prefix, keyPrefix)) {
+				keys = append(keys, strings.TrimPrefix(key, keyPrefix))
+			}
 		}
 	}
 
-	return keys, err
+	return keys, nil
 }
 
 // Stat returns information about key.
 func (s *SecretStorage) Stat(ctx context.Context, key string) (certmagic.KeyInfo, error) {
-	secret, err := s.kubeClient.CoreV1().Secrets(s.Namespace).Get(context.TODO(), cleanKey(key, keyPrefix), metav1.GetOptions{})
+	ns := s.resolveNamespace(key)
+	secret, err := s.kubeClient.CoreV1().Secrets(ns).Get(context.TODO(), cleanKey(key, keyPrefix), metav1.GetOptions{})
 	if err != nil {
 		return certmagic.KeyInfo{}, err
 	}
@@ -230,10 +280,11 @@ func (s *SecretStorage) keepLockUpdated(ctx context.Context, key string) {
 
 func (s *SecretStorage) tryAcquireOrRenew(ctx context.Context, key string, shouldExist bool) (bool, error) {
 	now := metav1.Now()
+	ns := s.resolveNamespace(key)
 	lock := resourcelock.LeaseLock{
 		LeaseMeta: metav1.ObjectMeta{
 			Name:      key,
-			Namespace: s.Namespace,
+			Namespace: ns,
 		},
 		Client: s.kubeClient.CoordinationV1(),
 		LockConfig: resourcelock.ResourceLockConfig{
@@ -286,6 +337,7 @@ func (s *SecretStorage) tryAcquireOrRenew(ctx context.Context, key string, shoul
 }
 
 func (s *SecretStorage) Unlock(ctx context.Context, key string) error {
-	err := s.kubeClient.CoordinationV1().Leases(s.Namespace).Delete(context.TODO(), cleanKey(key, leasePrefix), metav1.DeleteOptions{})
+	ns := s.resolveNamespace(key)
+	err := s.kubeClient.CoordinationV1().Leases(ns).Delete(context.TODO(), cleanKey(key, leasePrefix), metav1.DeleteOptions{})
 	return err
 }

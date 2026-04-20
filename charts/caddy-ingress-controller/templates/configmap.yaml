@@ -4,7 +4,10 @@ metadata:
   name: {{ include "caddy-ingress-controller.name" . }}-configmap
   namespace: {{ .Release.Namespace }}
 data:
-{{- range keys .Values.ingressController.config | sortAlpha }}
-  {{ . }}: {{ get $.Values.ingressController.config . | quote }}
+{{- range $key, $value := .Values.ingressController.config }}
+  {{- if kindIs "slice" $value }}
+  {{ $key }}: {{ $value | toJson | quote }}
+  {{- else }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
 {{- end }}
-

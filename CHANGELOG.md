@@ -2,13 +2,13 @@
 ## Ingress Controller Version v0.3.14 
 
 #### New Features
-
+- Modified storage.go, secrets_store.go, config.go, and store.go to write auto-generated certs to the source namespace instead of the Caddy installation namespace. This aligns with established K8s best practices regarding namespace-constrained secret access. 
 
 #### Improvements
-
+- Updated go.mod dependencies
 
 #### Fixes
-
+- Modified Helm chart yaml to correct an issue parsing multiple resolvers passed in the Helm deployment command
 
 -----
 

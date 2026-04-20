@@ -6,21 +6,23 @@ import (
 
 // Store contains resources used to generate Caddy config
 type Store struct {
-	Options         *Options
-	Ingresses       []*v1.Ingress
-	ConfigMap       *ConfigMapOptions
-	ConfigNamespace string
-	CurrentPod      *PodInfo
+	Options            *Options
+	Ingresses          []*v1.Ingress
+	ConfigMap          *ConfigMapOptions
+	ConfigNamespace    string
+	CurrentPod         *PodInfo
+	DomainNamespaceMap map[string]string
 }
 
 // NewStore returns a new store that keeps track of K8S resources needed by the controller.
 func NewStore(opts Options, configNamespace string, podInfo *PodInfo) *Store {
 	s := &Store{
-		Options:         &opts,
-		Ingresses:       []*v1.Ingress{},
-		ConfigMap:       &ConfigMapOptions{},
-		ConfigNamespace: configNamespace,
-		CurrentPod:      podInfo,
+		Options:            &opts,
+		Ingresses:          []*v1.Ingress{},
+		ConfigMap:          &ConfigMapOptions{},
+		ConfigNamespace:    configNamespace,
+		CurrentPod:         podInfo,
+		DomainNamespaceMap: make(map[string]string),
 	}
 	return s
 }
@@ -39,6 +41,12 @@ func (s *Store) AddIngress(ing *v1.Ingress) {
 
 	if isUniq {
 		s.Ingresses = append(s.Ingresses, ing)
+	}
+
+	for _, rule := range ing.Spec.Rules {
+		if rule.Host != "" {
+			s.DomainNamespaceMap[rule.Host] = ing.Namespace
+		}
 	}
 }
 
