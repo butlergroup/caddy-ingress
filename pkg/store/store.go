@@ -11,7 +11,7 @@ type Store struct {
 	ConfigMap          *ConfigMapOptions
 	ConfigNamespace    string
 	CurrentPod         *PodInfo
-	DomainNamespaceMap map[string]string
+	DomainNamespaceMap map[string]string `json:"domainNamespaceMap,omitempty"`
 }
 
 // NewStore returns a new store that keeps track of K8S resources needed by the controller.

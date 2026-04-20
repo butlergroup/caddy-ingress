@@ -8,9 +8,9 @@ import (
 
 // StorageValues represents the config for certmagic storage providers.
 type StorageValues struct {
-	Namespace          string `json:"namespace"`
-	LeaseID            string `json:"leaseId"`
-	DomainNamespaceMap map[string]string
+	Namespace          string            `json:"namespace,omitempty"`
+	LeaseID            string            `json:"leaseId,omitempty"`
+	DomainNamespaceMap map[string]string `json:"domainNamespaceMap,omitempty"`
 }
 
 // Storage represents the certmagic storage configuration.

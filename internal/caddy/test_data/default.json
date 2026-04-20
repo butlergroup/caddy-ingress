@@ -1,23 +1,48 @@
 {
   "admin": {},
-  "storage": { "module": "secret_store", "namespace": "", "leaseId": "" },
+  "storage": {
+    "module": "secret_store",
+    "namespace": "",
+    "leaseId": "",
+    "domainNamespaceMap": {}
+  },
   "apps": {
     "http": {
       "servers": {
         "ingress_server": {
-          "listen": [":80", ":443"],
-          "tls_connection_policies": [{}],
+          "listen": [
+            ":80",
+            ":443"
+          ],
+          "tls_connection_policies": [
+            {}
+          ],
           "automatic_https": {}
         },
         "metrics_server": {
-          "listen": [":9765"],
+          "listen": [
+            ":9765"
+          ],
           "routes": [
             {
-              "match": [{ "path": ["/healthz"] }],
-              "handle": [{ "handler": "static_response", "status_code": 200 }]
+              "match": [
+                {
+                  "path": [
+                    "/healthz"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "static_response",
+                  "status_code": 200
+                }
+              ]
             }
           ],
-          "automatic_https": { "disable": true }
+          "automatic_https": {
+            "disable": true
+          }
         }
       }
     },

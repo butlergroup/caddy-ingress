@@ -1,5 +1,34 @@
-## Helm Chart Version 1.4.14 
-## Ingress Controller Version v0.3.14 
+## Helm Chart Version 1.4.16 
+## Ingress Controller Version v0.3.16 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.4.15 (04-19-2026)
+## Ingress Controller Version v0.3.15 (04-19-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Modified default.json to include new parameter so tests will pass
+- Modified JSON struct tags in store.go, config.go, and storage.go to correct testing errors
+
+-----
+
+## Helm Chart Version 1.4.14 (04-19-2026)
+## Ingress Controller Version v0.3.14 (04-19-2026)
 
 #### New Features
 - Modified storage.go, secrets_store.go, config.go, and store.go to write auto-generated certs to the source namespace instead of the Caddy installation namespace. This aligns with established K8s best practices regarding namespace-constrained secret access. 

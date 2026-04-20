@@ -48,7 +48,7 @@ func cleanKey(key string, prefix string) string {
 // SecretStorage facilitates storing certificates retrieved by certmagic in kubernetes secrets.
 type SecretStorage struct {
 	Namespace          string            `json:"namespace,omitempty"`
-	LeaseID            string            `json:"lease_id,omitempty"`
+	LeaseID            string            `json:"leaseId,omitempty"`
 	DomainNamespaceMap map[string]string `json:"domainNamespaceMap,omitempty"`
 	kubeClient         *kubernetes.Clientset
 	logger             *zap.Logger
