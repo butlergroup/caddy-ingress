@@ -1,5 +1,5 @@
-## Helm Chart Version 1.4.16 
-## Ingress Controller Version v0.3.16 
+## Helm Chart Version 1.4.17 
+## Ingress Controller Version v0.3.17 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.4.16 (04-19-2026)
+## Ingress Controller Version v0.3.16 (04-19-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Removed empty parameters from default.json since new JSON struct tags include "omitempty"
 
 -----
 

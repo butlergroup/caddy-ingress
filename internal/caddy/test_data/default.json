@@ -1,10 +1,7 @@
 {
   "admin": {},
   "storage": {
-    "module": "secret_store",
-    "namespace": "",
-    "leaseId": "",
-    "domainNamespaceMap": {}
+    "module": "secret_store"
   },
   "apps": {
     "http": {
