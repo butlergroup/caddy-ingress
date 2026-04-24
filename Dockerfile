@@ -1,18 +1,14 @@
-FROM alpine:latest AS certs
-RUN apk update && \
-    apk add --no-cache --upgrade \
-        ca-certificates
+FROM redhat/ubi10-minimal AS certs
+RUN microdnf update -y && \
+    microdnf install -y --upgrade \
+        ca-certificates && \
+    microdnf clean all
 
-FROM alpine:latest
+FROM redhat/ubi10-minimal
 
-# added zlib to address CVE-2026-22184
-# added openssl to address CVE-2026-2673
-# added musl to address CVE-2026-40200
-RUN apk update && \
-    apk add --no-cache --upgrade \
-        zlib \
-        openssl \
-        musl \
+RUN microdnf update -y && \
+    microdnf install -y --upgrade \
+        shadow-utils \
         libcap
 
 # Define username and working directory
@@ -21,10 +17,11 @@ ENV HOME="/home/$username"
 ENV USER=$username
 
 # Create a new user and home directory
-RUN adduser -D -g '' $username && \
+RUN useradd -m -s /bin/bash $username && \
     mkdir -p $HOME /etc/caddy/certs && \
     chown -R $username:$username $HOME /etc/caddy/certs && \
-    chmod -R 700 $HOME /etc/caddy/certs
+    chmod -R 700 $HOME /etc/caddy/certs && \
+    microdnf clean all
 
 # Copy files
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
