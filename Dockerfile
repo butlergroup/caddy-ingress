@@ -24,7 +24,8 @@ RUN useradd -m -s /bin/bash $username && \
     microdnf clean all
 
 # Copy files
-COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=certs /etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-bundle.crt
+COPY --from=certs /etc/ssl/certs/ca-bundle.trust.crt /etc/ssl/certs/ca-bundle.trust.crt
 COPY ingress-controller $HOME
 
 # Set the working directory inside the container

@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.3 
-## Ingress Controller Version v0.4.3 
+## Helm Chart Version 1.5.4 
+## Ingress Controller Version v0.4.4 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.3 (04-23-2026)
+## Ingress Controller Version v0.4.3 (04-23-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Corrected CA cert names in Dockerfile
 
 -----
 
