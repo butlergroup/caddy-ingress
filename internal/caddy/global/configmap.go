@@ -58,8 +58,9 @@ func (p ConfigMapPlugin) GlobalHandler(config *converter.Config, store *store.St
 			dnsConfig := &caddytls.DNSChallengeConfig{
 				ProviderRaw: providerRaw,
 			}
-			if len(cfgMap.AcmeDNSResolvers) > 0 {
-				dnsConfig.Resolvers = cfgMap.AcmeDNSResolvers
+			var resolvers []string
+			if err := json.Unmarshal([]byte(cfgMap.AcmeDNSResolvers), &resolvers); err == nil {
+				dnsConfig.Resolvers = resolvers
 			}
 			if acmeIssuer.Challenges == nil {
 				acmeIssuer.Challenges = &caddytls.ChallengesConfig{}

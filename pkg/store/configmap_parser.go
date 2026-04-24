@@ -17,7 +17,7 @@ type ConfigMapOptions struct {
 	AcmeEABKeyID          string         `json:"acmeEABKeyId,omitempty"`
 	AcmeEABMacKey         string         `json:"acmeEABMacKey,omitempty"`
 	AcmeDNSProvider       string         `json:"acmeDNSProvider,omitempty"`
-	AcmeDNSResolvers      []string       `json:"acmeDNSResolvers,omitempty"`
+	AcmeDNSResolvers      string         `json:"acmeDNSResolvers,omitempty"`
 	Email                 string         `json:"email,omitempty"`
 	ExperimentalSmartSort bool           `json:"experimentalSmartSort,omitempty"`
 	ProxyProtocol         bool           `json:"proxyProtocol,omitempty"`

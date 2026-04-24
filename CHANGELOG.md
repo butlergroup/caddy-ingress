@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.4 
-## Ingress Controller Version v0.4.4 
+## Helm Chart Version 1.5.5 
+## Ingress Controller Version v0.4.5 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.4 (04-24-2026)
+## Ingress Controller Version v0.4.4 (04-24-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional corrections in configmap.go and configmap_parser.go to parse acmeDNSResolvers array properly
 
 -----
 
