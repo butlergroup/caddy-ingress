@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.2 
-## Ingress Controller Version v0.4.2 
+## Helm Chart Version 1.5.3 
+## Ingress Controller Version v0.4.3 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.2 (04-23-2026)
+## Ingress Controller Version v0.4.2 (04-23-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Removed --upgrade option from Dockerfile commands as it's redundant
 
 -----
 

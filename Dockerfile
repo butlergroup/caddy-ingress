@@ -1,13 +1,13 @@
 FROM redhat/ubi10-minimal AS certs
 RUN microdnf update -y && \
-    microdnf install -y --upgrade \
+    microdnf install -y \
         ca-certificates && \
     microdnf clean all
 
 FROM redhat/ubi10-minimal
 
 RUN microdnf update -y && \
-    microdnf install -y --upgrade \
+    microdnf install -y \
         shadow-utils \
         libcap
 
