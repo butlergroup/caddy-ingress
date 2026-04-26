@@ -1,14 +1,18 @@
-FROM redhat/ubi10-minimal AS certs
-RUN microdnf update -y && \
-    microdnf install -y \
-        ca-certificates && \
-    microdnf clean all
+FROM alpine:latest AS certs
+RUN apk update && \
+    apk add --no-cache --upgrade \
+        ca-certificates
 
-FROM redhat/ubi10-minimal
+FROM alpine:latest
 
-RUN microdnf update -y && \
-    microdnf install -y \
-        shadow-utils \
+# added zlib to address CVE-2026-22184
+# added openssl to address CVE-2026-2673
+# added musl to address CVE-2026-40200
+RUN apk update && \
+    apk add --no-cache --upgrade \
+        zlib \
+        openssl \
+        musl \
         libcap
 
 # Define username and working directory
@@ -17,15 +21,13 @@ ENV HOME="/home/$username"
 ENV USER=$username
 
 # Create a new user and home directory
-RUN useradd -m -s /bin/bash $username && \
+RUN adduser -D -g '' $username && \
     mkdir -p $HOME /etc/caddy/certs && \
     chown -R $username:$username $HOME /etc/caddy/certs && \
-    chmod -R 700 $HOME /etc/caddy/certs && \
-    microdnf clean all
+    chmod -R 700 $HOME /etc/caddy/certs
 
 # Copy files
-COPY --from=certs /etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-bundle.crt
-COPY --from=certs /etc/ssl/certs/ca-bundle.trust.crt /etc/ssl/certs/ca-bundle.trust.crt
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY ingress-controller $HOME
 
 # Set the working directory inside the container

@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.5 
-## Ingress Controller Version v0.4.5 
+## Helm Chart Version 1.5.6 
+## Ingress Controller Version v0.4.6 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.5 (04-25-2026)
+## Ingress Controller Version v0.4.5 (04-25-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies
+
+#### Fixes
+- Reverted Dockerfile and Dockerfile.dev to use alpine:latest for better security coverage
 
 -----
 
