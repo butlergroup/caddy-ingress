@@ -16,6 +16,7 @@ builds:
     mod_timestamp: "{{ .CommitTimestamp }}"
 
 dockers_v2:
+  - id: caddy-ingress
   - dockerfile: ./Dockerfile
   - images:
       - "butlergroup/{{ .ProjectName }}:test-image"
