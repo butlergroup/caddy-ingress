@@ -1,5 +1,4 @@
 project_name: caddy-ingress
-version: 2
 before:
   hooks:
     - go mod tidy
@@ -16,85 +15,34 @@ builds:
       - s390x
     mod_timestamp: "{{ .CommitTimestamp }}"
 
-dockers:
-  - use: buildx
-    goos: linux
-    goarch: amd64
-    dockerfile: ./Dockerfile
-    image_templates:
+dockers_v2:
+  - dockerfile: ./Dockerfile
+  - images:
       - "butlergroup/{{ .ProjectName }}:test-image"
-    build_flag_templates:
-      - "--platform=linux/amd64"
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.name={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-
-  - use: buildx
-    goos: linux
-    goarch: amd64
-    dockerfile: ./Dockerfile
-    image_templates:
       - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64"
-    build_flag_templates:
-      - "--platform=linux/amd64"
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.name={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-
-  - use: buildx
-    goos: linux
-    goarch: arm64
-    dockerfile: ./Dockerfile
-    image_templates:
       - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
-    build_flag_templates:
-      - "--platform=linux/arm64/v8"
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.name={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-
-  - use: buildx
-    goos: linux
-    goarch: s390x
-    dockerfile: ./Dockerfile
-    image_templates:
       - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x"
-    build_flag_templates:
-      - "--platform=linux/s390x"
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.name={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
+    tags:
+      - "v{{ .Version }}"
+      - "{{ if .IsNightly }}nightly{{ end }}"
+      - "{{ if not .IsNightly }}latest{{ end }}"
+    labels:
+      "org.opencontainers.image.description": "Caddy ingress controller for Kubernetes - with Cloudflare support!"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
 
-docker_manifests:
-  # https://goreleaser.com/customization/docker_manifest/
-  - name_template: butlergroup/{{ .ProjectName }}:latest
-    image_templates:
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: butlergroup/{{ .ProjectName }}:v{{ .Major }}
-    image_templates:
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: butlergroup/{{ .ProjectName }}:v{{ .Major }}.{{ .Minor }}
-    image_templates:
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
-  - name_template: butlergroup/{{ .ProjectName }}:{{ .Tag }}
-    image_templates:
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-      - butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x
+docker_signs:
+  - cmd: cosign
+    env:
+      - COSIGN_EXPERIMENTAL=1
+    args:
+      - "sign"
+      - "${artifact}"
+      - "--yes"
+    artifacts: all
 
 release:
   disable: true

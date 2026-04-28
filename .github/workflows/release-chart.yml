@@ -9,7 +9,8 @@ concurrency:
 
 on:
   push:
-    branches: [main]
+    tags:
+      - "v*"
     paths:
       - "charts/**"
       - ".github/workflows/release-chart.yml"

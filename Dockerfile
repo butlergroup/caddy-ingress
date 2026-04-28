@@ -28,7 +28,8 @@ RUN adduser -D -g '' $username && \
 
 # Copy files
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY ingress-controller $HOME
+ARG TARGETPLATFORM
+COPY $TARGETPLATFORM/ingress-controller $HOME
 
 # Set the working directory inside the container
 WORKDIR $HOME

@@ -5,7 +5,8 @@
 
 
 #### Improvements
-
+- Updated go.mod dependencies
+- Modified Dockerfile, release-chart.yml, release-controller.yml, and .goreleaser.yaml to use dockers_v2 and cosign to sign images
 
 #### Fixes
 
