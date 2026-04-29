@@ -12,17 +12,14 @@
 [![Feature Requests](https://img.shields.io/github/issues/butlergroup/caddy-ingress/feature-request.svg)](https://github.com/butlergroup/caddy-ingress/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
 [![Bugs](https://img.shields.io/github/issues/butlergroup/caddy-ingress/bug.svg)](https://github.com/butlergroup/caddy-ingress/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
 
-# Caddy Ingress Controller
+# Caddy K8s Ingress Controller
 
-This is the Kubernetes Ingress Controller for Caddy. It includes functionality
-for monitoring `Ingress` resources on a Kubernetes cluster and includes support
-for providing automatic HTTPS certificates for all hostnames defined in the 
-ingress resources that it is managing.
+The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress` resources on a Kubernetes cluster. It is capable of provisioning SSL/TLS certificates automatically for all hostnames defined in the ingress resources that it is managing.
 
 ## Notes on this fork
 
-- **Modified to write auto-generated certs to the source namespace instead of the Caddy installation namespace. This aligns with established K8s best practices regarding namespace-constrained secret access.** (as of v0.4.0/1.5.0)
-- **Modified to work with Cloudflare** (as of v0.3.0/1.4.0)
+- **This ingress controller works with Cloudflare** (as of v0.3.0/1.4.0) to perform DNS-based challenges for auto-generated certificates. A Cloudflare API key with Zone.Zone:Read and Zone.DNS:Edit is needed to use this functionality, along with a private HTTP endpoint that approves a given domain for automatic certificate generation. 
+- **It is also configured to write auto-generated certificates to the source ingress namespace instead of the Caddy installation namespace.** This aligns with established K8s best practices regarding namespace-constrained secret access (as of v0.4.0/1.5.0).
 - Created to update dependencies and include the latest version of Caddy when building the ingress-controller binary
 - Several security scanners have been added to the repo to ensure any issues are found quickly
 - Will be maintained (depenencies/packages updated & CVEs addressed in a timely manner, etc.)

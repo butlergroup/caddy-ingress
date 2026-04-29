@@ -1,13 +1,27 @@
-## Helm Chart Version 1.5.6 
-## Ingress Controller Version v0.4.6 
+## Helm Chart Version 1.5.7 
+## Ingress Controller Version v0.4.7 
 
 #### New Features
 
 
 #### Improvements
+
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.5.6 (04-29-2026)
+## Ingress Controller Version v0.4.6 (04-29-2026)
+
+#### New Features
+- Modified release-controller.yml to build, sign, and push an image to Azure Container Registry 
+
+#### Improvements
 - Updated go.mod dependencies
 - Modified Dockerfile, release-chart.yml, release-controller.yml, and .goreleaser.yaml to use dockers_v2 and cosign to sign images
-- Modified main.yml to use latest metallb, latest Helm & Python, and updated image name
+- Modified main.yml to use latest metallb, latest Helm, Python 3.13, and updated image name
 
 #### Fixes
 

@@ -33,6 +33,21 @@ dockers_v2:
       "org.opencontainers.image.version": "{{.Version}}"
       "org.opencontainers.image.source": "{{.GitURL}}"
 
+# Sign the checksums
+signs:
+  - cmd: cosign
+    env:
+      - COSIGN_EXPERIMENTAL=1
+    certificate: "${artifact}.pem"
+    args:
+      - sign-blob
+      - "--output-certificate=${certificate}"
+      - "--output-signature=${signature}"
+      - "${artifact}"
+      - "--yes"
+    artifacts: checksum
+
+# Sign docker images
 docker_signs:
   - cmd: cosign
     env:
@@ -41,7 +56,7 @@ docker_signs:
       - "sign"
       - "${artifact}"
       - "--yes"
-    artifacts: all
+    artifacts: images
 
 release:
   disable: true
