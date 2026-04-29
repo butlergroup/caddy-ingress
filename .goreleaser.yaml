@@ -18,9 +18,7 @@ builds:
 dockers_v2:
   - images:
       - "butlergroup/{{ .ProjectName }}:test-image"
-      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64"
-      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
-      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x"
+      - "butlergroup/{{ .ProjectName }}"
     tags:
       - "v{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ end }}"
