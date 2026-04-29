@@ -96,7 +96,7 @@ jobs:
 
       - name: Install MetalLB to allow LoadBalancer services
         run: |
-          kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+          kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.3/config/manifests/metallb-native.yaml
           kubectl wait --namespace metallb-system \
                 --for=condition=ready pod \
                 --selector=app=metallb \
@@ -120,7 +120,7 @@ jobs:
           EOF
 
       - name: Load image into Kind cluster
-        run: kind load docker-image "butlergroup/caddy-ingress:test-image" --name chart-testing
+        run: kind load docker-image "butlergroup/caddy-ingress:latest-amd64" --name chart-testing
 
       - name: Run chart-testing (install)
         run: ct install --config ct.yaml

@@ -21,7 +21,6 @@ dockers_v2:
     tags:
       - "v{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ else }}latest{{ end }}"
-      - "test-image"
     labels:
       "org.opencontainers.image.description": "Caddy ingress controller for Kubernetes - with Cloudflare support!"
       "org.opencontainers.image.created": "{{.Date}}"
