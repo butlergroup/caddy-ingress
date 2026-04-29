@@ -16,12 +16,11 @@ builds:
     mod_timestamp: "{{ .CommitTimestamp }}"
 
 dockers_v2:
-  - dockerfile: ./Dockerfile
   - images:
       - "butlergroup/{{ .ProjectName }}:test-image"
-      - "butlergroup/{{ .ProjectName }}:amd64"
-      - "butlergroup/{{ .ProjectName }}:arm64v8"
-      - "butlergroup/{{ .ProjectName }}:s390x"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-arm64v8"
+      - "butlergroup/{{ .ProjectName }}:{{ .Tag }}-s390x"
     tags:
       - "v{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ end }}"
