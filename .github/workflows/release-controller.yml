@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ACR_REGISTRY_NAME: containerbutler-bxene7duhhe5d8cy.azurecr.io # example: myRegistry.azurecr.io
+  ACR_REGISTRY_NAME: containerbutler.azurecr.io # example: myRegistry.azurecr.io
   ACR_REPO_NAME: caddy-ingress # example: myRepo
   KEY_ID: https://computerbutler-keyvault.vault.azure.net/keys/container-signing-cert/6c774b9bf66a410b8e2a0a1e31e428c4 # example: https://mynotationakv.vault.azure.net/keys/notationLeafCert/c585b8ad8fc542b28e41e555d9b3a1fd
   NOTATION_EXPERIMENTAL: 1 # [Optional] when set, use Referrers API in the workflow (Recommended)
@@ -49,8 +49,8 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 #v4.1.1
-        with:
-          cosign-release: "latest"
+      - name: Check install!
+        run: cosign version
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -88,9 +88,6 @@ jobs:
       #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       # Log in to your ACR registry
-      - name: ACR login
-        run: |
-          az acr login --name ${{ env.ACR_REGISTRY_NAME }}
       # Build and push an image to the registry
       # Use `Dockerfile` as an example to build an image
       - name: Build and push

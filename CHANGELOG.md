@@ -8,7 +8,7 @@
 
 
 #### Fixes
-
+- Modified release-controller.yml to correct issues with cosign and Azure login
 
 -----
 
