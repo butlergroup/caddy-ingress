@@ -68,11 +68,16 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get GoReleaser digest and sign the images with GitHub OIDC Token
+      - name: Get GoReleaser digest and sign images
         run: |
-          DIGEST=$(cat dist/digests.txt | head -n 1 | awk '{print $2}')
-          IMAGE="ghcr.io/sigstore/sample-honk"
-          cosign sign --yes ${IMAGE}@${DIGEST}
+          DIGEST=$(grep sha256 dist/digests.txt | head -n1 | awk '{print $2}')
+          TAG=${GITHUB_REF#refs/tags/}
+          GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/caddy-ingress"
+          DOCKERHUB_IMAGE="docker.io/butlergroup/caddy-ingress"
+          echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
+          cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
+          echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
+          cosign sign --yes ${DOCKERHUB_IMAGE}@${DIGEST}
 
   notation-sign:
     needs: goreleaser
