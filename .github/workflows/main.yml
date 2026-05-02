@@ -85,7 +85,7 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --snapshot --clean -f goreleaser-snapshot.yaml
+          args: release --snapshot --clean -f .goreleaser-snapshot.yaml
         env:
           # Fix tag for snapshots
           GORELEASER_CURRENT_TAG: v0.0.1
