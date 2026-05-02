@@ -1,4 +1,5 @@
-project_name: caddy-ingressz
+project_name: caddy-ingress
+version: 2
 before:
   hooks:
     - go mod tidy
@@ -47,25 +48,3 @@ changelog:
       - "^docs:"
       - "^test:"
       - "^ci:"
-
-# Sign the checksums
-signs:
-  - cmd: cosign
-    artifacts: checksum
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    args:
-      - sign-blob
-      - "${artifact}"
-      - "--yes"
-
-# Sign docker images
-docker_signs:
-  - cmd: cosign
-    artifacts: images
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    args:
-      - sign
-      - "${artifact}"
-      - "--yes"
