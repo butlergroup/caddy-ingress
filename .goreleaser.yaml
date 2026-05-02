@@ -1,4 +1,5 @@
 project_name: caddy-ingress
+version: 2
 before:
   hooks:
     - go mod tidy
@@ -33,30 +34,16 @@ dockers_v2:
       "org.opencontainers.image.version": "{{.Version}}"
       "org.opencontainers.image.source": "{{.GitURL}}"
 
-# Sign the checksums
+# Sign images
 signs:
-  - cmd: cosign
+  - artifacts: checksum
+    cmd: cosign
     env:
       - COSIGN_EXPERIMENTAL=1
-    certificate: "${artifact}.pem"
     args:
       - sign-blob
-      - "--output-certificate=${certificate}"
-      - "--output-signature=${signature}"
-      - "${artifact}"
-      - "--yes"
-    artifacts: checksum
-
-# Sign docker images
-docker_signs:
-  - cmd: cosign
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    args:
-      - "sign"
-      - "${artifact}"
-      - "--yes"
-    artifacts: images
+      - ${artifact}
+      - --yes
 
 release:
   disable: true

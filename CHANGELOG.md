@@ -8,7 +8,7 @@
 
 
 #### Fixes
-
+- Additional revisions to workflows to successfully integrate Azure Container Registry operations
 
 -----
 
