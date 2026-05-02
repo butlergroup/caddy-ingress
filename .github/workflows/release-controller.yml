@@ -70,17 +70,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get GoReleaser digest and sign images
         run: |
-          DIGEST=$(grep -o 'sha256:[a-f0-9]\+' dist/digests.txt | head -n1)
-          TAG=${GITHUB_REF#refs/tags/}
           echo "==== dist/digests.txt ===="
           cat dist/digests.txt
-          DIGEST=$(grep -o 'sha256:[a-f0-9]\+' dist/digests.txt | head -n1)
-          if [ -z "$DIGEST" ]; then
+          DIGEST_RAW=$(grep "ghcr.io" dist/digests.txt | head -n1 | awk '{print $1}')
+          if [ -z "$DIGEST_RAW" ]; then
             echo "ERROR: Digest not found!"
             exit 1
           fi
+          DIGEST="sha256:${DIGEST_RAW}"
           GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/caddy-ingress"
           DOCKERHUB_IMAGE="docker.io/butlergroup/caddy-ingress"
+          echo "Using digest: $DIGEST"
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
           cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
           echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
