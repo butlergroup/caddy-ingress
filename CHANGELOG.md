@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.7 
-## Ingress Controller Version v0.4.7 
+## Helm Chart Version 1.5.8 
+## Ingress Controller Version v0.4.8 
 
 #### New Features
 
@@ -8,7 +8,21 @@
 
 
 #### Fixes
-- Modified release-controller.yml to correct issues with cosign and Azure login
+
+
+-----
+
+## Helm Chart Version 1.5.7 (05-02-2026)
+## Ingress Controller Version v0.4.7 (05-02-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies
+
+#### Fixes
+- Modified release-controller.yml and main.yml to correct issues with cosign, Azure login, and Goreleaser
 
 -----
 

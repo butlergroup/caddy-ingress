@@ -62,20 +62,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notation-sign:
+    needs: goreleaser 
     runs-on: ubuntu-latest
-    name: Build, Sign, & Push To Azure Container Registry
+    name: Pull, Retag, Push To Azure Container Registry & Sign 
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: prepare
-        id: prepare
-        # Use `v1` as an example tag, user can pick their own
-        run: |
-          TAG=v1
-          echo "target_artifact_reference=${{ env.ACR_REGISTRY_NAME }}/${{ env.ACR_REPO_NAME }}:${TAG}" >> "$GITHUB_ENV"
       # Log in to Azure with your service principal secret
       - name: Azure login
         uses: Azure/login@v3
@@ -88,19 +83,34 @@ jobs:
       #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
       #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       # Log in to your ACR registry
-      # Build and push an image to the registry
-      # Use `Dockerfile` as an example to build an image
-      - name: Build and push
-        id: push
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
-        with:
-          push: true
-          tags: ${{ env.target_artifact_reference }}
+      - name: ACR login
+        run: |
+            az acr login --name ${{ env.ACR_REGISTRY_NAME }}
+      # Log in to DockerHub 
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      # Sync from DockerHub to ACR
+      - name: Copy multi-arch image to ACR
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          SOURCE=docker.io/butlergroup/caddy-ingress:$TAG
+          TARGET=${{ env.ACR_REGISTRY_NAME }}.azurecr.io/${{ env.ACR_REPO_NAME }}:$TAG
+          docker buildx imagetools create \
+            --tag $TARGET \
+            $SOURCE
       # Get the manifest digest of the OCI artifact
       - name: Retrieve digest
         run: |
-          echo "target_artifact_reference=${{ env.ACR_REGISTRY_NAME }}/${{ env.ACR_REPO_NAME }}@${{ steps.push.outputs.digest }}" >> "$GITHUB_ENV"
+          TAG=${GITHUB_REF#refs/tags/}
+          REPO=${{ env.ACR_REPO_NAME }}
+          DIGEST=$(az acr repository show-manifests \
+            --name ${{ env.ACR_REGISTRY_NAME }} \
+            --repository $REPO \
+            --query "[?tags[?@=='$TAG']].digest | [0]" \
+            -o tsv)
+          echo "target_artifact_reference=${{ env.ACR_REGISTRY_NAME }}.azurecr.io/$REPO@$DIGEST" >> $GITHUB_ENV
       # Install Notation CLI with the default version "1.0.0"
       - name: setup notation
         uses: notaryproject/notation-action/setup@v1
