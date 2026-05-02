@@ -1,4 +1,4 @@
-project_name: caddy-ingressz
+project_name: caddy-ingress
 before:
   hooks:
     - go mod tidy

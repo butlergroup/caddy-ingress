@@ -24,8 +24,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      packages: write
     runs-on: ubuntu-latest
-    name: GoReleaser Build, Sign, & Push to DockerHub
+    name: GoReleaser Build, Push to GHCR & DockerHub, and sign
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -49,11 +50,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - id: docker_meta
-        uses: docker/metadata-action@v5.7.0
-        with:
-          images: ghcr.io/sigstore/sample-honk
-          tags: type=sha,format=long
       - name: Login to DockerHub
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         with:
@@ -72,16 +68,11 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Sign the images with GitHub OIDC Token
-        env:
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-          TAGS: ${{ steps.docker_meta.outputs.tags }}
+      - name: Get GoReleaser digest and sign the images with GitHub OIDC Token
         run: |
-          images=""
-          for tag in ${TAGS}; do
-            images+="${tag}@${DIGEST} "
-          done
-          cosign sign --yes ${images}
+          DIGEST=$(cat dist/digests.txt | head -n 1 | awk '{print $2}')
+          IMAGE="ghcr.io/sigstore/sample-honk"
+          cosign sign --yes ${IMAGE}@${DIGEST}
 
   notation-sign:
     needs: goreleaser
@@ -89,7 +80,6 @@ jobs:
     name: Pull, Retag, Push To Azure Container Registry & Sign
     permissions:
       contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
