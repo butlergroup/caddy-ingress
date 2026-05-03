@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ACR_REGISTRY_NAME: containerbutler # example: "myRegistry".azurecr.io
+  ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
   ACR_REPO_NAME: caddy-ingress # example: myRepo
   KEY_ID: https://computerbutler-keyvault.vault.azure.net/keys/container-signing-cert/6c774b9bf66a410b8e2a0a1e31e428c4 # example: https://mynotationakv.vault.azure.net/keys/notationLeafCert/c585b8ad8fc542b28e41e555d9b3a1fd
   NOTATION_EXPERIMENTAL: 1 # [Optional] when set, use Referrers API in the workflow (Recommended)
