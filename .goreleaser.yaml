@@ -20,6 +20,7 @@ dockers_v2:
   - images:
       - "butlergroup/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
+      - "{{ .Env.ACR_REGISTRY_NAME }}.azurecr.io/{{ .ProjectName }}"
     tags:
       - "v{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ else }}latest{{ end }}"
