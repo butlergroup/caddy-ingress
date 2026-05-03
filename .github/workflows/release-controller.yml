@@ -15,7 +15,7 @@ concurrency:
 
 env:
   ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
-  ACR_REPO_NAME: caddy-ingress # example: myRepo
+  ACR_REPO_NAME: ${{ .ProjectName }} # example: myRepo
   KEY_ID: https://computerbutler-keyvault.vault.azure.net/keys/container-signing-cert/6c774b9bf66a410b8e2a0a1e31e428c4 # example: https://mynotationakv.vault.azure.net/keys/notationLeafCert/c585b8ad8fc542b28e41e555d9b3a1fd
   NOTATION_EXPERIMENTAL: 1 # [Optional] when set, use Referrers API in the workflow (Recommended)
 
@@ -26,7 +26,7 @@ jobs:
       id-token: write
       packages: write
     runs-on: ubuntu-latest
-    name: GoReleaser Build, Push to GHCR & DockerHub, and sign
+    name: GoReleaser build, push to GHCR/DockerHub/ACR, & sign with cosign/notation
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -60,6 +60,13 @@ jobs:
         uses: Azure/login@v3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Construct & store ACR login server
+        run: |
+          ACR_LOGIN_SERVER=$(az acr show \
+            --name ${{ env.ACR_REGISTRY_NAME }} \
+            --query loginServer \
+            -o tsv)
+          echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> $GITHUB_ENV
       # Log in to your ACR registry
       - name: ACR login
         run: |
@@ -93,7 +100,7 @@ jobs:
           GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/caddy-ingress"
           DOCKERHUB_IMAGE="docker.io/butlergroup/caddy-ingress"
           echo "Using digest: $DIGEST"
-          echo "target_artifact_reference=${{ env.ACR_REGISTRY_NAME }}.azurecr.io/{{ env.ACR_REPO_NAME }}@$DIGEST" >> $GITHUB_ENV
+          echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> $GITHUB_ENV
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
           cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
           echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"

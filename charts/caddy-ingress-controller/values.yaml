@@ -9,7 +9,7 @@ minikube: false
 image:
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.4.16"
+  tag: "v0.4.17"
 
 imagePullSecrets: []
 nameOverride: ""
