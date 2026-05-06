@@ -124,4 +124,4 @@ jobs:
           # plugin_config: |-
           #   self_signed=true
           # ca_certs=.github/cert-bundle/cert-bundle.crt
-          allow_referrers_api: "true"
+          force_referrers_tag: "true"
