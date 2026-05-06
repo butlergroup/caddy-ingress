@@ -117,13 +117,6 @@ jobs:
             --name computerbutler-keyvault \
             --resource-group computerbutler \
             --ip-address ${{ steps.ip.outputs.ip }}
-      - name: Remove runner IP from Key Vault
-        if: always()
-        run: |
-          az keyvault network-rule remove \
-            --name computerbutler-keyvault \
-            --resource-group computerbutler \
-            --ip-address ${{ steps.ip.outputs.ip }}
       # Sign your OCI artifact using private key stored in AKV
       - name: sign ACR artifact using key pair from AKV
         uses: notaryproject/notation-action/sign@v1
@@ -140,4 +133,11 @@ jobs:
           # plugin_config: |-
           #   self_signed=true
           # ca_certs=.github/cert-bundle/cert-bundle.crt
-          force_referrers_tag: "true"
+          allow_referrers_api: "true"
+      - name: Remove runner IP from Key Vault
+        if: always()
+        run: |
+          az keyvault network-rule remove \
+            --name computerbutler-keyvault \
+            --resource-group computerbutler \
+            --ip-address ${{ steps.ip.outputs.ip }}
