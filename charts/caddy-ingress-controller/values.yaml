@@ -7,17 +7,18 @@ replicaCount: 1
 minikube: false
 
 image:
+  registry: docker.io
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.4.36"
+  tag: "v0.4.37"
 
 global:
   azure:
     images:
       caddy-ingress-controller:
-        tag: "v0.4.36"
+        tag: "v0.4.37"
+        image: caddy-ingress
         registry: containerbutler.azurecr.io
-        repository: caddy-ingress
 
 imagePullSecrets: []
 nameOverride: ""
