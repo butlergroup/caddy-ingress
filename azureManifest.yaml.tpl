@@ -1,4 +1,4 @@
-applicationName: caddy-ingress-controller
+applicationName: caddy-ingress
 publisher: "The Butler Group LLC"
 description: "A Helm chart for the Caddy Kubernetes ingress controller"
 version: __VERSION__

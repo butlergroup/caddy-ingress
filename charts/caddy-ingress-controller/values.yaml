@@ -9,14 +9,15 @@ minikube: false
 image:
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.4.34"
+  tag: "v0.4.35"
 
 global:
   azure:
     images:
       caddy-ingress-controller:
-        tag: "v0.4.34"
-        repository: containerbutler.azurecr.io/caddy-ingress/caddy-ingress-controller
+        tag: "v0.4.35"
+        image: caddy-ingress
+        registry: containerbutler.azurecr.io
 
 imagePullSecrets: []
 nameOverride: ""
