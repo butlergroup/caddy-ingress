@@ -10,13 +10,13 @@ image:
   registry: docker.io
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.4.38"
+  tag: "v0.4.39"
 
 global:
   azure:
     images:
       caddy-ingress-controller:
-        tag: "v0.4.38"
+        tag: "v0.4.39"
         image: caddy-ingress
         registry: containerbutler.azurecr.io
 
