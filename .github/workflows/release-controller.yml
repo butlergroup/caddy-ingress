@@ -149,7 +149,7 @@ jobs:
       - name: Generate azureManifest.yaml
         run: |
           sed "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
-            azureManifest.yaml.tpl > azureManifest.yaml
+            azureManifest.yaml.tpl > manifest.yaml
       - name: Build CNAB Bundle and Publish to ACR
         uses: addnab/docker-run-action@v3
         with:

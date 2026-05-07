@@ -9,7 +9,7 @@ minikube: false
 image:
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "v0.4.29"
+  tag: "v0.4.30"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -44,8 +44,6 @@ ingressController:
     experimentalSmartSort: false
     onDemandTLS: false
     permissionEndpoint: ""
-  labels: 
-    azure-extensions-usage-release-identifier: {{ .Release.Name }}
 
 loadBalancer:
   enabled: true
