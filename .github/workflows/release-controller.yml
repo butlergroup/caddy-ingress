@@ -86,6 +86,7 @@ jobs:
         run: cosign version
       # Install Notation CLI with the default version "1.0.0"
       - name: setup notation
+        if: ${{ false }} # disabled so only CNAB bundle is pushed to ACR
         uses: notaryproject/notation-action/setup@b6fee73110795d6793253c673bd723f12bcf9bbb # v1.2.2
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@1a80836c5c9d9e5755a25cb59ec6f45a3b5f41a8 # v7.2.1
@@ -114,9 +115,11 @@ jobs:
           echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
           cosign sign --yes ${DOCKERHUB_IMAGE}@${DIGEST}
       - name: Get runner public IP
+        if: ${{ false }} # disabled so only CNAB bundle is pushed to ACR
         id: ip
         run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
       - name: Allow runner IP in Key Vault
+        if: ${{ false }} # disabled so only CNAB bundle is pushed to ACR
         run: |
           az keyvault network-rule add \
             --name computerbutler-keyvault \
@@ -124,6 +127,7 @@ jobs:
             --ip-address ${{ steps.ip.outputs.ip }}
       # Sign your ACR OCI artifact using private key stored in AKV
       - name: sign ACR artifact using key pair from AKV
+        if: ${{ false }} # disabled so only CNAB bundle is pushed to ACR
         uses: notaryproject/notation-action/sign@b6fee73110795d6793253c673bd723f12bcf9bbb # v1.2.2
         with:
           plugin_name: azure-kv
@@ -140,7 +144,7 @@ jobs:
           # ca_certs=.github/cert-bundle/cert-bundle.crt
           force_referrers_tag: "true"
       - name: Remove runner IP from Key Vault
-        if: always()
+        if: ${{ false }} # disabled so only CNAB bundle is pushed to ACR
         run: |
           az keyvault network-rule remove \
             --name computerbutler-keyvault \
