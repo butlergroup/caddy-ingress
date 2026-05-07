@@ -159,7 +159,11 @@ jobs:
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         with:
           image: mcr.microsoft.com/container-package-app:latest
-          options: -v /var/run/docker.sock:/var/run/docker.sock -v ${{ github.workspace }}:/data --entrypoint "/bin/bash"
+          options: |
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v ${{ github.workspace }}:/data \
+            -v $HOME/.docker:/root/.docker \
+            --entrypoint "/bin/bash"
           run: |
-              cd /data
-              cpa buildbundle
+            cd /data
+            cpa buildbundle
