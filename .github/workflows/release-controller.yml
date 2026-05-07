@@ -160,9 +160,9 @@ jobs:
         with:
           image: mcr.microsoft.com/container-package-app:latest
           options: |
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${{ github.workspace }}:/data \
-            -v $HOME/.docker:/root/.docker \
+            -v /var/run/docker.sock:/var/run/docker.sock 
+            -v ${{ github.workspace }}:/data 
+            -v $HOME/.docker:/root/.docker 
             --entrypoint "/bin/bash"
           run: |
             cd /data

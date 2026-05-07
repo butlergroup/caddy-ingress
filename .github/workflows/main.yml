@@ -95,6 +95,7 @@ jobs:
           version: latest
           args: release --snapshot --clean -f .goreleaser-snapshot.yaml
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Fix tag for snapshots
           GORELEASER_CURRENT_TAG: v0.0.1
           GORELEASER_PREVIOUS_TAG: v0.0.0
