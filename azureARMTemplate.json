@@ -27,15 +27,6 @@
                 "description": "The location of AKS resource."
             }
         },
-        "app-title": {
-            "type": "String"
-        },
-        "app-value1": {
-            "type": "String"
-        },
-        "app-value2": {
-            "type": "String"
-        },
         "vmSize": {
             "type": "String",
             "defaultValue": "Standard_B4ms",

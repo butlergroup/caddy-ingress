@@ -17,9 +17,10 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
+        {{- include "caddy-ingress-controller.selectorLabels" . | nindent 8 }}
         azure-extensions-usage-release-identifier: {{ .Release.Name }}
         {{- with .Values.ingressController.labels }}
-        {{- toYaml . | nindent 4 }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
