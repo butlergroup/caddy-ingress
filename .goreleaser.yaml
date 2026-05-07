@@ -20,7 +20,7 @@ dockers_v2:
   - images:
       - "{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
-      # - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}" -disabled so only CNAB bundle is pushed to ACR
+      - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}"
     tags:
       - "v{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ else }}latest{{ end }}"
