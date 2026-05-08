@@ -1,5 +1,7 @@
 image:
-  tag: test-image
+  repository: butlergroup/caddy-ingress
+  tag: latest-amd64
+  pullPolicy: Never
 
 ingressController:
   verbose: true
