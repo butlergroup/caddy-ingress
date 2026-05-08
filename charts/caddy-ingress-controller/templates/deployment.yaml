@@ -34,7 +34,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ default .Values.image.registry (index .Values.global.azure.images "caddy-ingress-controller" "registry") }}/{{ default .Values.image.repository (index .Values.global.azure.images "caddy-ingress-controller" "image") }}:{{ default .Values.image.tag (index .Values.global.azure.images "caddy-ingress-controller" "tag") }}"
+          image: "{{ default (index .Values.global.azure.images "caddy-ingress-controller" "registry") .Values.image.registry }}/{{ default (index .Values.global.azure.images "caddy-ingress-controller" "image") .Values.image.repository }}:{{ default (index .Values.global.azure.images "caddy-ingress-controller" "tag") .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
