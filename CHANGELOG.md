@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.54 
-## Ingress Controller Version v0.4.54 
+## Helm Chart Version 1.5.55 
+## Ingress Controller Version v0.4.55 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Azure Container Registry operations
+
+-----
+
+## Helm Chart Version 1.5.54 (05-08-2026)
+## Ingress Controller Version v0.4.54 (05-08-2026)
 
 #### New Features
 
