@@ -12,6 +12,20 @@
 
 -----
 
+## Helm Chart Version 1.5.55 (05-11-2026)
+## Ingress Controller Version v0.4.55 (05-11-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies to latest 
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Azure Container Registry operations
+
+-----
+
 ## Helm Chart Version 1.5.54 (05-08-2026)
 ## Ingress Controller Version v0.4.54 (05-08-2026)
 
