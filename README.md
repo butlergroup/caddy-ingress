@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![](https://img.shields.io/badge/license-AGPL_3.0-blue.svg)](https://opensource.org/licenses/AGPL_3.0)
 [![CodeQL](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql)
 [![Go CI](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml)
 [![Dependabot Updates](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates)
@@ -14,7 +14,7 @@
 
 # Caddy K8s Ingress Controller
 
-The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress` resources on a Kubernetes cluster. It is capable of provisioning SSL/TLS certificates automatically for all hostnames defined in the ingress resources that it is managing.
+The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress` resources on a Kubernetes cluster. It is capable of automatically provisioning and renewing SSL/TLS certificates for all hostnames defined in the ingress resources that it is managing.
 
 ## Notes on this fork
 
@@ -165,7 +165,7 @@ Learn how to start contributing on the [Contributing Guidline](CONTRIBUTING.md).
 
 ## License
 
-[Apache License 2.0](LICENSE.txt)
+[AGPL 3.0](LICENSE)
 
 ## Terms of Service
 
