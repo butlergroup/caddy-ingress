@@ -159,6 +159,9 @@ jobs:
         run: |
           sed "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
             azureManifest.yaml.tpl > manifest.yaml
+      - name: Enable CNAB image source
+        run: |
+          yq -i '.cnab.enabled = true' charts/caddy-ingress-controller/values.yaml
       - name: Build CNAB Bundle and Publish to ACR
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         with:
@@ -170,4 +173,4 @@ jobs:
             --entrypoint "/bin/bash"
           run: |
             cd /data
-            cpa buildbundle --set cnab.enabled=true
+            cpa buildbundle

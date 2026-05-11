@@ -61,3 +61,14 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Resolve the image source dynamically.
+*/}}
+{{- define "caddy-ingress-controller.image" -}}
+{{- if .Values.cnab.enabled -}}
+{{ (index .Values.global.azure.images "caddy-ingress-controller").registry }}/{{ (index .Values.global.azure.images "caddy-ingress-controller").repository }}:{{ (index .Values.global.azure.images "caddy-ingress-controller").tag }}
+{{- else -}}
+{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+{{- end -}}
+{{- end -}}

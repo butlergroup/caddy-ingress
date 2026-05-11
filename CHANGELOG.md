@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.55 
-## Ingress Controller Version v0.4.55 
+## Helm Chart Version 1.5.56 
+## Ingress Controller Version v0.4.56 
 
 #### New Features
 
