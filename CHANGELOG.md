@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.58 
-## Ingress Controller Version v0.4.58 
+## Helm Chart Version 1.5.59 
+## Ingress Controller Version v0.4.59 
 
 #### New Features
 
@@ -8,7 +8,21 @@
 
 
 #### Fixes
-- Additional revisions to workflows to successfully integrate Azure Container Registry operations
+- Additional revisions to workflows to successfully integrate Google Artifact Registry operations
+
+-----
+
+## Helm Chart Version 1.5.58 (05-11-2026)
+## Ingress Controller Version v0.4.58 (05-11-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Google Artifact Registry operations
 
 -----
 
