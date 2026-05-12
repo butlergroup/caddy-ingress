@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.66 
-## Ingress Controller Version v0.4.66 
+## Helm Chart Version 1.5.67 
+## Ingress Controller Version v0.4.67 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Google Artifact Registry operations
+
+-----
+
+## Helm Chart Version 1.5.66 (05-11-2026)
+## Ingress Controller Version v0.4.66 (05-11-2026)
 
 #### New Features
 
