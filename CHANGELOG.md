@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.71 
-## Ingress Controller Version v0.4.71 
+## Helm Chart Version 1.5.72 
+## Ingress Controller Version v0.4.72 
 
 #### New Features
 
@@ -8,7 +8,22 @@
 
 
 #### Fixes
-- Additional revisions to workflows to successfully integrate Amazon Elastic Container Registry operations
+
+
+-----
+
+## Helm Chart Version 1.5.71 (05-12-2026)
+## Ingress Controller Version v0.4.71 (05-12-2026)
+
+#### New Features
+
+
+#### Improvements
+- Updated go.mod dependencies to latest 
+- bump Caddy from v2.11.2 to v2.11.3
+
+#### Fixes
+
 
 -----
 
