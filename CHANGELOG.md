@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.69 
-## Ingress Controller Version v0.4.69 
+## Helm Chart Version 1.5.70 
+## Ingress Controller Version v0.4.70 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Amazon Elastic Container Registry operations
+
+-----
+
+## Helm Chart Version 1.5.69 (05-11-2026)
+## Ingress Controller Version v0.4.69 (05-11-2026)
 
 #### New Features
 
