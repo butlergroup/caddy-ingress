@@ -26,7 +26,7 @@ jobs:
       id-token: write
       packages: write
     runs-on: ubuntu-latest
-    name: GoReleaser build, push to GHCR/DockerHub/ACR/GAR, & sign with cosign/notation
+    name: GoReleaser build, push to GHCR/DockerHub/ACR/GAR/ECR, & sign with cosign/notation
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
@@ -91,6 +91,19 @@ jobs:
           gcloud auth configure-docker \
             ${{ secrets.GAR_LOCATION }}-docker.pkg.dev \
             --quiet
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password \
+            --region ${{ secrets.AWS_REGION }} | \
+          docker login \
+            --username AWS \
+            --password-stdin \
+            ${{ secrets.ECR_REGISTRY }}
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 #v4.1.2
@@ -110,6 +123,7 @@ jobs:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
           GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
       - name: Get GoReleaser digest and sign GHCR & DockerHub images
         run: |
           echo "==== dist/digests.txt ===="
