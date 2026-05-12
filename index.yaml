@@ -2,6 +2,30 @@ apiVersion: v1
 entries:
   caddy-ingress-controller:
   - apiVersion: v2
+    appVersion: v0.4.66
+    created: "2026-05-12T00:22:39.301964146Z"
+    description: A Helm chart for the Caddy Kubernetes ingress controller
+    digest: 767c4bcd1dcd0bcf340b324b59597fe91056896ce31fdf920bf4b258da559835
+    home: https://github.com/butlergroup/caddy-ingress
+    icon: https://caddyserver.com/resources/images/caddy-circle-lock.svg
+    keywords:
+    - ingress-controller
+    - caddyserver
+    maintainers:
+    - name: mavimo
+      url: https://github.com/mavimo
+    - name: embraser01
+      url: https://github.com/embraser01
+    - name: butlergroup
+      url: https://github.com/butlergroup
+    name: caddy-ingress-controller
+    sources:
+    - https://github.com/butlergroup/caddy-ingress
+    type: application
+    urls:
+    - https://github.com/butlergroup/caddy-ingress/releases/download/caddy-ingress-controller-1.5.66/caddy-ingress-controller-1.5.66.tgz
+    version: 1.5.66
+  - apiVersion: v2
     appVersion: v0.4.65
     created: "2026-05-11T23:49:50.515258101Z"
     description: A Helm chart for the Caddy Kubernetes ingress controller
@@ -2200,4 +2224,4 @@ entries:
     urls:
     - https://github.com/caddyserver/ingress/releases/download/caddy-ingress-controller-0.0.1-rc1/caddy-ingress-controller-0.0.1-rc1.tgz
     version: 0.0.1-rc1
-generated: "2026-05-11T23:49:50.515653939Z"
+generated: "2026-05-12T00:22:39.302218566Z"
