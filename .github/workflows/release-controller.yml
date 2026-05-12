@@ -26,7 +26,7 @@ jobs:
       id-token: write
       packages: write
     runs-on: ubuntu-latest
-    name: GoReleaser build, push to GHCR/DockerHub/ACR, & sign with cosign/notation
+    name: GoReleaser build, push to GHCR/DockerHub/ACR/GAR, & sign with cosign/notation
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
@@ -86,12 +86,11 @@ jobs:
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - name: Set up gCloud SDK
         uses: 'google-github-actions/setup-gcloud@v3'
-      - name: Authenticate Docker to GAR
+      - name: Configure gcloud Docker for GAR
         run: |
-          gcloud auth print-access-token | docker login \
-            -u oauth2accesstoken \
-            --password-stdin \
-            https://${{ secrets.GAR_LOCATION }}-docker.pkg.dev
+          gcloud auth configure-docker \
+            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev \
+            --quiet
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 #v4.1.2
