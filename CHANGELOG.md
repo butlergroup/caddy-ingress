@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.72 
-## Ingress Controller Version v0.4.72 
+## Helm Chart Version 1.5.73 
+## Ingress Controller Version v0.4.73 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.72 (05-12-2026)
+## Ingress Controller Version v0.4.72 (05-12-2026)
+
+#### New Features
+
+
+#### Improvements
+- All container images are now signed
+
+#### Fixes
+- Pinned several dependecies by hash
 
 -----
 
