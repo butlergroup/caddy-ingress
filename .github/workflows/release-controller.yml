@@ -80,19 +80,19 @@ jobs:
           username: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           password: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
       - name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@v3'
+        uses: 'google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093' # v3.0.0
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - name: Set up gCloud SDK
-        uses: 'google-github-actions/setup-gcloud@v3'
+        uses: 'google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db' # v3.0.1
       - name: Configure gcloud Docker for GAR
         run: |
           gcloud auth configure-docker \
             ${{ secrets.GAR_LOCATION }}-docker.pkg.dev \
             --quiet
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v6.1.1
+        uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
