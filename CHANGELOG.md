@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.73 
-## Ingress Controller Version v0.4.73 
+## Helm Chart Version 1.5.74 
+## Ingress Controller Version v0.4.74 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.73 (05-12-2026)
+## Ingress Controller Version v0.4.73 (05-12-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- correction to yaml syntax
 
 -----
 

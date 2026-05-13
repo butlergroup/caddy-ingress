@@ -187,8 +187,9 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Generate azureManifest.yaml
         run: |
-          sed "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
-          sed "s/__ACR_REGISTRY_SERVER__/${{ secrets.ACR_REGISTRY_SERVER }}/g" \
+          sed \
+            -e "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
+            -e "s#__ACR_REGISTRY_SERVER__#${{ secrets.ACR_REGISTRY_SERVER }}#g" \
             azureManifest.yaml.tpl > manifest.yaml
       - name: Enable CNAB image source
         run: |
