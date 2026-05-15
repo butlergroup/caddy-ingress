@@ -5,7 +5,7 @@
 
 
 #### Improvements
-
+- Updated go.mod dependencies to latest 
 
 #### Fixes
 
@@ -412,8 +412,8 @@
 
 
 #### Improvements
-- Updated go.mod dependencies to latest and to use latest Go version (1.26.3) (pending)
-- Updated CI workflow to use latest Go version (1.26.3) (pending)
+- Updated go.mod dependencies to latest and to use latest Go version (1.26.3)
+- Updated CI workflow to use latest Go version (1.26.3)
 
 #### Fixes
 - Additional revisions to workflows to successfully integrate Azure Container Registry operations
