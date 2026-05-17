@@ -1,19 +1,11 @@
-FROM alpine:latest@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11 AS certs
-RUN apk update && \
-    apk add --no-cache --upgrade \
-        ca-certificates
+FROM cgr.dev/chainguard/wolfi-base@sha256:353c31c9d3d5023a7bf0d1f316edf83bb99fbfdb6aa67f4e2e86222e88cb632c AS certs
+RUN apk add --no-cache \
+    ca-certificates
 
-FROM alpine:latest@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
+FROM cgr.dev/chainguard/wolfi-base@sha256:353c31c9d3d5023a7bf0d1f316edf83bb99fbfdb6aa67f4e2e86222e88cb632c
 
-# added zlib to address CVE-2026-22184
-# added openssl to address CVE-2026-2673
-# added musl to address CVE-2026-40200
-RUN apk update && \
-    apk add --no-cache --upgrade \
-        zlib \
-        openssl \
-        musl \
-        libcap
+RUN apk add --no-cache \
+    libcap
 
 # Define username and working directory
 ARG username="caddyingress"

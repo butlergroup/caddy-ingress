@@ -6,6 +6,7 @@
 
 #### Improvements
 - Updated go.mod dependencies to latest 
+- Modified Dockerfile to use Chainguard/wolfi-base as base image
 
 #### Fixes
 
