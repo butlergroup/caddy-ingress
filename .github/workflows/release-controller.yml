@@ -124,6 +124,16 @@ jobs:
           GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
           GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+          format: "sarif"
+          output: "trivy-results.sarif"
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@68bde559dea0fdcac2102bfdf6230c5f70eb485e # v4.35.4
+        with:
+          sarif_file: "trivy-results.sarif"
       - name: Get GoReleaser digest and sign GHCR, DockerHub, GAR, & ECR images
         run: |
           echo "==== dist/digests.txt ===="

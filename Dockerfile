@@ -5,7 +5,8 @@ RUN apk add --no-cache \
 FROM cgr.dev/chainguard/wolfi-base@sha256:353c31c9d3d5023a7bf0d1f316edf83bb99fbfdb6aa67f4e2e86222e88cb632c
 
 RUN apk add --no-cache \
-    libcap
+    libcap \
+    libcap-utils
 
 # Define username and working directory
 ARG username="caddyingress"
@@ -13,7 +14,7 @@ ENV HOME="/home/$username"
 ENV USER=$username
 
 # Create a new user and home directory
-RUN adduser -D -g '' $username && \
+RUN adduser -D -u 1000 -g 1000 -s /sbin/nologin $username && \
     mkdir -p $HOME /etc/caddy/certs && \
     chown -R $username:$username $HOME /etc/caddy/certs && \
     chmod -R 700 $HOME /etc/caddy/certs
