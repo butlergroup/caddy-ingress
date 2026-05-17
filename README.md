@@ -39,21 +39,15 @@ Sponsorships/Donations are happily accepted via Github Sponsors, or via Storj at
 
 In the `charts` folder, a Helm Chart is provided to make installing the Caddy
 Ingress Controller on a Kubernetes cluster straightforward. To install the
-Caddy Ingress Controller adhere to the following steps:
+Caddy Ingress Controller, adhere to the following steps:
 
-1. Add the Helm chart:
-
-```sh
-helm repo add caddy-ingress http://butlergroup.net/caddy-ingress/
-```
-
-2. Create a new namespace in your cluster to isolate all Caddy resources.
+1. Create a new namespace in your cluster to isolate all Caddy resources.
 
 ```sh
 kubectl create namespace caddy-system
 ```
 
-3. Create a Kubernetes opaque secret named "cloudflare-api-token" with the following key and value:
+2. Create a Kubernetes opaque secret named "cloudflare-api-token" with the following key and value:
 
 - CF_API_TOKEN / your Cloudflare API token with Zone.Zone:Read and Zone.DNS:Edit permissions for the domain(s) you're managing with Caddy
 
@@ -63,17 +57,19 @@ kubectl create secret generic cloudflare-api-token \
   -n caddy-system
 ```
 
-4. (a) Install the Helm chart:
+3. (a) Install the Helm chart:
 
 ```sh
-helm install caddy-ingress caddy-ingress/caddy-ingress-controller \
+curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+bash -s -- \
   --namespace=caddy-system 
 ```
 
-4. (b) Install the Helm chart with on-demand TLS enabled:
+3. (b) Install the Helm chart with on-demand TLS enabled & custom values:
 
 ```sh
-helm install caddy-ingress caddy-ingress/caddy-ingress-controller \
+curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+bash -s -- \
   --namespace=caddy-system \
   --set ingressController.config.email=your@email.com \
   --set ingressController.config.onDemandTLS=true \

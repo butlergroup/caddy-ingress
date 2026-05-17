@@ -135,7 +135,7 @@ jobs:
 
       - name: Load image into Kind cluster
         run: |
-          kind load docker-image "butlergroup/caddy-ingress:latest-amd64" --name
+          kind load docker-image "butlergroup/caddy-ingress:latest-amd64" --name \
           chart-testing
 
       - name: Run chart-testing (install)

@@ -5,10 +5,15 @@ A helm chart for the Caddy Kubernetes ingress controller
 ## TL;DR:
 
 ```bash
-helm install caddy-ingress caddy-ingress-controller\
-  --repo http://butlergroup.net/caddy-ingress/ \
-  --namespace=caddy-system \
-  --create-namespace
+kubectl create namespace caddy-system
+
+kubectl create secret generic cloudflare-api-token \
+  --from-literal=CF_API_TOKEN=your_cloudflare_api_token \
+  -n caddy-system
+
+curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+bash -s -- \
+  --namespace=caddy-system 
 ```
 
 ## Introduction
@@ -22,22 +27,41 @@ This chart bootstraps a caddy-ingress-controller deployment on a [Kubernetes](ht
 
 ## Installing the Chart
 
-```bash
-helm repo add caddy-ingress http://butlergroup.net/caddy-ingress/
-helm install caddy-ingress caddy-ingress/caddy-ingress-controller --namespace=caddy-system
+1. Create a new namespace in your cluster to isolate all Caddy resources.
+
+```sh
+kubectl create namespace caddy-system
 ```
 
-## Installing the Chart with on-demand TLS enabled
+2. Create a Kubernetes opaque secret named "cloudflare-api-token" with the following key and value:
 
-```bash
-helm repo add caddy-ingress http://butlergroup.net/caddy-ingress/
-helm install caddy-ingress caddy-ingress/caddy-ingress-controller \
+- CF_API_TOKEN / your Cloudflare API token with Zone.Zone:Read and Zone.DNS:Edit permissions for the domain(s) you're managing with Caddy
+
+```sh
+kubectl create secret generic cloudflare-api-token \
+  --from-literal=CF_API_TOKEN=your_cloudflare_api_token \
+  -n caddy-system
+```
+
+3. (a) Install the Helm chart:
+
+```sh
+curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+bash -s -- \
+  --namespace=caddy-system 
+```
+
+3. (b) Install the Helm chart with on-demand TLS enabled & custom values:
+
+```sh
+curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+bash -s -- \
   --namespace=caddy-system \
   --set ingressController.config.email=your@email.com \
   --set ingressController.config.onDemandTLS=true \
   --set ingressController.config.acmeDNSProvider=cloudflare \
   --set ingressController.config.acmeDNSResolvers[0]=1.1.1.1 \
-  --set ingressController.config.permissionEndpoint=http://your-permission-endpoint--namespace=caddy-system
+  --set ingressController.config.permissionEndpoint=http://your-permission-endpoint
 ```
 
 Note: Caddy expects to be able to query a local HTTP endpoint and receive an HTTP 200 OK response
