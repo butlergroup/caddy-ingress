@@ -24,6 +24,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      security-events: write
       packages: write
     runs-on: ubuntu-latest
     name: GoReleaser build, push to GHCR/DockerHub/ACR/GAR/ECR, & sign with cosign/notation
@@ -130,6 +131,7 @@ jobs:
           image-ref: docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
           format: "sarif"
           output: "trivy-results.sarif"
+          exit-code: 1 # fail the workflow if vulnerailities are found
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@68bde559dea0fdcac2102bfdf6230c5f70eb485e # v4.35.4
         with:
