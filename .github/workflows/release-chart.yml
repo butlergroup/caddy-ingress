@@ -8,12 +8,10 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    tags:
-      - "v*"
-    paths:
-      - "charts/**"
-      - ".github/workflows/release-chart.yml"
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
 
 jobs:
   release:

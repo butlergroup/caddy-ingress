@@ -1,6 +1,8 @@
 [![](https://img.shields.io/badge/license-AGPL_3.0-blue.svg)](https://opensource.org/licenses/AGPL_3.0)
 [![CodeQL](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/github-code-scanning/codeql)
-[![Go CI](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml)
+[![Go & Helm Tests](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/main.yml)
+[![Release Controller](https://github.com/butlergroup/caddy-ingress/actions/workflows/release-controller.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/release-controller.yml)
+[![Release Charts](https://github.com/butlergroup/caddy-ingress/actions/workflows/release-chart.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/release-chart.yml)
 [![Dependabot Updates](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/dependabot/dependabot-updates)
 [![Go Report Card](https://goreportcard.com/badge/github.com/butlergroup/caddy-ingress)](https://goreportcard.com/report/github.com/butlergroup/caddy-ingress)
 [![OSV-Scanner](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml/badge.svg)](https://github.com/butlergroup/caddy-ingress/actions/workflows/osv-scanner.yml)
@@ -23,6 +25,10 @@ The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress`
 - Created to update dependencies and include the latest version of Caddy when building the ingress-controller binary
 - Several security scanners have been added to the repo to ensure any issues are found quickly
 - Will be maintained (depenencies/packages updated & CVEs addressed in a timely manner, etc.)
+
+## Sponsorship/Donation
+
+Sponsorships/Donations are happily accepted via Github Sponsors, or via Storj at 0x6E86f2734372ee559E62e6AB04Edc2b0455A86bF (my cats and I need to eat!)
 
 ## Prerequisites
 

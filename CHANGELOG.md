@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.76 
-## Ingress Controller Version v0.4.76 
+## Helm Chart Version 1.5.78 
+## Ingress Controller Version v0.4.78 
 
 #### New Features
 
@@ -12,6 +12,34 @@
 
 -----
 
+## Helm Chart Version 1.5.77 (05-17-2026)
+## Ingress Controller Version v0.4.77 (05-17-2026)
+
+#### New Features
+
+
+#### Improvements
+- Housekeeping changes to workflow files
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.5.76 (05-16-2026)
+## Ingress Controller Version v0.4.76 (05-16-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Corrections in release-controller.yml to allow Trivy to succeed
+
+-----
+
 ## Helm Chart Version 1.5.75 (05-16-2026)
 ## Ingress Controller Version v0.4.75 (05-16-2026)
 
@@ -20,7 +48,7 @@
 
 #### Improvements
 - Updated go.mod dependencies to latest 
-- Added trivy image scanner to release-controller.yml
+- Added Trivy image scanner to release-controller.yml
 
 #### Fixes
 - Corrections in Dockerfile to allow image build to succeed

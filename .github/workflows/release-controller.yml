@@ -3,15 +3,15 @@ name: Release Controller
 permissions:
   contents: read
 
-on:
-  workflow_dispatch:
-  push:
-    tags:
-      - "v*"
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
 
 env:
   ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
