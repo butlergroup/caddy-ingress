@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.74 
-## Ingress Controller Version v0.4.74 
+## Helm Chart Version 1.5.75 
+## Ingress Controller Version v0.4.75 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.5.74 (05-16-2026)
+## Ingress Controller Version v0.4.74 (05-16-2026)
 
 #### New Features
 
