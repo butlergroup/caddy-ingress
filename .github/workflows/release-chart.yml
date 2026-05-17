@@ -8,10 +8,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        required: true
+  push:
+    tags:
+      - "v*"
 
 jobs:
   release:

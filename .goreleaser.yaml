@@ -38,9 +38,6 @@ dockers_v2:
       "org.opencontainers.image.version": "{{.Version}}"
       "org.opencontainers.image.source": "{{.GitURL}}"
 
-release:
-  disable: true
-
 checksum:
   name_template: "checksums.txt"
 snapshot:

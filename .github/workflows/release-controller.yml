@@ -8,10 +8,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        required: true
+  push:
+    tags:
+      - "v*"
 
 env:
   ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
