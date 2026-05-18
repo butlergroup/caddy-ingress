@@ -230,7 +230,6 @@ jobs:
 
           KEEP=10
           REPO="${{ github.event.repository.name }}"
-          ECR_IMAGE="${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}"
 
           echo "Starting unified cleanup (keeping last $KEEP digests + latest)"
 
@@ -242,27 +241,34 @@ jobs:
 
           ACR_REG="${{ env.ACR_REGISTRY_NAME }}"
 
-          # Get digests sorted by push time (newest first)
-          mapfile -t ACR_DIGESTS < <(
-            az acr manifest list-metadata \
-              --registry "$ACR_REG" \
-              --name "$REPO" \
+          # Newest tags first
+          mapfile -t ACR_TAGS < <(
+            az acr repository show-tags \
+              --name "$ACR_REG" \
+              --repository "$REPO" \
               --orderby time_desc \
-              --query "[].digest" \
               -o tsv
           )
 
-          # Deduplicate digests
-          mapfile -t ACR_DIGESTS < <(
-            printf "%s\n" "${ACR_DIGESTS[@]}" | awk '!seen[$0]++'
-          )
+          # Keep newest N tags
+          for ((i=0; i<KEEP && i<${#ACR_TAGS[@]}; i++)); do
+            TAG="${ACR_TAGS[$i]}"
 
-          # Always keep latest KEEP digests
-          for ((i=0; i<KEEP && i<${#ACR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${ACR_DIGESTS[$i]}"]=1
+            DIGEST=$(
+              az acr manifest list-metadata \
+                --registry "$ACR_REG" \
+                --name "$REPO" \
+                --query "[?tags[?name=='${TAG}']].digest | [0]" \
+                -o tsv
+            )
+
+            if [[ -n "$DIGEST" ]]; then
+              KEEP_DIGESTS["$DIGEST"]=1
+              echo "Keeping ACR tag: $TAG -> $DIGEST"
+            fi
           done
 
-          # Always keep latest tag digest
+          # Always keep latest
           LATEST_ACR_DIGEST=$(
             az acr manifest list-metadata \
               --registry "$ACR_REG" \
@@ -273,32 +279,72 @@ jobs:
 
           if [[ -n "$LATEST_ACR_DIGEST" ]]; then
             KEEP_DIGESTS["$LATEST_ACR_DIGEST"]=1
+            echo "Keeping ACR latest -> $LATEST_ACR_DIGEST"
           fi
+
+          # Collect all digests
+          mapfile -t ACR_DIGESTS < <(
+            az acr manifest list-metadata \
+              --registry "$ACR_REG" \
+              --name "$REPO" \
+              --query "[].digest" \
+              -o tsv
+          )
 
 
           # 2. ECR
           echo "Processing ECR..."
 
-          mapfile -t ECR_DIGESTS < <(
+          ECR_REPO="${{ secrets.ECR_REPO }}"
+
+          # Get newest image tags
+          mapfile -t ECR_TAGS < <(
             aws ecr describe-images \
-              --repository-name "$ECR_IMAGE" \
-              --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
-              --output text | tr '\t' '\n' | tac
+              --repository-name "$ECR_REPO" \
+              --query 'reverse(sort_by(imageDetails,& imagePushedAt))[*].imageTags[0]' \
+              --output text | tr '\t' '\n'
           )
 
-          for ((i=0; i<KEEP && i<${#ECR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${ECR_DIGESTS[$i]}"]=1
+          # Keep newest N tags
+          for ((i=0; i<KEEP && i<${#ECR_TAGS[@]}; i++)); do
+            TAG="${ECR_TAGS[$i]}"
+
+            [[ "$TAG" == "None" || -z "$TAG" ]] && continue
+
+            DIGEST=$(
+              aws ecr describe-images \
+                --repository-name "$ECR_REPO" \
+                --image-ids imageTag="$TAG" \
+                --query 'imageDetails[0].imageDigest' \
+                --output text
+            )
+
+            if [[ -n "$DIGEST" && "$DIGEST" != "None" ]]; then
+              KEEP_DIGESTS["$DIGEST"]=1
+              echo "Keeping ECR tag: $TAG -> $DIGEST"
+            fi
           done
 
-          # Keep latest tag (if present)
-          LATEST_ECR_DIGEST=$(aws ecr describe-images \
-            --repository-name "$REPO" \
-            --query 'imageDetails[?contains(imageTags, `latest`)].imageDigest | [0]' \
-            --output text || true)
+          # Always keep latest
+          LATEST_ECR_DIGEST=$(
+            aws ecr describe-images \
+              --repository-name "$ECR_REPO" \
+              --query 'imageDetails[?contains(imageTags, `latest`)].imageDigest | [0]' \
+              --output text || true
+          )
 
           if [[ -n "$LATEST_ECR_DIGEST" && "$LATEST_ECR_DIGEST" != "None" ]]; then
             KEEP_DIGESTS["$LATEST_ECR_DIGEST"]=1
+            echo "Keeping ECR latest -> $LATEST_ECR_DIGEST"
           fi
+
+          # Collect all digests
+          mapfile -t ECR_DIGESTS < <(
+            aws ecr describe-images \
+              --repository-name "$ECR_REPO" \
+              --query 'imageDetails[*].imageDigest' \
+              --output text | tr '\t' '\n'
+          )
 
 
           # 3. GAR
@@ -310,25 +356,50 @@ jobs:
 
           FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${REPO}"
 
-          mapfile -t GAR_DIGESTS < <(
-            gcloud artifacts docker images list "$FULL_GAR_REPO" \
-              --sort-by=~UPDATE_TIME \
-              --format="value(DIGEST)"
+          # Get newest tags
+          mapfile -t GAR_TAGS < <(
+            gcloud artifacts docker tags list "$FULL_GAR_REPO" \
+              --sort-by=~CREATE_TIME \
+              --format="value(TAG)"
           )
 
-          for ((i=0; i<KEEP && i<${#GAR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${GAR_DIGESTS[$i]}"]=1
+          # Keep newest N tags
+          for ((i=0; i<KEEP && i<${#GAR_TAGS[@]}; i++)); do
+            TAG="${GAR_TAGS[$i]}"
+
+            [[ -z "$TAG" ]] && continue
+
+            DIGEST=$(
+              gcloud artifacts docker images list "$FULL_GAR_REPO" \
+                --filter="tags:${TAG}" \
+                --format="value(DIGEST)" \
+                --limit=1
+            )
+
+            if [[ -n "$DIGEST" ]]; then
+              KEEP_DIGESTS["$DIGEST"]=1
+              echo "Keeping GAR tag: $TAG -> $DIGEST"
+            fi
           done
 
-          # Keep latest tag digest (best-effort)
-          LATEST_GAR_DIGEST=$(gcloud artifacts docker images list "$FULL_GAR_REPO" \
-            --filter="tags:latest" \
-            --format="value(DIGEST)" \
-            --limit=1 || true)
+          # Always keep latest
+          LATEST_GAR_DIGEST=$(
+            gcloud artifacts docker images list "$FULL_GAR_REPO" \
+              --filter="tags:latest" \
+              --format="value(DIGEST)" \
+              --limit=1 || true
+          )
 
           if [[ -n "$LATEST_GAR_DIGEST" ]]; then
             KEEP_DIGESTS["$LATEST_GAR_DIGEST"]=1
+            echo "Keeping GAR latest -> $LATEST_GAR_DIGEST"
           fi
+
+          # Collect all digests
+          mapfile -t GAR_DIGESTS < <(
+            gcloud artifacts docker images list "$FULL_GAR_REPO" \
+              --format="value(DIGEST)"
+          )
 
 
           # DELETE PASS (all registries)
@@ -350,7 +421,7 @@ jobs:
             if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
               echo "ECR delete: $digest"
               aws ecr batch-delete-image \
-                --repository-name "$REPO" \
+                --repository-name "$ECR_REPO" \
                 --image-ids imageDigest="$digest" || true
             fi
           done
