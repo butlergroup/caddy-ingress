@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.91 
-## Ingress Controller Version v0.4.91 
+## Helm Chart Version 1.5.92 
+## Ingress Controller Version v0.4.92 
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Corrections to release-controller.yml to enable retention policy to succeed
+
+-----
+
+## Helm Chart Version 1.5.91 (05-18-2026)
+## Ingress Controller Version v0.4.91 (05-18-2026)
 
 #### New Features
 
