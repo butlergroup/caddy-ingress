@@ -160,7 +160,7 @@ jobs:
           echo "Signing ECR image: ${ECR_IMAGE}@${DIGEST}"
           cosign sign --yes ${ECR_IMAGE}@${DIGEST}
       - name: GHCR retention policy
-        uses: actions/delete-package-versions@v5
+        uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: caddy-ingress
           package-type: container
@@ -230,6 +230,7 @@ jobs:
 
           KEEP=10
           REPO="${{ github.event.repository.name }}"
+          ECR_IMAGE="${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}"
 
           echo "Starting unified cleanup (keeping last $KEEP digests + latest)"
 
@@ -243,11 +244,17 @@ jobs:
 
           # Get digests sorted by push time (newest first)
           mapfile -t ACR_DIGESTS < <(
-            az acr repository show-manifests \
-              --name "$ACR_REG" \
-              --repository "$REPO" \
+            az acr manifest list-metadata \
+              --registry "$ACR_REG" \
+              --name "$REPO" \
               --orderby time_desc \
-              --query "[].digest" -o tsv
+              --query "[].digest" \
+              -o tsv
+          )
+
+          # Deduplicate digests
+          mapfile -t ACR_DIGESTS < <(
+            printf "%s\n" "${ACR_DIGESTS[@]}" | awk '!seen[$0]++'
           )
 
           # Always keep latest KEEP digests
@@ -256,10 +263,13 @@ jobs:
           done
 
           # Always keep latest tag digest
-          LATEST_ACR_DIGEST=$(az acr repository show-tags \
-            --name "$ACR_REG" \
-            --repository "$REPO" \
-            --query "contains(@, 'latest') && @[-1] || ''" -o tsv || true)
+          LATEST_ACR_DIGEST=$(
+            az acr manifest list-metadata \
+              --registry "$ACR_REG" \
+              --name "$REPO" \
+              --query "[?tags[?name=='latest']].digest | [0]" \
+              -o tsv || true
+          )
 
           if [[ -n "$LATEST_ACR_DIGEST" ]]; then
             KEEP_DIGESTS["$LATEST_ACR_DIGEST"]=1
@@ -271,7 +281,7 @@ jobs:
 
           mapfile -t ECR_DIGESTS < <(
             aws ecr describe-images \
-              --repository-name "$REPO" \
+              --repository-name "$ECR_IMAGE" \
               --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
               --output text | tr '\t' '\n' | tac
           )
@@ -351,6 +361,7 @@ jobs:
               echo "GAR delete: $digest"
               gcloud artifacts docker images delete \
                 "${FULL_GAR_REPO}@${digest}" \
+                --delete-tags \
                 --quiet || true
             fi
           done
