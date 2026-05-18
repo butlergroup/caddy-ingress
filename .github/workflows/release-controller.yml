@@ -164,7 +164,7 @@ jobs:
         with:
           package-name: caddy-ingress
           package-type: container
-          min-versions-to-keep: 10
+          min-versions-to-keep: 71
       - name: Get runner public IP
         id: ip
         run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
@@ -272,10 +272,11 @@ jobs:
 
           # 2. ECR
           echo "Processing ECR..."
+          ECR_REPO="${{ secrets.ECR_REPO }}"
 
           mapfile -t ECR_DIGESTS < <(
             aws ecr describe-images \
-              --repository-name "${{ secrets.ECR_REPO }}" \
+              --repository-name "$ECR_REPO" \
               --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
               --output text | tr '\t' '\n' | tac
           )
