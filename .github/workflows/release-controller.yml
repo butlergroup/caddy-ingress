@@ -22,7 +22,7 @@ jobs:
   goreleaser:
     permissions:
       contents: write
-      id-token: read
+      id-token: write
       security-events: write
       packages: write
     runs-on: ubuntu-latest
