@@ -1,11 +1,25 @@
-## Helm Chart Version 1.5.84 
-## Ingress Controller Version v0.4.84 
+## Helm Chart Version 1.5.85 
+## Ingress Controller Version v0.4.85 
 
 #### New Features
 
 
 #### Improvements
 
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.5.84 (05-18-2026)
+## Ingress Controller Version v0.4.84 (05-18-2026)
+
+#### New Features
+
+
+#### Improvements
+- Added GHCR retenion policy
 
 #### Fixes
 
