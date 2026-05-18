@@ -90,7 +90,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"caddy/ingress"` |  |
+| image.repository | string | `"butlergroup/caddy-ingress"` |  |
 | image.tag | string | `"latest"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingressController.config.acmeCA | string | `""` |  |

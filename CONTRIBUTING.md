@@ -51,4 +51,4 @@ to create a new PR with:
 ## Releasing a new app version
 
 To release a new caddy-ingress-controller image, you need to create a new semver tag.
-It will build and push an image to https://hub.docker.com/r/caddy/ingress.
+It will build and push an image to https://hub.docker.com/r/butlergroup/caddy-ingress.
