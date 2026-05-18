@@ -1,5 +1,5 @@
-## Helm Chart Version 1.5.85 
-## Ingress Controller Version v0.4.85 
+## Helm Chart Version 1.5.86 
+## Ingress Controller Version v0.4.86 
 
 #### New Features
 
@@ -9,6 +9,20 @@
 
 #### Fixes
 
+
+-----
+
+## Helm Chart Version 1.5.85 (05-18-2026)
+## Ingress Controller Version v0.4.85 (05-18-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Modified release-controller.yml with retention policy for ACR, GAR, and ECR
 
 -----
 

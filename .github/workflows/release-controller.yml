@@ -60,7 +60,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      # Log in to Azure with your service principal 
+      # Log in to Azure with your service principal
       - name: Azure login
         uses: Azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
         with:
@@ -80,12 +80,12 @@ jobs:
           username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
           password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
       - name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093' # v3.0.0
+        uses: "google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093" # v3.0.0
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - name: Set up gCloud SDK
-        uses: 'google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db' # v3.0.1
+        uses: "google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db" # v3.0.1
       - name: Configure gcloud Docker for GAR
         run: |
           gcloud auth configure-docker \
@@ -223,3 +223,136 @@ jobs:
           run: |
             cd /data
             cpa buildbundle
+      - name: Multi-registry retention cleanup (keep last 10 images + latest)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          KEEP=10
+          REPO="${{ github.event.repository.name }}"
+
+          echo "Starting unified cleanup (keeping last $KEEP digests + latest)"
+
+          # Helper: build KEEP DIGEST SET
+          declare -A KEEP_DIGESTS=()
+
+          # 1. ACR - collect manifests
+          echo "Processing ACR..."
+
+          ACR_REG="${{ env.ACR_REGISTRY_NAME }}"
+
+          # Get digests sorted by push time (newest first)
+          mapfile -t ACR_DIGESTS < <(
+            az acr repository show-manifests \
+              --name "$ACR_REG" \
+              --repository "$REPO" \
+              --orderby time_desc \
+              --query "[].digest" -o tsv
+          )
+
+          # Always keep latest KEEP digests
+          for ((i=0; i<KEEP && i<${#ACR_DIGESTS[@]}; i++)); do
+            KEEP_DIGESTS["${ACR_DIGESTS[$i]}"]=1
+          done
+
+          # Always keep latest tag digest
+          LATEST_ACR_DIGEST=$(az acr repository show-tags \
+            --name "$ACR_REG" \
+            --repository "$REPO" \
+            --query "contains(@, 'latest') && @[-1] || ''" -o tsv || true)
+
+          if [[ -n "$LATEST_ACR_DIGEST" ]]; then
+            KEEP_DIGESTS["$LATEST_ACR_DIGEST"]=1
+          fi
+
+
+          # 2. ECR
+          echo "Processing ECR..."
+
+          mapfile -t ECR_DIGESTS < <(
+            aws ecr describe-images \
+              --repository-name "$REPO" \
+              --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
+              --output text | tr '\t' '\n' | tac
+          )
+
+          for ((i=0; i<KEEP && i<${#ECR_DIGESTS[@]}; i++)); do
+            KEEP_DIGESTS["${ECR_DIGESTS[$i]}"]=1
+          done
+
+          # Keep latest tag (if present)
+          LATEST_ECR_DIGEST=$(aws ecr describe-images \
+            --repository-name "$REPO" \
+            --query 'imageDetails[?contains(imageTags, `latest`)].imageDigest | [0]' \
+            --output text || true)
+
+          if [[ -n "$LATEST_ECR_DIGEST" && "$LATEST_ECR_DIGEST" != "None" ]]; then
+            KEEP_DIGESTS["$LATEST_ECR_DIGEST"]=1
+          fi
+
+
+          # 3. GAR
+          echo "Processing GAR..."
+
+          GAR_LOCATION="${{ secrets.GAR_LOCATION }}"
+          GAR_PROJECT="${{ secrets.GCP_PROJECT_ID }}"
+          GAR_REPO="${{ secrets.GAR_REPOSITORY }}"
+
+          FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${REPO}"
+
+          mapfile -t GAR_DIGESTS < <(
+            gcloud artifacts docker images list "$FULL_GAR_REPO" \
+              --sort-by=~UPDATE_TIME \
+              --format="value(DIGEST)"
+          )
+
+          for ((i=0; i<KEEP && i<${#GAR_DIGESTS[@]}; i++)); do
+            KEEP_DIGESTS["${GAR_DIGESTS[$i]}"]=1
+          done
+
+          # Keep latest tag digest (best-effort)
+          LATEST_GAR_DIGEST=$(gcloud artifacts docker images list "$FULL_GAR_REPO" \
+            --filter="tags:latest" \
+            --format="value(DIGEST)" \
+            --limit=1 || true)
+
+          if [[ -n "$LATEST_GAR_DIGEST" ]]; then
+            KEEP_DIGESTS["$LATEST_GAR_DIGEST"]=1
+          fi
+
+
+          # DELETE PASS (all registries)
+          echo "Starting deletion pass..."
+
+          # ACR delete
+          for digest in "${ACR_DIGESTS[@]}"; do
+            if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
+              echo "ACR delete: $digest"
+              az acr repository delete \
+                --name "$ACR_REG" \
+                --image "${REPO}@${digest}" \
+                --yes || true
+            fi
+          done
+
+          # ECR delete
+          for digest in "${ECR_DIGESTS[@]}"; do
+            if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
+              echo "ECR delete: $digest"
+              aws ecr batch-delete-image \
+                --repository-name "$REPO" \
+                --image-ids imageDigest="$digest" || true
+            fi
+          done
+
+          # GAR delete
+          for digest in "${GAR_DIGESTS[@]}"; do
+            if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
+              echo "GAR delete: $digest"
+              gcloud artifacts docker images delete \
+                "${FULL_GAR_REPO}@${digest}" \
+                --quiet || true
+            fi
+          done
+
+          echo "Cleanup complete."
