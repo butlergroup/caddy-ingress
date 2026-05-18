@@ -60,7 +60,7 @@ kubectl create secret generic cloudflare-api-token \
 3. (a) Install the Helm chart:
 
 ```sh
-curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+curl -fsSL https://raw.githubusercontent.com/butlergroup/caddy-ingress/main/install_caddy_ingress.sh | \
 bash -s -- \
   --namespace=caddy-system 
 ```
@@ -68,7 +68,7 @@ bash -s -- \
 3. (b) Install the Helm chart with on-demand TLS enabled & custom values:
 
 ```sh
-curl -fsSL https://butlergroup.net/caddy-ingress/install_caddy_ingress.sh | \
+curl -fsSL https://raw.githubusercontent.com/butlergroup/caddy-ingress/main/install_caddy_ingress.sh | \
 bash -s -- \
   --namespace=caddy-system \
   --set ingressController.config.email=your@email.com \
