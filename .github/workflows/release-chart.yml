@@ -15,7 +15,7 @@ on:
 jobs:
   release:
     permissions:
-      contents: write
+      contents: read
       packages: write
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v5.0.0
+        uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2 # v5.0.0
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
@@ -50,4 +50,4 @@ jobs:
         run: |
           helm push \
             .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://ghcr.io/butlergroup/charts
+            oci://ghcr.io/butlergroup/caddy-ingress/charts

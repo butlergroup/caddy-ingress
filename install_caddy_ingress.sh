@@ -3,7 +3,7 @@
 set -euo pipefail
 
 REPO="butlergroup/caddy-ingress"
-CHART="oci://ghcr.io/butlergroup/charts/caddy-ingress-controller"
+CHART="oci://ghcr.io/butlergroup/caddy-ingress/charts/caddy-ingress-controller"
 
 echo "Discovering latest release..."
 

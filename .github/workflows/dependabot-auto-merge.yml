@@ -13,14 +13,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
-  checks: read
+  contents: read
 
 jobs:
   dependabot:
     name: Validate and merge Dependabot PR
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
 
     if: >
       github.event.pull_request.user.login == 'dependabot[bot]'

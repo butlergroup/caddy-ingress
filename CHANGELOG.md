@@ -1,5 +1,19 @@
-## Helm Chart Version 1.5.81 
-## Ingress Controller Version v0.4.81 
+## Helm Chart Version 1.5.82 
+## Ingress Controller Version v0.4.82 
+
+#### New Features
+
+
+#### Improvements
+- Housekeeping changes to workflow files to enable release immutability 
+
+#### Fixes
+
+
+-----
+
+## Helm Chart Version 1.5.81 (05-17-2026)
+## Ingress Controller Version v0.4.81 (05-17-2026)
 
 #### New Features
 
