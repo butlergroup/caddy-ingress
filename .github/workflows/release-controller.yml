@@ -287,7 +287,7 @@ jobs:
 
           # Keep latest tag (if present)
           LATEST_ECR_DIGEST=$(aws ecr describe-images \
-            --repository-name "$REPO" \
+            --repository-name "$ECR_REPO" \
             --query 'imageDetails[?contains(imageTags, `latest`)].imageDigest | [0]' \
             --output text || true)
 

@@ -51,3 +51,10 @@ jobs:
           helm push \
             .cr-release-packages/caddy-ingress-controller-*.tgz \
             oci://ghcr.io/butlergroup/caddy-ingress/charts
+
+      - name: GHCR retention policy
+        uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: caddy-ingress/charts/caddy-ingress-controller
+          package-type: container
+          min-versions-to-keep: 10
