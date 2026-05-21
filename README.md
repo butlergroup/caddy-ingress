@@ -28,7 +28,7 @@ The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress`
 
 ## Sponsorship/Donation
 
-Sponsorships/Donations are happily accepted via Github Sponsors, or via Storj at 0x6E86f2734372ee559E62e6AB04Edc2b0455A86bF (my cats and I need to eat!)
+Sponsorships/Donations are happily accepted via Github Sponsors, or via Storj at 0x6E86f2734372ee559E62e6AB04Edc2b0455A86bF
 
 ## Prerequisites
 
