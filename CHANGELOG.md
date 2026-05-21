@@ -5,10 +5,10 @@
 
 
 #### Improvements
-
+- Updated go.mod dependencies to latest 
 
 #### Fixes
-- Corrections to release-controller.yml to enable retention policy to succeed
+
 
 -----
 
