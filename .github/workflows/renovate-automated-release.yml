@@ -1,0 +1,72 @@
+name: Trigger Release on any new Dockerfile base image from Renovate bot
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    if: github.actor == 'renovate[bot]'
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Determine next patch version
+        id: version
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+
+          echo "Current version: $LAST_TAG"
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"
+
+          PATCH=$((PATCH + 1))
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+
+          echo "New version: $NEW_VERSION"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update Helm files
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          # Chart.yaml
+          sed -i "s/^version:.*/version: ${VERSION}/" Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${VERSION}\"/" Chart.yaml
+
+          # values.yaml
+          sed -i "s/tag:.*/tag: \"${VERSION}\"/g" values.yaml
+
+      - name: Commit version updates
+        run: |
+          git add Chart.yaml values.yaml
+
+          git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}"
+
+          git push
+
+      - name: Create new tag & release
+        run: |
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }}

@@ -1,11 +1,26 @@
-## Helm Chart Version 1.5.92 
-## Ingress Controller Version v0.4.92 
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.93
 
 #### New Features
 
 
 #### Improvements
-- Updated go.mod dependencies to latest 
+
+
+#### Fixes
+
+
+-----
+
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.92
+
+#### New Features
+- Unified app & Helm chart versions
+- Enabled QEMU & GoReleaser to build images for additional architectures: arm, ppc64le, and riscv64
+
+#### Improvements
+- Updated go.mod dependencies to latest
+- Added Renovate bot to keep base image updated + automated release workflow
+- Removed Dependabot dockerfile support
 
 #### Fixes
 
