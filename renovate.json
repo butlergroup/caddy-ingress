@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+<<<<<<< HEAD
   ],
   "enabledManagers": [
     "dockerfile"
@@ -10,3 +11,7 @@
   "platformAutomerge": true,
   "pinDigests": true
 }
+=======
+  ]
+}
+>>>>>>> 6ef86ff87fe55c76264e2be8e4a7695567652b46
