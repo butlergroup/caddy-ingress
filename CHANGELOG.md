@@ -1,4 +1,4 @@
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.94
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.95
 
 #### New Features
 
@@ -8,6 +8,19 @@
 
 #### Fixes
 
+
+-----
+
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.94
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Version-related corrections in release-chart.yml and .goreleaser.yaml
 
 -----
 

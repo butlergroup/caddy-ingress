@@ -163,7 +163,7 @@ jobs:
         with:
           package-name: caddy-ingress
           package-type: container
-          min-versions-to-keep: 71
+          min-versions-to-keep: 81
       - name: Get runner public IP
         id: ip
         run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
@@ -227,7 +227,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          KEEP=71
+          KEEP=81
           REPO="${{ github.event.repository.name }}"
 
           echo "Starting unified cleanup (keeping last $KEEP digests + latest)"

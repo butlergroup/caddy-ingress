@@ -50,7 +50,7 @@ jobs:
         run: |
           helm push \
             .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://ghcr.io/butlergroup/caddy-ingress/charts
+            oci://ghcr.io/butlergroup/caddy-ingress/charts --debug
 
       - name: GHCR retention policy
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
