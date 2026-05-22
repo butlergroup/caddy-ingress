@@ -55,10 +55,10 @@ jobs:
 
           # Chart.yaml
           sed -i "s/^version:.*/version: ${VERSION}/" ./charts/caddy-ingress-controller/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: \${VERSION}\/" ./charts/caddy-ingress-controller/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${VERSION}\"/" ./charts/caddy-ingress-controller/Chart.yaml
 
           # values.yaml
-          sed -i "s/tag:.*/tag: \${VERSION}\/g" ./charts/caddy-ingress-controller/values.yaml
+          sed -i "s/tag:.*/tag: \"${VERSION}\"/g" ./charts/caddy-ingress-controller/values.yaml
 
       - name: Update CHANGELOG.md
         run: |
