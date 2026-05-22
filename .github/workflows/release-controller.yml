@@ -10,7 +10,7 @@ concurrency:
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 env:
   ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
