@@ -8,9 +8,11 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    tags:
-      - "*"
+  workflow_run:
+    workflows:
+      - Release Controller
+    types:
+      - completed
 
 jobs:
   release:
@@ -50,7 +52,7 @@ jobs:
         run: |
           helm push \
             .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://ghcr.io/butlergroup/caddy-ingress/charts --debug
+            oci://ghcr.io/butlergroup/caddy-ingress/charts
 
       - name: GHCR retention policy
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0

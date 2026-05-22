@@ -221,7 +221,7 @@ jobs:
             --entrypoint "/bin/bash"
           run: |
             cd /data
-            cpa buildbundle
+            cpa buildbundle --force
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
         shell: bash
         run: |

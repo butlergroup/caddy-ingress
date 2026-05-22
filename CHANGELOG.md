@@ -1,4 +1,4 @@
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.95
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.96
 
 #### New Features
 
@@ -11,7 +11,20 @@
 
 -----
 
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.94
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.95 (05-21-2026)
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Additional revisions to workflows to successfully integrate Azure Container Registry operations
+
+-----
+
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.94 (05-21-2026)
 
 #### New Features
 
@@ -24,7 +37,7 @@
 
 -----
 
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.93
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.93 (05-21-2026)
 
 #### New Features
 
@@ -37,7 +50,7 @@
 
 -----
 
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.92
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.92 (05-21-2026)
 
 #### New Features
 - Unified app & Helm chart versions
