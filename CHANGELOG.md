@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.97 (05-22-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated Wolfi base image through Renovate automated dependency management
+
+#### Fixes
+
+-----
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.96 (05-22-2026)
 
 #### New Features
