@@ -4,8 +4,8 @@ home: https://github.com/butlergroup/caddy-ingress
 description: A Helm chart for the Caddy Kubernetes ingress controller
 icon: https://caddyserver.com/resources/images/caddy-circle-lock.svg
 type: application
-version: 1.5.99
-appVersion: "1.5.99"
+version: 1.5.100
+appVersion: "1.5.100"
 keywords:
   - ingress-controller
   - caddyserver
