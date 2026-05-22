@@ -10,6 +10,9 @@ concurrency:
 on:
   push:
     branches: [main]
+    paths:
+      - Dockerfile
+      - Dockerfile.dev
 
 jobs:
   release:
@@ -18,7 +21,8 @@ jobs:
     permissions:
       contents: write
 
-    if: github.actor == 'renovate[bot]'
+    # Only run when Renovate authored the push
+    if: contains(github.event.head_commit.author.name, 'renovate')
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
