@@ -1,4 +1,4 @@
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.93
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.94
 
 #### New Features
 
@@ -8,6 +8,19 @@
 
 #### Fixes
 
+
+-----
+
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.93
+
+#### New Features
+
+
+#### Improvements
+
+
+#### Fixes
+- Re-run of workflows to isolate issue with version-based workflow trigger
 
 -----
 
