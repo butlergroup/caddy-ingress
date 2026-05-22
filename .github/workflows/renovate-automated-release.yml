@@ -8,7 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -18,6 +17,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+
+    # Only run if Renovate authored the push
+    if: github.actor == 'renovate[bot]'
 
     permissions:
       contents: write
@@ -101,7 +103,7 @@ jobs:
                   ./charts/caddy-ingress-controller/values.yaml \
                   CHANGELOG.md
 
-          git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}" || true
+          git commit -m "chore(release): new base image; bump version to ${{ steps.version.outputs.version }}" || true
 
           git push origin HEAD:main
 
