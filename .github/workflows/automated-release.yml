@@ -1,4 +1,4 @@
-name: Trigger Release on any new Dockerfile base image from Renovate bot
+name: Trigger Release on Renovate bot & Dependabot updates
 
 permissions:
   contents: read
@@ -8,18 +8,18 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - Dockerfile
       - Dockerfile.dev
+      - go.mod
+      - go.sum
 
 jobs:
   release:
     runs-on: ubuntu-latest
-
-    # Only run if Renovate authored the push
-    if: github.actor == 'renovate[bot]'
 
     permissions:
       contents: write
@@ -65,19 +65,67 @@ jobs:
       - name: Update CHANGELOG.md
         run: |
           VERSION=${{ steps.version.outputs.version }}
-
           DATE=$(date +%m-%d-%Y)
 
           COMMIT_MSG="${{ github.event.head_commit.message }}"
 
-          # Attempt to extract updated dependency
-          DEP=$(echo "$COMMIT_MSG" \
-            | sed -n 's/.*update \(.*\) docker tag.*/\1/p')
+          echo "Commit message:"
+          echo "$COMMIT_MSG"
 
-          # Fallback if parsing fails
-          if [ -z "$DEP" ]; then
-            DEP="Wolfi base image"
+          DEP=""
+          FROM_VERSION=""
+          TO_VERSION=""
+          CHANGE_TEXT=""
+
+          #
+          # Renovate examples:
+          #
+          # Update cgr.dev/chainguard/wolfi-base Docker digest to cccc183
+          # Update cgr.dev/chainguard/wolfi-base Docker tag to 20260520
+          #
+
+          DEP=$(echo "$COMMIT_MSG" | sed -n \
+            's/^Update \(.*\) Docker .*$/\1/p')
+
+          TO_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+            's/^.* to \(.*\)$/\1/p')
+
+          if [ -n "$DEP" ]; then
+            CHANGE_TEXT="- Updated ${DEP} to ${TO_VERSION} through automated dependency management"
           fi
+
+          #
+          # Dependabot examples:
+          #
+          # chore: Bump k8s.io/api from 0.36.0 to 0.36.1
+          #
+
+          if [ -z "$DEP" ]; then
+            DEP=$(echo "$COMMIT_MSG" | sed -n \
+              's/^.*Bump \(.*\) from .*$/\1/p')
+
+            FROM_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+              's/^.*from \(.*\) to .*$/\1/p')
+
+            TO_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+              's/^.*to \(.*\)$/\1/p')
+
+            if [ -n "$DEP" ]; then
+              CHANGE_TEXT="- Updated ${DEP} from ${FROM_VERSION} to ${TO_VERSION} through automated dependency management"
+            fi
+          fi
+
+          #
+          # Final fallback
+          #
+
+          if [ -z "$CHANGE_TEXT" ]; then
+            CHANGE_TEXT="- Updated dependency(s) through automated dependency management"
+          fi
+
+          echo "Detected dependency: $DEP"
+          echo "From: $FROM_VERSION"
+          echo "To: $TO_VERSION"
 
           cat > changelog_entry.md <<EOF
           ## Caddy K8s Ingress Controller & Helm Chart Version ${VERSION} (${DATE})
@@ -86,7 +134,7 @@ jobs:
 
           #### Improvements
 
-          - Updated ${DEP} through Renovate automated dependency management
+          ${CHANGE_TEXT}
 
           #### Fixes
 
@@ -103,7 +151,7 @@ jobs:
                   ./charts/caddy-ingress-controller/values.yaml \
                   CHANGELOG.md
 
-          git commit -m "chore(release): new base image; bump version to ${{ steps.version.outputs.version }}" || true
+          git commit -m "chore(release): a dependency was updated. Bump project version to ${{ steps.version.outputs.version }}" || true
 
           git push origin HEAD:main
 
