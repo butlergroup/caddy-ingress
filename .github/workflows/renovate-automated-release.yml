@@ -55,10 +55,10 @@ jobs:
 
           # Chart.yaml
           sed -i "s/^version:.*/version: ${VERSION}/" ./charts/caddy-ingress-controller/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: \"${VERSION}\"/" ./charts/caddy-ingress-controller/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \${VERSION}\/" ./charts/caddy-ingress-controller/Chart.yaml
 
           # values.yaml
-          sed -i "s/tag:.*/tag: \"${VERSION}\"/g" ./charts/caddy-ingress-controller/values.yaml
+          sed -i "s/tag:.*/tag: \${VERSION}\/g" ./charts/caddy-ingress-controller/values.yaml
 
       - name: Update CHANGELOG.md
         run: |
@@ -95,13 +95,27 @@ jobs:
           cat changelog_entry.md CHANGELOG.md > CHANGELOG.tmp
           mv CHANGELOG.tmp CHANGELOG.md
 
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Configure GitHub App credentials
+        run: |
+          git remote set-url origin \
+          https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository }}.git
+
       - name: Commit version updates
         run: |
-          git add ./charts/caddy-ingress-controller/Chart.yaml ./charts/caddy-ingress-controller/values.yaml CHANGELOG.md
+          git add ./charts/caddy-ingress-controller/Chart.yaml \
+                  ./charts/caddy-ingress-controller/values.yaml \
+                  CHANGELOG.md
 
-          git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}"
+          git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}" || true
 
-          git push
+          git push origin HEAD:main
 
       - name: Create new tag & release
         run: |
