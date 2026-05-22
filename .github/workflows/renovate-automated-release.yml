@@ -62,9 +62,44 @@ jobs:
           # values.yaml
           sed -i "s/tag:.*/tag: \"${VERSION}\"/g" values.yaml
 
+      - name: Update CHANGELOG.md
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          DATE=$(date +%m-%d-%Y)
+
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          # Attempt to extract updated dependency
+          DEP=$(echo "$COMMIT_MSG" \
+            | sed -n 's/.*update \(.*\) docker tag.*/\1/p')
+
+          # Fallback if parsing fails
+          if [ -z "$DEP" ]; then
+            DEP="Wolfi base image"
+          fi
+
+          cat > changelog_entry.md <<EOF
+          ## Caddy K8s Ingress Controller & Helm Chart Version ${VERSION} (${DATE})
+
+          #### New Features
+
+          #### Improvements
+
+          - Updated ${DEP} through Renovate automated dependency management
+
+          #### Fixes
+
+          -----
+
+          EOF
+
+          cat changelog_entry.md CHANGELOG.md > CHANGELOG.tmp
+          mv CHANGELOG.tmp CHANGELOG.md
+
       - name: Commit version updates
         run: |
-          git add Chart.yaml values.yaml
+          git add Chart.yaml values.yaml CHANGELOG.md
 
           git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}"
 
