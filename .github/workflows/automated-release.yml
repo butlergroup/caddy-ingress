@@ -66,14 +66,13 @@ jobs:
           sed -i "s/tag:.*/tag: \"${VERSION}\"/g" ./charts/caddy-ingress-controller/values.yaml
 
       - name: Update CHANGELOG.md
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
-          VERSION=${{ steps.version.outputs.version }}
           DATE=$(date +%m-%d-%Y)
 
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-
-          echo "Commit message:"
-          echo "$COMMIT_MSG"
+          SAFE_COMMIT_MSG=$(printf '%s\n' "$COMMIT_MSG")
 
           DEP=""
           FROM_VERSION=""
@@ -87,10 +86,10 @@ jobs:
           # Update cgr.dev/chainguard/wolfi-base Docker tag to 20260520
           #
 
-          DEP=$(echo "$COMMIT_MSG" | sed -n \
+          DEP=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
             's/^Update \(.*\) Docker .*$/\1/p')
 
-          TO_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+          TO_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
             's/^.* to \(.*\)$/\1/p')
 
           if [ -n "$DEP" ]; then
@@ -104,13 +103,13 @@ jobs:
           #
 
           if [ -z "$DEP" ]; then
-            DEP=$(echo "$COMMIT_MSG" | sed -n \
+            DEP=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
               's/^.*Bump \(.*\) from .*$/\1/p')
 
-            FROM_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+            FROM_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
               's/^.*from \(.*\) to .*$/\1/p')
 
-            TO_VERSION=$(echo "$COMMIT_MSG" | sed -n \
+            TO_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
               's/^.*to \(.*\)$/\1/p')
 
             if [ -n "$DEP" ]; then
