@@ -95,18 +95,6 @@ jobs:
           cat changelog_entry.md CHANGELOG.md > CHANGELOG.tmp
           mv CHANGELOG.tmp CHANGELOG.md
 
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ secrets.APP_CLIENT_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - name: Configure GitHub App credentials
-        run: |
-          git remote set-url origin \
-          https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository }}.git
-
       - name: Commit version updates
         run: |
           git add ./charts/caddy-ingress-controller/Chart.yaml \
@@ -117,7 +105,22 @@ jobs:
 
           git push origin HEAD:main
 
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Create new tag & release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          git tag ${{ steps.version.outputs.version }}
-          git push origin ${{ steps.version.outputs.version }}
+          CURRENT_SHA=$(git rev-parse HEAD)
+
+          gh api \
+            --method POST \
+            repos/${{ github.repository }}/git/refs \
+            -f ref="refs/tags/${VERSION}" \
+            -f sha="${CURRENT_SHA}"
