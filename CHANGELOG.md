@@ -4,9 +4,9 @@
 
 #### Improvements
 
-- Updated Wolfi base image through Renovate automated dependency management
-
 #### Fixes
+
+- Re-run of workflows to get automated dependency update release workflow to succeed
 
 -----
 
@@ -16,9 +16,9 @@
 
 #### Improvements
 
-- Updated Wolfi base image through Renovate automated dependency management
-
 #### Fixes
+
+- Re-run of workflows to get automated dependency update release workflow to succeed
 
 -----
 
