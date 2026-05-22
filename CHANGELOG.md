@@ -4,9 +4,9 @@
 
 #### Improvements
 
-- Updated dependency(s) through automated dependency management
-
 #### Fixes
+
+- Re-run of workflows to get automated dependency update release workflow to succeed
 
 -----
 

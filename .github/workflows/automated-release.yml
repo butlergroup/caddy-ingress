@@ -8,7 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -20,6 +19,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+
+    if: |
+      startsWith(github.event.head_commit.message, 'Update ') ||
+      startsWith(github.event.head_commit.message, 'chore: ')
 
     permissions:
       contents: write
