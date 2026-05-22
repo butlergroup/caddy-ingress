@@ -10,7 +10,7 @@ image:
   registry: docker.io
   repository: butlergroup/caddy-ingress
   pullPolicy: IfNotPresent
-  tag: "1.5.100"
+  tag: "1.5.101"
 
 cnab:
   enabled: false
@@ -19,7 +19,7 @@ global:
   azure:
     images:
       caddy-ingress-controller:
-        tag: "1.5.100"
+        tag: "1.5.101"
         image: caddy-ingress
         registry: containerbutler-bxene7duhhe5d8cy.azurecr.io
 
