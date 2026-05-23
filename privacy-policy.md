@@ -1,6 +1,6 @@
 ## Who we are: The Butler Group LLC
 
-Questions regarding user privacy and/or our Privacy Policy may be sent to: dev@butlergroup.net
+Questions regarding user privacy and/or our Privacy Policy may be sent to: legal@butlergroup.net
 
 The caddy-ingress application does not collect user information. All information processed by the caddy-ingress application is encrypted both in-transit and at-rest.
 
