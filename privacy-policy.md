@@ -1,4 +1,4 @@
-## Who we are: The Butler Group LLC DBA (“doing business as”) “caddy-ingress.”
+## Who we are: The Butler Group LLC
 
 Questions regarding user privacy and/or our Privacy Policy may be sent to: dev@butlergroup.net
 
@@ -10,7 +10,7 @@ User data is neither shared with nor sold to any third parties.
 
 ## How long we retain your data
 
-No user data is collected or retained. 
+No user data is collected or retained.
 
 ## What rights you have over your data
 
@@ -18,7 +18,7 @@ If we did collect user data, you could request to receive an exported file of th
 
 ## Limitation of Liability
 
-Under no circumstances including but not limited to negligence shall The Butler Group LLC be liable for any direct, indirect, special, incidental, or consequential damages including but not limited to loss of data or profit arising out of any breach of this privacy policy. 
+Under no circumstances including but not limited to negligence shall The Butler Group LLC be liable for any direct, indirect, special, incidental, or consequential damages including but not limited to loss of data or profit arising out of any breach of this privacy policy.
 
 ## Privacy Policy Revisions
 
