@@ -14,6 +14,7 @@ spec:
     metadata:
     {{- with .Values.podAnnotations }}
       annotations:
+        "cloudmarketplace.googleapis.com/product.metadata": "v1:{\"services\":[{\"service_name\":\"{{ .Values.marketplace.serviceName }}\", \"service_level\":\"{{ .Values.marketplace.serviceLevel }}\"}]}"
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:

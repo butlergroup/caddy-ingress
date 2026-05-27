@@ -26,35 +26,84 @@ jobs:
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-
       - name: Set up Helm
         uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2 # v5.0.0
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      # Log in to Azure with your service principal
+      - name: Azure login
+        uses: Azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Construct & store ACR login server
+        run: |
+          ACR_LOGIN_SERVER=$(az acr show \
+            --name ${{ env.ACR_REGISTRY_NAME }} \
+            --query loginServer \
+            -o tsv)
+          echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> $GITHUB_ENV
+      # Log in to your ACR registry
+      - name: Login to Azure Container Registry (Docker)
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
+      - name: Authenticate to Google Cloud
+        uses: "google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093" # v3.0.0
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - name: Set up gCloud SDK
+        uses: "google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db" # v3.0.1
+      - name: Configure gcloud Docker for GAR
+        run: |
+          gcloud auth configure-docker \
+            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev \
+            --quiet
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@acca2b1b2070338fb9fd1ca27ecee81d687e58e5 # v6.1.2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password \
+            --region ${{ secrets.AWS_REGION }} | \
+          docker login \
+            --username AWS \
+            --password-stdin \
+            ${{ secrets.ECR_REGISTRY }}
       - name: Package Helm chart
         run: |
           mkdir -p .cr-release-packages
 
           helm package charts/caddy-ingress-controller \
             --destination .cr-release-packages
-
       - name: Push Helm chart to GHCR
         run: |
-          helm push \
-            .cr-release-packages/caddy-ingress-controller-*.tgz \
+          helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
             oci://ghcr.io/butlergroup/caddy-ingress/charts
-
+      - name: Push Helm chart to ACR
+        run: |
+          helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
+            oci://${{ env.ACR_LOGIN_SERVER }}/charts
+      - name: Push Helm chart to GAR
+        run: |
+          helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
+            oci://${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/charts
+      - name: Push Helm chart to ECR
+        run: |
+          helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
+            oci://${{ secrets.ECR_REGISTRY }}/charts
       - name: GHCR retention policy
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:

@@ -23,6 +23,10 @@ global:
         image: caddy-ingress
         registry: containerbutler-bxene7duhhe5d8cy.azurecr.io
 
+marketplace:
+  serviceName: "github-actions"
+  serviceLevel: "default"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
