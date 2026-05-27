@@ -9,5 +9,8 @@
   ],
   "automerge": true,
   "platformAutomerge": true,
-  "pinDigests": true
+  "pinDigests": true,
+  "postUpdateOptions": [
+    "gomodTidy"
+  ]
 }
