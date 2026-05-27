@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.26.3
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.11
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.12
 	github.com/caddyserver/caddy/v2 v2.11.3
 	github.com/caddyserver/certmagic v0.25.3
 	github.com/google/uuid v1.6.0
