@@ -8,11 +8,16 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows:
       - Release Controller
     types:
       - completed
+
+env:
+  ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
+  ACR_REPO_NAME: ${{ github.event.repository.name }} # example: myRepo
 
 jobs:
   release:
