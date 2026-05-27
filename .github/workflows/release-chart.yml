@@ -8,7 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
   workflow_run:
     workflows:
       - Release Controller
@@ -26,7 +25,7 @@ jobs:
       packages: write
       id-token: write
     runs-on: ubuntu-latest
-    # if: github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
