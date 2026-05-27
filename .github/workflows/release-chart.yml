@@ -105,11 +105,11 @@ jobs:
       - name: Push Helm chart to GAR
         run: |
           helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}
+            oci://${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/charts
       - name: Push Helm chart to ECR
         run: |
           helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://${{ secrets.ECR_REGISTRY }}/charts
+            oci://${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}/charts
       - name: GHCR retention policy
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
