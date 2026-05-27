@@ -4,13 +4,9 @@
     "config:recommended"
   ],
   "enabledManagers": [
-    "dockerfile",
-    "gomod"
+    "dockerfile"
   ],
   "automerge": true,
   "platformAutomerge": true,
-  "pinDigests": true,
-  "postUpdateOptions": [
-    "gomodTidy"
-  ]
+  "pinDigests": true
 }
