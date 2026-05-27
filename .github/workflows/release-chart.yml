@@ -105,7 +105,7 @@ jobs:
       - name: Push Helm chart to GAR
         run: |
           helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
-            oci://${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/charts
+            oci://${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}
       - name: Push Helm chart to ECR
         run: |
           helm push .cr-release-packages/caddy-ingress-controller-*.tgz \
