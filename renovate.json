@@ -4,7 +4,8 @@
     "config:recommended"
   ],
   "enabledManagers": [
-    "dockerfile", "golang"
+    "dockerfile",
+    "gomod"
   ],
   "automerge": true,
   "platformAutomerge": true,
