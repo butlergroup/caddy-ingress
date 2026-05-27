@@ -31,7 +31,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Update dependencies
-        run: ./update_go_mod.sh
+        run: bash ./update_go_mod.sh
 
       - name: Check for changes
         id: changes
