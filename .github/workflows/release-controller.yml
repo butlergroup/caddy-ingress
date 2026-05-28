@@ -80,7 +80,7 @@ jobs:
             --name ${{ env.ACR_REGISTRY_NAME }} \
             --query loginServer \
             -o tsv)
-          echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> $GITHUB_ENV
+          echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> "$GITHUB_ENV"
       # Log in to your ACR registry
       - name: Login to Azure Container Registry (Docker)
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
@@ -159,7 +159,7 @@ jobs:
           GAR_IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ github.event.repository.name }}"
           ECR_IMAGE="${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}"
           echo "Using digest: $DIGEST"
-          echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> $GITHUB_ENV
+          echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
           cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
           echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
@@ -295,10 +295,12 @@ jobs:
           done
 
           # Keep latest tag (if present)
-          LATEST_ECR_DIGEST=$(aws ecr describe-images \
-            --repository-name "$ECR_REPO" \
-            --query 'imageDetails[?imageTags && contains(imageTags, `latest`)].imageDigest | [0]' \
-            --output text || true)
+          LATEST_ECR_DIGEST=$(
+            aws ecr describe-images \
+              --repository-name "$ECR_REPO" \
+              --query "imageDetails[?imageTags && contains(imageTags, \`latest\`)].imageDigest | [0]" \
+              --output text || true
+          )
 
           if [[ -n "$LATEST_ECR_DIGEST" && "$LATEST_ECR_DIGEST" != "None" ]]; then
             KEEP_DIGESTS["$LATEST_ECR_DIGEST"]=1
