@@ -66,6 +66,16 @@ dockers_v2:
       - linux/amd64
       - linux/arm64
       - linux/s390x
+      - linux/arm
+      - linux/ppc64le
+      - linux/riscv64
+      - darwin/amd64
+      - darwin/arm64
+      - windows/amd64
+      - windows/arm64
+      - freebsd/amd64
+      - freebsd/arm64
+      - freebsd/arm
     labels:
       "org.opencontainers.image.description": "Caddy ingress controller for Kubernetes - with Cloudflare support!"
       "org.opencontainers.image.created": "{{.Date}}"
