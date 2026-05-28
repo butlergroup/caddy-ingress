@@ -139,7 +139,7 @@ jobs:
           image-ref: docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
           format: "sarif"
           output: "trivy-results.sarif"
-          exit-code: 1 # fail the workflow if vulnerailities are found
+          exit-code: 1 # fail the workflow if vulnerabilities are found
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
         with:
