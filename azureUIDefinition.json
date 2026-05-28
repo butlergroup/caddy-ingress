@@ -160,16 +160,7 @@
 								"toolTip": "The SKU of Linux OS for VM.",
 								"defaultValue": "AzureLinux",
 								"constraints": {
-									"allowedValues": [
-										{
-											"label": "Ubuntu",
-											"value": "Ubuntu"
-										},
-										{
-											"label": "AzureLinux",
-											"value": "AzureLinux"
-										}
-									],
+									"allowedValues": [],
 									"required": true
 								}
 							},
