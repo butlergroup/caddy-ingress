@@ -16,6 +16,10 @@ on:
       - Dockerfile.dev
       - go.mod
       - go.sum
+      - "**/cmd/**"
+      - "**/internal/**"
+      - "**/kubernetes/**"
+      - "**/pkg/**"
 
 jobs:
   release:
