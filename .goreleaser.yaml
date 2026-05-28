@@ -77,7 +77,7 @@ dockers_v2:
       - freebsd/arm64
       - freebsd/arm
     labels:
-      "org.opencontainers.image.description": "Caddy ingress controller for Kubernetes - with Cloudflare support!"
+      "org.opencontainers.image.description": "Caddy Ingress Controller for Kubernetes - with Cloudflare support!"
       "org.opencontainers.image.created": "{{.Date}}"
       "org.opencontainers.image.name": "{{.ProjectName}}"
       "org.opencontainers.image.revision": "{{.FullCommit}}"

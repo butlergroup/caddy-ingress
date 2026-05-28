@@ -1,6 +1,6 @@
 applicationName: caddy-ingress
 publisher: "The Butler Group LLC"
-description: "A Helm chart for the Caddy Kubernetes ingress controller"
+description: "A Helm chart for the Caddy Kubernetes Ingress Controller"
 version: __VERSION__
 helmChart: "./charts/caddy-ingress-controller"
 clusterArmTemplate: "./azureARMTemplate.json"
