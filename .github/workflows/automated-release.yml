@@ -61,7 +61,7 @@ jobs:
 
           echo "New version: $NEW_VERSION"
 
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Update Helm files
         run: |

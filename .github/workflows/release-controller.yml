@@ -176,7 +176,7 @@ jobs:
           min-versions-to-keep: 81
       - name: Get runner public IP
         id: ip
-        run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
+        run: echo "ip=$(curl -s https://api.ipify.org)" >> "$GITHUB_OUTPUT"
       - name: Allow runner IP in Key Vault
         run: |
           az keyvault network-rule add \
@@ -210,7 +210,7 @@ jobs:
         id: chart
         run: |
           VERSION=$(grep '^version:' charts/caddy-ingress-controller/Chart.yaml | awk '{print $2}')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Generate azureManifest.yaml
         run: |
           sed \
