@@ -33,21 +33,13 @@ jobs:
           go-version: 1.26.3
           check-latest: true
 
-      - name: Install dependencies
-        run: |
-          go mod download
+      - name: Test
+        run: go test -race -coverprofile=coverage.out -covermode=atomic -v ./...
 
-      - name: Install goveralls
-        run: go install github.com/mattn/goveralls@latest
-
-      - name: Run Unit tests
-        run: |
-          go test -race -covermode atomic -coverprofile=covprofile -v ./...
-
-      - name: Send coverage
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: goveralls -coverprofile=covprofile -service=github
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   chart-test-current:
     name: Test and lint charts
