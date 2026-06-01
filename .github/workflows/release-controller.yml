@@ -33,7 +33,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: main
           fetch-depth: 0
@@ -61,10 +61,9 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
-          platforms: arm64,s390x
-
-      - uses: docker/setup-buildx-action@v4
-
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to DockerHub
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
@@ -130,15 +129,47 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  bump-charts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set appVersion
-        uses: mikefarah/yq@v4
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
+          GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+          format: "sarif"
+          output: "trivy-results.sarif"
+          exit-code: 1 # fail the workflow if vulnerabilities are found
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+        with:
+          sarif_file: "trivy-results.sarif"
+      - name: Get GoReleaser digest and sign GHCR, DockerHub, GAR, & ECR images
+        run: |
+          echo "==== dist/digests.txt ===="
+          cat dist/digests.txt
+          DIGEST_RAW=$(grep "ghcr.io" dist/digests.txt | head -n1 | awk '{print $1}')
+          if [ -z "$DIGEST_RAW" ]; then
+            echo "ERROR: Digest not found!"
+            exit 1
+          fi
+          DIGEST="sha256:${DIGEST_RAW}"
+          GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
+          DOCKERHUB_IMAGE="docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
+          GAR_IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ github.event.repository.name }}"
+          ECR_IMAGE="${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}"
+          echo "Using digest: $DIGEST"
+          echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
+          echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
+          cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
+          echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
+          cosign sign --yes ${DOCKERHUB_IMAGE}@${DIGEST}
+          echo "Signing GAR image: ${GAR_IMAGE}@${DIGEST}"
+          cosign sign --yes ${GAR_IMAGE}@${DIGEST}
+          echo "Signing ECR image: ${ECR_IMAGE}@${DIGEST}"
+          cosign sign --yes ${ECR_IMAGE}@${DIGEST}
+      - name: GHCR retention policy
+        uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
           package-name: caddy-ingress
           package-type: container
@@ -156,10 +187,41 @@ jobs:
       - name: sign ACR artifact using key pair from AKV
         uses: notaryproject/notation-action/sign@b6fee73110795d6793253c673bd723f12bcf9bbb # v1.2.2
         with:
-          cmd: yq -i '.image.tag = "${{ github.ref_name }}"' 'charts/caddy-ingress-controller/values.yaml'
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v8
+          plugin_name: azure-kv
+          plugin_url: https://github.com/Azure/notation-azure-kv/releases/download/v1.2.1/notation-azure-kv_1.2.1_linux_amd64.tar.gz
+          plugin_checksum: 67c5ccaaf28dd44d2b6572684d84e344a02c2258af1d65ead3910b3156d3eaf5
+          key_id: ${{ env.KEY_ID }}
+          target_artifact_reference: ${{ env.target_artifact_reference }}
+          signature_format: cose
+          plugin_config: |-
+            self_signed=true
+          # If you are using self-signed certificate from AKV, then the `plugin_config` should be:
+          # plugin_config: |-
+          #   self_signed=true
+          # ca_certs=.github/cert-bundle/cert-bundle.crt
+          force_referrers_tag: "true"
+      - name: Remove runner IP from Key Vault
+        run: |
+          az keyvault network-rule remove \
+            --name computerbutler-keyvault \
+            --resource-group computerbutler \
+            --ip-address ${{ steps.ip.outputs.ip }}
+      - name: Extract current Helm chart version
+        id: chart
+        run: |
+          VERSION=$(grep '^version:' charts/caddy-ingress-controller/Chart.yaml | awk '{print $2}')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Generate azureManifest.yaml
+        run: |
+          sed \
+            -e "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
+            -e "s#__ACR_REGISTRY_SERVER__#${{ secrets.ACR_REGISTRY_SERVER }}#g" \
+            azureManifest.yaml.tpl > manifest.yaml
+      - name: Enable CNAB image source
+        run: |
+          yq -i '.cnab.enabled = true' charts/caddy-ingress-controller/values.yaml
+      - name: Build CNAB Bundle and Publish to ACR
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         with:
           image: mcr.microsoft.com/container-package-app:latest
           options: |
