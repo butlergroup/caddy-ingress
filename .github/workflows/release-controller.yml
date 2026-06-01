@@ -41,10 +41,29 @@ jobs:
         run: |
           echo "Disk before cleanup:"
           df -h
+
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /opt/hostedtoolcache/go
+          sudo rm -rf /opt/hostedtoolcache/node
+          sudo rm -rf /opt/hostedtoolcache/Python
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/share/powershell
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /opt/az
+          sudo rm -rf /opt/microsoft
+          sudo rm -rf /opt/google
+
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo journalctl --vacuum-time=1s || true
+
+          echo "Large directories after cleanup:"
+          sudo du -xh /usr /opt /var 2>/dev/null | sort -h | tail -50
+
           echo "Disk after cleanup:"
           df -h
       - name: Set up Go
