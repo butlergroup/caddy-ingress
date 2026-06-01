@@ -53,6 +53,7 @@ builds:
     mod_timestamp: "{{ .CommitTimestamp }}"
 
 dockers_v2:
+  - id: standard-registries
   - images:
       - "{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
@@ -76,6 +77,7 @@ dockers_v2:
       "org.opencontainers.image.version": "{{.Version}}"
       "org.opencontainers.image.source": "{{.GitURL}}"
 
+  - id: marketplace-ecr
   - images:
       - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
     tags:
