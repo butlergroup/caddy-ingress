@@ -58,10 +58,28 @@ dockers_v2:
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}"
       - "{{ .Env.GAR_LOCATION }}-docker.pkg.dev/{{ .Env.GCP_PROJECT_ID }}/{{ .Env.GAR_REPOSITORY }}/{{ .ProjectName }}"
-      - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
     tags:
       - "{{ .Version }}"
       - "{{ if .IsNightly }}nightly{{ else }}latest{{ end }}"
+    platforms:
+      - linux/amd64
+      - linux/arm64
+      - linux/s390x
+      - linux/arm
+      - linux/ppc64le
+      - linux/riscv64
+    labels:
+      "org.opencontainers.image.description": "Caddy Ingress Controller for Kubernetes - with Cloudflare support!"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Version}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
+
+  - images:
+      - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
+    tags:
+      - "{{ .Version }}"
     platforms:
       - linux/amd64
       - linux/arm64
