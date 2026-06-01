@@ -10,18 +10,6 @@
 
 ---
 
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.114 (06-01-2026)
-
-#### New Features
-
-#### Improvements
-
-- Updated dependency(s) through automated dependency management
-
-#### Fixes
-
----
-
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.113 (06-01-2026)
 
 #### New Features
