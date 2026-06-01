@@ -178,36 +178,10 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          set -euo pipefail
-
-          git fetch origin --tags --force
-
           CURRENT_SHA=$(git rev-parse HEAD)
-
-          echo "Version: ${VERSION}"
-          echo "Current SHA: ${CURRENT_SHA}"
-
-          EXISTING_SHA=$(
-            gh api "repos/${{ github.repository }}/git/ref/tags/${VERSION}" \
-              --jq '.object.sha' 2>/dev/null || true
-          )
-
-          if [ -n "$EXISTING_SHA" ]; then
-            echo "Tag ${VERSION} already exists at ${EXISTING_SHA}"
-
-            if [ "$EXISTING_SHA" = "$CURRENT_SHA" ]; then
-              echo "Tag already points to current commit. Nothing to do."
-              exit 0
-            fi
-
-            echo "ERROR: Tag ${VERSION} already exists but points to a different commit."
-            echo "Existing: ${EXISTING_SHA}"
-            echo "Current:  ${CURRENT_SHA}"
-            exit 1
-          fi
 
           gh api \
             --method POST \
-            "repos/${{ github.repository }}/git/refs" \
+            repos/${{ github.repository }}/git/refs \
             -f ref="refs/tags/${VERSION}" \
             -f sha="${CURRENT_SHA}"
