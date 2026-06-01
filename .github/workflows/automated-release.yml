@@ -173,15 +173,30 @@ jobs:
           client-id: ${{ secrets.APP_CLIENT_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Create new tag & release
+      - name: Set/create tag & release
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
+          set -euo pipefail
+
+          git fetch origin --tags --force
+
           CURRENT_SHA=$(git rev-parse HEAD)
+
+          echo "Version: ${VERSION}"
+          echo "Current SHA: ${CURRENT_SHA}"
+
+          if gh api "repos/${{ github.repository }}/git/ref/tags/${VERSION}" >/dev/null 2>&1; then
+            EXISTING_SHA=$(gh api "repos/${{ github.repository }}/git/ref/tags/${VERSION}" --jq '.object.sha')
+            echo "Tag ${VERSION} already exists at ${EXISTING_SHA}"
+            exit 0
+          fi
+
+          echo "Tag ${VERSION} does not exist. Creating it."
 
           gh api \
             --method POST \
-            repos/${{ github.repository }}/git/refs \
+            "repos/${{ github.repository }}/git/refs" \
             -f ref="refs/tags/${VERSION}" \
             -f sha="${CURRENT_SHA}"
