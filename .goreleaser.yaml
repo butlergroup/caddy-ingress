@@ -54,7 +54,7 @@ builds:
 
 dockers_v2:
   - id: standard-registries
-  - images:
+    images:
       - "{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}"
@@ -78,7 +78,7 @@ dockers_v2:
       "org.opencontainers.image.source": "{{.GitURL}}"
 
   - id: marketplace-ecr
-  - images:
+    images:
       - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
     tags:
       - "{{ .Version }}"
