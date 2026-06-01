@@ -53,7 +53,6 @@ jobs:
           sudo rm -rf /usr/local/share/powershell
           sudo rm -rf /usr/share/swift
           sudo rm -rf /usr/local/.ghcup
-          sudo rm -rf /opt/az
           sudo rm -rf /opt/microsoft
           sudo rm -rf /opt/google
 
