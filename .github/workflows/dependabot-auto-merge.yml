@@ -54,6 +54,7 @@ jobs:
           EXCLUDED_PATTERNS=(
             "Validate and auto-merge bot PRs"
             "Greet First-Time Contributors"
+            "code/snyk"
           )
 
           echo "Waiting for checks on commit: $SHA"
