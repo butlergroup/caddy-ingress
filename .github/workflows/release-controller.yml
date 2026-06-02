@@ -247,6 +247,16 @@ jobs:
           run: |
             cd /data
             cpa buildbundle --force
+      - name: Refresh Azure login for cleanup process
+        uses: Azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Refresh login to Azure Container Registry (Docker) for cleanup process
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
         shell: bash
         run: |
