@@ -68,6 +68,8 @@ Resolve the image source dynamically.
 {{- define "caddy-ingress-controller.image" -}}
 {{- if .Values.cnab.enabled -}}
 {{ (index .Values.global.azure.images "caddy-ingress-controller").registry }}/{{ (index .Values.global.azure.images "caddy-ingress-controller").image }}:{{ (index .Values.global.azure.images "caddy-ingress-controller").tag }}
+{{- else if .Values.awsMarketplace.enabled -}}
+{{ .Values.awsMarketplace.image.registry }}/{{ .Values.awsMarketplace.image.repository }}:{{ .Values.awsMarketplace.image.tag }}
 {{- else -}}
 {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
 {{- end -}}

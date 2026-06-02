@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.118 (06-01-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated values.yaml and _helpers.tpl to enable deployment to AWS ECR using Helm chart
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.117 (06-01-2026)
 
 #### New Features
