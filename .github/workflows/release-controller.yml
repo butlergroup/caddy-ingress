@@ -175,7 +175,6 @@ jobs:
           GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
           DOCKERHUB_IMAGE="docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
           GAR_IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ github.event.repository.name }}"
-          ECR_IMAGE="${{ secrets.ECR_REGISTRY }}/${{ github.event.repository.name }}"
           echo "Using digest: $DIGEST"
           echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
@@ -184,8 +183,6 @@ jobs:
           cosign sign --yes ${DOCKERHUB_IMAGE}@${DIGEST}
           echo "Signing GAR image: ${GAR_IMAGE}@${DIGEST}"
           cosign sign --yes ${GAR_IMAGE}@${DIGEST}
-          echo "Signing ECR image: ${ECR_IMAGE}@${DIGEST}"
-          cosign sign --yes ${ECR_IMAGE}@${DIGEST}
       - name: GHCR retention policy
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
         with:
