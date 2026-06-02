@@ -38,6 +38,39 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Fetch bot PR metadata
+        id: bot-metadata
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BOT_LOGIN: ${{ github.event.pull_request.user.login }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+
+          pr_json=$(gh api "repos/$REPO/pulls/$PR_NUMBER")
+
+          echo "bot-login=$BOT_LOGIN" >> "$GITHUB_OUTPUT"
+          echo "pr-title=$PR_TITLE" >> "$GITHUB_OUTPUT"
+          echo "pr-branch=$PR_BRANCH" >> "$GITHUB_OUTPUT"
+
+          labels=$(gh api "repos/$REPO/issues/$PR_NUMBER/labels" \
+            --jq '[.[].name] | join(",")')
+
+          echo "labels=$labels" >> "$GITHUB_OUTPUT"
+
+          if [[ "$BOT_LOGIN" == "dependabot[bot]" ]]; then
+            echo "bot-type=dependabot" >> "$GITHUB_OUTPUT"
+          elif [[ "$BOT_LOGIN" == "github-actions[bot]" ]]; then
+            echo "bot-type=github-actions" >> "$GITHUB_OUTPUT"
+          elif [[ "$BOT_LOGIN" == "butlergroup-automerge-token-issuer[bot]" ]]; then
+            echo "bot-type=github-app" >> "$GITHUB_OUTPUT"
+          else
+            echo "bot-type=unknown" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Wait for all checks to complete successfully
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -203,7 +236,7 @@ jobs:
           client-id: ${{ secrets.APP_CLIENT_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Merge Dependabot PR
+      - name: Merge bot PR
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
@@ -222,7 +255,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `❌ Dependabot auto-merge failed
+              body: `❌ Bot PR auto-merge failed
 
               PR: ${context.payload.pull_request.html_url}
 
