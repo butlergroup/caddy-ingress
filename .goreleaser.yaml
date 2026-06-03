@@ -79,26 +79,6 @@ dockers_v2:
       "org.opencontainers.image.version": "{{.Version}}"
       "org.opencontainers.image.source": "{{.GitURL}}"
 
-  - id: marketplace-ecr
-    images:
-      - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
-    tags:
-      - "{{ .Version }}"
-    platforms:
-      - linux/amd64
-      - linux/arm64
-      - linux/s390x
-      - linux/arm
-      - linux/ppc64le
-      - linux/riscv64
-    labels:
-      "org.opencontainers.image.description": "Caddy Ingress Controller for Kubernetes - with Cloudflare support!"
-      "org.opencontainers.image.created": "{{.Date}}"
-      "org.opencontainers.image.name": "{{.ProjectName}}"
-      "org.opencontainers.image.revision": "{{.FullCommit}}"
-      "org.opencontainers.image.version": "{{.Version}}"
-      "org.opencontainers.image.source": "{{.GitURL}}"
-
 checksum:
   name_template: "checksums.txt"
 snapshot:
