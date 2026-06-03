@@ -252,6 +252,22 @@ jobs:
       - name: Enable CNAB image source
         run: |
           yq -i '.cnab.enabled = true' charts/caddy-ingress-controller/values.yaml
+      - name: Override runner DNS
+        run: |
+          set -euo pipefail
+
+          echo "Current /etc/resolv.conf:"
+          cat /etc/resolv.conf
+
+          sudo rm -f /etc/resolv.conf
+          {
+            echo "nameserver 1.1.1.1"
+            echo "nameserver 8.8.8.8"
+            echo "options timeout:2 attempts:3 rotate"
+          } | sudo tee /etc/resolv.conf
+
+          echo "Updated /etc/resolv.conf:"
+          cat /etc/resolv.conf
       - name: Build CNAB Bundle and Publish to ACR
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
         with:
