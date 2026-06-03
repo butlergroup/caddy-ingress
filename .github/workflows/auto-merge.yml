@@ -330,16 +330,6 @@ jobs:
             --delete-branch \
             "$PR_URL"
 
-      - name: Merge bot PR
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: |
-          gh pr merge \
-            --merge \
-            --delete-branch \
-            "$PR_URL"
-
       - name: Notify on failure
         if: failure()
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
