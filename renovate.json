@@ -7,6 +7,5 @@
     "dockerfile"
   ],
   "automerge": true,
-  "platformAutomerge": true,
   "pinDigests": true
 }
