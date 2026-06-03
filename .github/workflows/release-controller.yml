@@ -14,6 +14,7 @@ on:
 
 env:
   ACR_REGISTRY_NAME: containerbutler # example: "myRegistry" .azurecr.io
+  ACR_REGISTRY_NAME2: testa # example: "myRegistry" .azurecr.io
   ACR_REPO_NAME: ${{ github.event.repository.name }} # example: myRepo
   KEY_ID: ${{ secrets.ACR_KEY_ID }} # example: https://mynotationakv.vault.azure.net/keys/notationLeafCert/c585b8ad8fc542b28e41e555d9b3a1fd
   NOTATION_EXPERIMENTAL: 1 # [Optional] when set, use Referrers API in the workflow (Recommended)
@@ -99,11 +100,25 @@ jobs:
             --query loginServer \
             -o tsv)
           echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> "$GITHUB_ENV"
+      - name: Construct & store ACR login server2
+        run: |
+          ACR_LOGIN_SERVER2=$(az acr show \
+            --name ${{ env.ACR_REGISTRY_NAME2 }} \
+            --query loginServer \
+            -o tsv)
+          echo "ACR_LOGIN_SERVER2=$ACR_LOGIN_SERVER2" >> "$GITHUB_ENV"
       # Log in to your ACR registry
       - name: Login to Azure Container Registry (Docker)
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
           registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
+          password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
+      # Log in to your ACR registry2
+      - name: Login to Azure Container Registry (Docker)2
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER2 }}
           username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
           password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
       - name: Authenticate to Google Cloud

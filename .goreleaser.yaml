@@ -58,6 +58,7 @@ dockers_v2:
       - "{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}"
+      - "{{ .Env.ACR_LOGIN_SERVER2 }}/{{ .ProjectName }}"
       - "{{ .Env.GAR_LOCATION }}-docker.pkg.dev/{{ .Env.GCP_PROJECT_ID }}/{{ .Env.GAR_REPOSITORY }}/{{ .ProjectName }}"
       - "{{ .Env.ECR_REGISTRY2 }}/{{ .ProjectName }}"
     tags:
