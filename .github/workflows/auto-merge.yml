@@ -237,8 +237,15 @@ jobs:
         run: |
           set -euo pipefail
 
-          test -n "$APP_ID" || { echo "::error::APP_ID is empty"; exit 1; }
-          test -n "$APP_PRIVATE_KEY" || { echo "::error::APP_PRIVATE_KEY is empty/unavailable in this workflow context"; exit 1; }
+          if [[ -z "$APP_ID" ]]; then
+            echo "::error::APP_ID is empty"
+            exit 1
+          fi
+
+          if [[ -z "$APP_PRIVATE_KEY" ]]; then
+            echo "::error::APP_PRIVATE_KEY is empty/unavailable in this workflow context"
+            exit 1
+          fi
 
           if ! grep -q "BEGIN .*PRIVATE KEY" <<< "$APP_PRIVATE_KEY"; then
             echo "::error::APP_PRIVATE_KEY does not look like a PEM private key"
@@ -290,10 +297,10 @@ jobs:
               jq -r '.id'
           )"
 
-          test -n "$installation_id" && test "$installation_id" != "null" || {
+          if [[ -z "$installation_id" || "$installation_id" == "null" ]]; then
             echo "::error::Could not determine GitHub App installation ID for $REPO"
             exit 1
-          }
+          fi
 
           token="$(
             curl -fsSL \
@@ -305,13 +312,23 @@ jobs:
               jq -r '.token'
           )"
 
-          test -n "$token" && test "$token" != "null" || {
+          if [[ -z "$token" || "$token" == "null" ]]; then
             echo "::error::GitHub App installation token was empty"
             exit 1
-          }
+          fi
 
           echo "::add-mask::$token"
           echo "token=$token" >> "$GITHUB_OUTPUT"
+
+      - name: Merge bot PR
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr merge \
+            --merge \
+            --delete-branch \
+            "$PR_URL"
 
       - name: Merge bot PR
         env:
