@@ -145,14 +145,6 @@ jobs:
           docker login \
             --username AWS \
             --password-stdin \
-            ${{ secrets.ECR_REGISTRY }}
-      - name: Login to Amazon ECR2
-        run: |
-          aws ecr get-login-password \
-            --region ${{ secrets.AWS_REGION }} | \
-          docker login \
-            --username AWS \
-            --password-stdin \
             ${{ secrets.ECR_REGISTRY2 }}
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
