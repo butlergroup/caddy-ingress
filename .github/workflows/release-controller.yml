@@ -252,34 +252,30 @@ jobs:
       - name: Enable CNAB image source
         run: |
           yq -i '.cnab.enabled = true' charts/caddy-ingress-controller/values.yaml
-      - name: Override runner DNS
+      - name: Build CNAB Bundle and Publish to ACR
         run: |
           set -euo pipefail
 
-          echo "Current /etc/resolv.conf:"
-          cat /etc/resolv.conf
+          for attempt in 1 2 3 4; do
+            echo "CNAB publish attempt $attempt"
 
-          sudo rm -f /etc/resolv.conf
-          {
-            echo "nameserver 1.1.1.1"
-            echo "nameserver 8.8.8.8"
-            echo "options timeout:2 attempts:3 rotate"
-          } | sudo tee /etc/resolv.conf
+            if docker run --rm \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -v "${{ github.workspace }}:/data" \
+              -v /home/runner/.docker:/root/.docker \
+              --entrypoint "/bin/bash" \
+              mcr.microsoft.com/container-package-app:latest \
+              -c "cd /data && cpa buildbundle --force"; then
+              echo "CNAB publish succeeded"
+              exit 0
+            fi
 
-          echo "Updated /etc/resolv.conf:"
-          cat /etc/resolv.conf
-      - name: Build CNAB Bundle and Publish to ACR
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185 # v3
-        with:
-          image: mcr.microsoft.com/container-package-app:latest
-          options: |
-            -v /var/run/docker.sock:/var/run/docker.sock 
-            -v ${{ github.workspace }}:/data 
-            -v /home/runner/.docker:/root/.docker
-            --entrypoint "/bin/bash"
-          run: |
-            cd /data
-            cpa buildbundle --force
+            echo "CNAB publish failed; retrying..."
+            sleep $((attempt * 1))
+          done
+
+          echo "CNAB publish failed after retries"
+          exit 1
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
         shell: bash
         run: |
