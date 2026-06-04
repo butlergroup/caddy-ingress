@@ -80,66 +80,75 @@ jobs:
       - name: Update CHANGELOG.md
         env:
           VERSION: ${{ steps.version.outputs.version }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
         run: |
+          set -euo pipefail
+
           DATE=$(date +%m-%d-%Y)
 
-          SAFE_COMMIT_MSG=$(printf '%s\n' "$COMMIT_MSG")
-
-          DEP=""
-          FROM_VERSION=""
-          TO_VERSION=""
-          CHANGE_TEXT=""
-
-          #
-          # Renovate examples:
-          #
-          # Update cgr.dev/chainguard/wolfi-base Docker digest to cccc183
-          # Update cgr.dev/chainguard/wolfi-base Docker tag to 20260520
-          #
-
-          DEP=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
-            's/^Update \(.*\) Docker .*$/\1/p')
-
-          TO_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
-            's/^.* to \(.*\)$/\1/p')
-
-          if [ -n "$DEP" ]; then
-            CHANGE_TEXT="- Updated ${DEP} to ${TO_VERSION} through automated dependency management"
-          fi
-
-          #
-          # Dependabot examples:
-          #
-          # chore: Bump k8s.io/api from 0.36.0 to 0.36.1
-          #
-
-          if [ -z "$DEP" ]; then
-            DEP=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
-              's/^.*Bump \(.*\) from .*$/\1/p')
-
-            FROM_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
-              's/^.*from \(.*\) to .*$/\1/p')
-
-            TO_VERSION=$(printf '%s\n' "$SAFE_COMMIT_MSG" | sed -n \
-              's/^.*to \(.*\)$/\1/p')
-
-            if [ -n "$DEP" ]; then
-              CHANGE_TEXT="- Updated ${DEP} from ${FROM_VERSION} to ${TO_VERSION} through automated dependency management"
+          if [[ -n "${BEFORE_SHA:-}" && "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]]; then
+            RANGE="${BEFORE_SHA}..${AFTER_SHA}"
+          else
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+            if [[ -n "$LAST_TAG" ]]; then
+              RANGE="${LAST_TAG}..HEAD"
+            else
+              RANGE="HEAD"
             fi
           fi
 
-          #
-          # Final fallback
-          #
+          echo "Using changelog commit range: $RANGE"
 
-          if [ -z "$CHANGE_TEXT" ]; then
+          git log --format='%s%n%b%n---END-COMMIT---' "$RANGE" > release_messages.txt
+
+          awk '
+            BEGIN { IGNORECASE = 1 }
+
+            {
+              line = $0
+              gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+
+              # Dependabot:
+              # chore: Bump k8s.io/api from 0.36.0 to 0.36.1
+              # Bump github.com/foo/bar from 1.2.3 to 1.2.4
+              if (match(line, /Bump[[:space:]]+(.+)[[:space:]]+from[[:space:]]+([^[:space:]]+)[[:space:]]+to[[:space:]]+([^[:space:]]+)/, m)) {
+                print "- Updated " m[1] " from " m[2] " to " m[3] " through automated dependency management"
+                next
+              }
+
+              # Renovate:
+              # Update cgr.dev/chainguard/wolfi-base Docker digest to cccc183
+              # Update dependency actions/checkout to v6.0.3
+              # chore(deps): update dependency foo to v1.2.3
+              if (match(line, /Update[[:space:]]+(dependency[[:space:]]+|module[[:space:]]+|package[[:space:]]+|image[[:space:]]+)?(.+)[[:space:]]+to[[:space:]]+([^[:space:]]+)/, m)) {
+                dep = m[2]
+                to = m[3]
+
+                gsub(/[[:space:]]+Docker[[:space:]]+(digest|tag)$/, "", dep)
+                gsub(/[[:space:]]+$/, "", dep)
+
+                print "- Updated " dep " to " to " through automated dependency management"
+                next
+              }
+
+              # Renovate grouped PRs:
+              # chore(deps): update all non-major dependencies
+              if (line ~ /update.*dependencies/) {
+                print "- " line
+                next
+              }
+            }
+          ' release_messages.txt | sort -u > detected_changes.txt
+
+          if [[ -s detected_changes.txt ]]; then
+            CHANGE_TEXT="$(cat detected_changes.txt)"
+          else
             CHANGE_TEXT="- Updated dependency(s) through automated dependency management"
           fi
 
-          echo "Detected dependency: $DEP"
-          echo "From: $FROM_VERSION"
-          echo "To: $TO_VERSION"
+          echo "Detected changelog text:"
+          printf '%s\n' "$CHANGE_TEXT"
 
           cat > changelog_entry.md <<EOF
           ## Caddy K8s Ingress Controller & Helm Chart Version ${VERSION} (${DATE})

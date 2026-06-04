@@ -32,17 +32,49 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Snapshot go.mod before update
+        run: cp go.mod go.mod.before
+
       - name: Update dependencies
         run: bash ./update_go_mod.sh
 
-      - name: Check for changes
-        id: changes
+      - name: Extract dependency updates
+        id: dep-summary
+        shell: bash
         run: |
-          if git diff --quiet; then
+          set -euo pipefail
+
+          if git diff --quiet -- go.mod go.sum; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "summary<<EOF"
+            awk '
+              NR==FNR {
+                if ($1 != "require" && $1 !~ /^\)/ && $1 !~ /^\(/ && NF >= 2) {
+                  before[$1]=$2
+                }
+                next
+              }
+              {
+                if ($1 != "require" && $1 !~ /^\)/ && $1 !~ /^\(/ && NF >= 2) {
+                  dep=$1
+                  after=$2
+                  if (dep in before && before[dep] != after) {
+                    print "- Updated " dep " from " before[dep] " to " after " through automated dependency management"
+                  } else if (!(dep in before)) {
+                    print "- Added " dep " at " after " through automated dependency management"
+                  }
+                }
+              }
+            ' go.mod.before go.mod | sort -u
+
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Verify GitHub App secret availability
         shell: bash
@@ -164,10 +196,19 @@ jobs:
           echo "token=$token" >> "$GITHUB_OUTPUT"
 
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.dep-summary.outputs.changed == 'true'
         with:
           token: ${{ steps.app-token.outputs.token }}
           branch: go-mod-dependency-refresh
           title: "chore: Update go.mod dependencies"
-          commit-message: "chore: Update go.mod dependencies"
+          commit-message: |
+            chore: Update go.mod dependencies
+
+            ${{ steps.dep-summary.outputs.summary }}
+          body: |
+            Automated go.mod dependency refresh.
+
+            #### Dependency updates
+
+            ${{ steps.dep-summary.outputs.summary }}
           delete-branch: true
