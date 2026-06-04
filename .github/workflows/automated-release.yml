@@ -30,6 +30,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
