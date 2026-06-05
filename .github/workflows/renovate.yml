@@ -155,6 +155,7 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
         env:
+          LOG_LEVEL: debug
           RENOVATE_TOKEN: ${{ steps.app-token.outputs.token }}
           RENOVATE_PLATFORM: github
           RENOVATE_REPOSITORIES: ${{ github.repository }}
