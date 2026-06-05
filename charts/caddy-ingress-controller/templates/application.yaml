@@ -1,0 +1,53 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "{{ .Release.Name }}"
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+  annotations:
+    kubernetes-engine.cloud.google.com/icon: >-
+      data:image/png;base64,{{ .Files.Get "assets/logo.png" | b64enc }}
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "8RP1WjuUIz", "product_id": "caddy-k8s-ingress-controller-k8s-app", "partner_name": "The Butler Group LLC"}'
+spec:
+  descriptor:
+    type: "{{ .Release.Name }}"
+    version: "{{ .Chart.Version }}"
+    description: |-
+      The Caddy K8s Ingress Controller includes functionality for monitoring Ingress resources on a Kubernetes cluster. 
+      It is capable of automatically provisioning and renewing SSL/TLS certificates for all hostnames defined in the ingress resources that it is managing.
+      It works with Cloudflare to perform DNS-based challenges for auto-generated certificates.
+      It is also configured to write auto-generated certificates to the source ingress namespace instead of the Caddy K8s Ingress Controller installation namespace.
+    maintainers:
+      - name: The Butler Group LLC
+        url: https://butlergroup.net
+    links:
+      - description: "Github repo"
+        url: https://github.com/butlergroup/caddy-ingress
+    notes: |-
+      # Caddy K8s Ingress Controller
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "{{ .Release.Name }}"
+  addOwnerRef: true
+  componentKinds:
+    - group: ""
+      kind: Secret
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ServiceAccount
+    - group: "apps"
+      kind: Deployment
+    - group: "policy"
+      kind: PodDisruptionBudget
+    - group: "rbac.authorization.k8s.io"
+      kind: ClusterRole
+    - group: "rbac.authorization.k8s.io"
+      kind: ClusterRoleBinding
+    - group: "rbac.authorization.k8s.io"
+      kind: Role
+    - group: "rbac.authorization.k8s.io"
+      kind: RoleBinding

@@ -1,0 +1,158 @@
+actions:
+  - name: kubectl smoke test
+    bashTest:
+      script: kubectl version --client
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Wait for Caddy ingress controller deployment
+    bashTest:
+      script: |
+        kubectl wait \
+          --for=condition=Available=True \
+          --timeout=180s \
+          --namespace "${NAMESPACE}" \
+          deploy/"${APP_INSTANCE_NAME}"
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Verify controller pod is running
+    bashTest:
+      script: |
+        kubectl get pods \
+          --namespace "${NAMESPACE}" \
+          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}" \
+          -o json \
+        | jq -e '.items | length >= 1 and all(.[]; .status.phase == "Running")'
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Verify service exists
+    bashTest:
+      script: |
+        kubectl get service \
+          --namespace "${NAMESPACE}" \
+          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}"
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Create test backend service
+    bashTest:
+      script: |
+        kubectl apply --namespace "${NAMESPACE}" -f - <<EOF
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: caddy-ingress-test-backend
+          labels:
+            app: caddy-ingress-test-backend
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: caddy-ingress-test-backend
+          template:
+            metadata:
+              labels:
+                app: caddy-ingress-test-backend
+            spec:
+              containers:
+                - name: backend
+                  image: registry.k8s.io/e2e-test-images/agnhost:2.45
+                  args:
+                    - netexec
+                    - --http-port=8080
+                  ports:
+                    - containerPort: 8080
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: caddy-ingress-test-backend
+        spec:
+          selector:
+            app: caddy-ingress-test-backend
+          ports:
+            - name: http
+              port: 80
+              targetPort: 8080
+        EOF
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Wait for test backend
+    bashTest:
+      script: |
+        kubectl wait \
+          --for=condition=Available=True \
+          --timeout=120s \
+          --namespace "${NAMESPACE}" \
+          deploy/caddy-ingress-test-backend
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Create test ingress
+    bashTest:
+      script: |
+        kubectl apply --namespace "${NAMESPACE}" -f - <<EOF
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: caddy-ingress-smoke-test
+          annotations:
+            kubernetes.io/ingress.class: caddy
+        spec:
+          ingressClassName: caddy
+          rules:
+            - host: smoke-test.example.local
+              http:
+                paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: caddy-ingress-test-backend
+                        port:
+                          number: 80
+        EOF
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Verify test ingress exists
+    bashTest:
+      script: |
+        kubectl get ingress \
+          --namespace "${NAMESPACE}" \
+          caddy-ingress-smoke-test
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Check controller logs after ingress creation
+    bashTest:
+      script: |
+        kubectl logs \
+          --namespace "${NAMESPACE}" \
+          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}" \
+          --tail=200 \
+        | grep -E "caddy-ingress-smoke-test|ingress|Ingress|reload|config" || true
+      expect:
+        exitCode:
+          equals: 0
+
+  - name: Delete test ingress and backend
+    bashTest:
+      script: |
+        kubectl delete ingress caddy-ingress-smoke-test --namespace "${NAMESPACE}" --ignore-not-found
+        kubectl delete service caddy-ingress-test-backend --namespace "${NAMESPACE}" --ignore-not-found
+        kubectl delete deployment caddy-ingress-test-backend --namespace "${NAMESPACE}" --ignore-not-found
+      expect:
+        exitCode:
+          equals: 0

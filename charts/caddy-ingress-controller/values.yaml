@@ -18,7 +18,7 @@ cnab:
 global:
   azure:
     images:
-      caddy-ingress-controller:
+      caddy-ingress:
         tag: "1.5.136"
         image: caddy-ingress
         registry: containerbutler.azurecr.io
@@ -26,6 +26,13 @@ global:
 marketplace:
   serviceName: "github-actions"
   serviceLevel: "default"
+
+gcpMarketplace:
+  enabled: false
+  image:
+    registry: us-central1-docker.pkg.dev
+    repository: containerbutler/caddy-ingress
+    tag: "1.5.136"
 
 awsMarketplace:
   enabled: false

@@ -21,7 +21,7 @@ The Caddy K8s Ingress Controller includes functionality for monitoring `Ingress`
 ## Notes on this fork
 
 - **This ingress controller works with Cloudflare** (as of v0.3.0/1.4.0) to perform DNS-based challenges for auto-generated certificates. A Cloudflare API key with Zone.Zone:Read and Zone.DNS:Edit is needed to use this functionality, along with a private HTTP endpoint that approves a given domain for automatic certificate generation. 
-- **It is also configured to write auto-generated certificates to the source ingress namespace instead of the Caddy installation namespace.** This aligns with established K8s best practices regarding namespace-constrained secret access (as of v0.4.0/1.5.0).
+- **It is also configured to write auto-generated certificates to the source ingress namespace instead of the Caddy K8s Ingress Controller installation namespace.** This aligns with established K8s best practices regarding namespace-constrained secret access (as of v0.4.0/1.5.0).
 - Created to update dependencies and include the latest version of Caddy when building the ingress-controller binary
 - Several security scanners have been added to the repo to ensure any issues are found quickly
 - Will be maintained (depenencies/packages updated & CVEs addressed in a timely manner, etc.)
