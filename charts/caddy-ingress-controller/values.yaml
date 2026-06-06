@@ -30,7 +30,7 @@ marketplace:
 gcpMarketplace:
   enabled: false
   image:
-    registry: us-central1-docker.pkg.dev
+    registry: us-docker.pkg.dev
     repository: containerbutler/caddy-ingress
     tag: "1.5.144"
 

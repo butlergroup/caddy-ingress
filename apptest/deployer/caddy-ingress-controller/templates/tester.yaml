@@ -18,7 +18,7 @@ spec:
   serviceAccountName: "{{ .Release.Name }}-deployer-sa"
   containers:
     - name: tester
-      image: ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/tester:"{{ .Chart.Version }}"
+      image: us-docker.pkg.dev/containerbutler/caddy-ingress/tester:"{{ .Chart.Version }}"
       imagePullPolicy: Always
       env:
         - name: NAMESPACE

@@ -117,7 +117,7 @@ jobs:
       - name: Configure gcloud Docker for GAR
         run: |
           gcloud auth configure-docker \
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev \
+            us-docker.pkg.dev,gcr.io \
             --quiet
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6.2.0
@@ -163,9 +163,6 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GAR_LOCATION: ${{ secrets.GAR_LOCATION }}
-          GAR_REPOSITORY: ${{ secrets.GAR_REPOSITORY }}
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
@@ -190,7 +187,7 @@ jobs:
           DIGEST="sha256:${DIGEST_RAW}"
           GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
           DOCKERHUB_IMAGE="docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
-          GAR_IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ github.event.repository.name }}"
+          GAR_IMAGE="us-docker.pkg.dev/containerbutler/caddy-ingress/${{ github.event.repository.name }}"
           echo "Using digest: $DIGEST"
           echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
@@ -275,9 +272,6 @@ jobs:
 
           echo "CNAB publish failed after retries"
           exit 1
-      - name: Configure Docker for Google registries
-        run: |
-          gcloud auth configure-docker gcr.io,${{ secrets.GAR_LOCATION }}-docker.pkg.dev --quiet
       - name: Build and push GCP Marketplace deployer image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
@@ -285,11 +279,11 @@ jobs:
           file: ./deployer/Dockerfile
           build-args: |
             CHART_NAME=caddy-ingress-controller
-            REGISTRY=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}
+            REGISTRY=us-docker.pkg.dev/containerbutler/caddy-ingress
             TAG=${{ github.ref_name }}
           push: true
           tags: |
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/deployer:${{ github.ref_name }}
+            us-docker.pkg.dev/containerbutler/caddy-ingress/deployer:${{ github.ref_name }}
       - name: Build and push GCP Marketplace tester image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
@@ -297,7 +291,7 @@ jobs:
           file: ./apptest/tester/Dockerfile
           push: true
           tags: |
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/tester:${{ github.ref_name }}
+            us-docker.pkg.dev/containerbutler/caddy-ingress/tester:${{ github.ref_name }}
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
         shell: bash
         run: |
@@ -376,9 +370,9 @@ jobs:
           # 3. GAR
           echo "Processing GAR..."
 
-          GAR_LOCATION="${{ secrets.GAR_LOCATION }}"
-          GAR_PROJECT="${{ secrets.GCP_PROJECT_ID }}"
-          GAR_REPO="${{ secrets.GAR_REPOSITORY }}"
+          GAR_LOCATION="us-docker.pkg.dev"
+          GAR_PROJECT="containerbutler"
+          GAR_REPO="caddy-ingress"
 
           GAR_IMAGES=(
             "$REPO"
@@ -389,7 +383,7 @@ jobs:
           declare -A GAR_IMAGE_DIGESTS_BY_IMAGE=()
 
           for GAR_IMAGE in "${GAR_IMAGES[@]}"; do
-            FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
+            FULL_GAR_REPO="${GAR_LOCATION}/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
 
             echo "Processing GAR image: $FULL_GAR_REPO"
 
@@ -444,7 +438,7 @@ jobs:
 
           # GAR delete
           for GAR_IMAGE in "${GAR_IMAGES[@]}"; do
-            FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
+            FULL_GAR_REPO="${GAR_LOCATION}/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
 
             while IFS= read -r digest; do
               [[ -z "$digest" ]] && continue
