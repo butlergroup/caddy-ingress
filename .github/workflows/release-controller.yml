@@ -283,10 +283,10 @@ jobs:
           build-args: |
             CHART_NAME="{{ .Chart.Name }}"
             REGISTRY=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}
-            TAG="{{ .Chart.Version }}"
+            TAG=${{ github.ref_name }}
           push: true
           tags: |
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/deployer:"{{ .Chart.Version }}"
+            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/deployer:${{ github.ref_name }}
       - name: Build and push GCP Marketplace tester image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
@@ -294,7 +294,7 @@ jobs:
           file: ./apptest/tester/Dockerfile
           push: true
           tags: |
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/tester:"{{ .Chart.Version }}"
+            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/tester:${{ github.ref_name }}
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
         shell: bash
         run: |
