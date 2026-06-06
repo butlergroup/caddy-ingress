@@ -281,7 +281,7 @@ jobs:
           context: .
           file: ./deployer/Dockerfile
           build-args: |
-            CHART_NAME="{{ .Chart.Name }}"
+            CHART_NAME=caddy-ingress-controller
             REGISTRY=${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}
             TAG=${{ github.ref_name }}
           push: true

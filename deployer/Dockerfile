@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/c2d-debian11 AS build
+FROM debian:13-slim AS build
 
 ARG CHART_NAME
 
