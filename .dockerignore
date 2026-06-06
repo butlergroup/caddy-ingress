@@ -1,6 +1,8 @@
 /.github
 /bin
 /charts
+!/charts/caddy-ingress-controller
+!/charts/caddy-ingress-controller/**
 /kubernetes
 
 /.gitignore
