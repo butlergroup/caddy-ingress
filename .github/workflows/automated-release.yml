@@ -137,12 +137,17 @@ jobs:
               if (line ~ /update.*dependencies/) {
                 print "- " line
                 next
+              }
 
               # Automated go.mod updates:
-              if (match(line, /Updated[[:space:]]+(.+)[[:space:]]+from[[:space:]]+([^[:space:]]+)[[:space:]]+to[[:space:]]+([^[:space:]]+)/, m)) {
+              if (match(line, /^-?[[:space:]]*Updated[[:space:]]+(.+)[[:space:]]+from[[:space:]]+([^[:space:]]+)[[:space:]]+to[[:space:]]+([^[:space:]]+)/, m)) {
                 print "- Updated " m[1] " from " m[2] " to " m[3] " through automated dependency management"
                 next
               }
+
+              if (match(line, /^-?[[:space:]]*Added[[:space:]]+(.+)[[:space:]]+at[[:space:]]+([^[:space:]]+)/, m)) {
+                print "- Added " m[1] " at " m[2] " through automated dependency management"
+                next
               }
             }
           ' release_messages.txt | sort -u > detected_changes.txt

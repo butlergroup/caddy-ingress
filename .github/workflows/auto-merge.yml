@@ -359,10 +359,20 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
+          set -euo pipefail
+
+          gh pr view "$PR_NUMBER" \
+            --json body \
+            --jq '.body' > pr-body.md
+
           gh pr merge \
             --merge \
             --delete-branch \
+            --subject "$PR_TITLE" \
+            --body-file pr-body.md \
             "$PR_URL"
 
       - name: Notify on failure
