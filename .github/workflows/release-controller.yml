@@ -263,18 +263,31 @@ jobs:
 
           echo "CNAB publish failed after retries"
           exit 1
+      - name: Extract Marketplace version
+        id: marketplace-version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          FULL_VERSION="${{ github.ref_name }}"
+
+          MARKETPLACE_VERSION="$(cut -d. -f1,2 <<< "$FULL_VERSION")"
+
+          echo "marketplace_version=$MARKETPLACE_VERSION" >> "$GITHUB_OUTPUT"
+
+          echo "Marketplace version: $MARKETPLACE_VERSION"
       - name: Build and push GCP Marketplace deployer image
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
         with:
           context: .
           file: ./deployer/Dockerfile
           build-args: |
             CHART_NAME=caddy-ingress-controller
             REGISTRY=us-docker.pkg.dev/containerbutler/caddy-ingress
-            TAG=${{ github.ref_name }}
+            TAG=${{ steps.marketplace-version.outputs.marketplace_version }}
           push: true
           tags: |
-            us-docker.pkg.dev/containerbutler/caddy-ingress/deployer:${{ github.ref_name }}
+            us-docker.pkg.dev/containerbutler/caddy-ingress/deployer:${{ steps.marketplace-version.outputs.marketplace_version }}
       - name: Build and push GCP Marketplace tester image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
