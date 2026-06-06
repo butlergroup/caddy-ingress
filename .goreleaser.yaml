@@ -57,7 +57,7 @@ dockers_v2:
     images:
       - "{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
       - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
-      - "{{ .Env.ACR_LOGIN_SERVER }}/{{ .ProjectName }}"
+      - "containerbutler.azurecr.io/{{ .ProjectName }}"
       - "us-docker.pkg.dev/containerbutler/caddy-ingress/{{ .ProjectName }}"
     tags:
       - "{{ .Version }}"
@@ -79,7 +79,7 @@ dockers_v2:
 
   - id: aws-marketplace
     images:
-      - "{{ .Env.ECR_REGISTRY }}/{{ .ProjectName }}"
+      - "709825985650.dkr.ecr.us-east-1.amazonaws.com/the-butler-group/{{ .ProjectName }}"
     tags:
       - "{{ .Version }}"
     platforms:

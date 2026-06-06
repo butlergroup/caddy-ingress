@@ -86,25 +86,18 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: butlergroup
           password: ${{ secrets.DOCKER_PASSWORD }}
       # Log in to Azure with your service principal
       - name: Azure login
         uses: Azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Construct & store ACR login server
-        run: |
-          ACR_LOGIN_SERVER=$(az acr show \
-            --name ${{ env.ACR_REGISTRY_NAME }} \
-            --query loginServer \
-            -o tsv)
-          echo "ACR_LOGIN_SERVER=$ACR_LOGIN_SERVER" >> "$GITHUB_ENV"
       # Log in to your ACR registry
       - name: Login to Azure Container Registry (Docker)
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
-          registry: ${{ env.ACR_LOGIN_SERVER }}
+          registry: containerbutler.azurecr.io
           username: ${{ secrets.AZURE_CREDENTIALS_CLIENT_ID }}
           password: ${{ secrets.AZURE_CREDENTIALS_CLIENT_SECRET }}
       - name: Authenticate to Google Cloud
@@ -123,7 +116,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6.2.0
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1
       - name: Login to Amazon ECR
         run: |
           set -euo pipefail
@@ -132,11 +125,11 @@ jobs:
             echo "ECR login attempt $attempt"
 
             if aws ecr get-login-password \
-              --region "${{ secrets.AWS_REGION }}" | \
+              --region "us-east-1" | \
               docker login \
                 --username AWS \
                 --password-stdin \
-                "${{ secrets.ECR_REGISTRY }}"; then
+                "709825985650.dkr.ecr.us-east-1.amazonaws.com"; then
               echo "ECR login succeeded"
               exit 0
             fi
@@ -163,7 +156,6 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
         with:
@@ -189,7 +181,7 @@ jobs:
           DOCKERHUB_IMAGE="docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
           GAR_IMAGE="us-docker.pkg.dev/containerbutler/caddy-ingress/${{ github.event.repository.name }}"
           echo "Using digest: $DIGEST"
-          echo "target_artifact_reference=${{ env.ACR_LOGIN_SERVER }}/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
+          echo "target_artifact_reference=containerbutler.azurecr.io/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
           echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
           cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
           echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
@@ -243,7 +235,6 @@ jobs:
         run: |
           sed \
             -e "s/__VERSION__/${{ steps.chart.outputs.version }}/g" \
-            -e "s#__ACR_REGISTRY_SERVER__#${{ secrets.ACR_REGISTRY_SERVER }}#g" \
             azureManifest.yaml.tpl > manifest.yaml
       - name: Enable CNAB image source
         run: |
@@ -341,7 +332,7 @@ jobs:
 
           # 2. ECR
           echo "Processing ECR..."
-          ECR_REPO="${{ secrets.ECR_REPO }}"
+          ECR_REPO="the-butler-group/caddy-ingress"
 
           mapfile -t ECR_DIGESTS < <(
             aws ecr describe-images \

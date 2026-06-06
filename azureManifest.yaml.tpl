@@ -5,7 +5,7 @@ version: __VERSION__
 helmChart: "./charts/caddy-ingress-controller"
 clusterArmTemplate: "./azureARMTemplate.json"
 uiDefinition: "./azureUIDefinition.json"
-registryServer: __ACR_REGISTRY_SERVER__
+registryServer: containerbutler.azurecr.io
 extensionRegistrationParameters:
   defaultScope: "cluster" # cluster or namespace 
   namespace: caddy-system
