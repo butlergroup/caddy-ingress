@@ -380,27 +380,42 @@ jobs:
           GAR_PROJECT="${{ secrets.GCP_PROJECT_ID }}"
           GAR_REPO="${{ secrets.GAR_REPOSITORY }}"
 
-          FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${REPO}"
-
-          mapfile -t GAR_DIGESTS < <(
-            gcloud artifacts docker images list "$FULL_GAR_REPO" \
-              --sort-by=~UPDATE_TIME \
-              --format="value(DIGEST)"
+          GAR_IMAGES=(
+            "$REPO"
+            "deployer"
+            "tester"
           )
 
-          for ((i=0; i<KEEP && i<${#GAR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${GAR_DIGESTS[$i]}"]=1
+          declare -A GAR_IMAGE_DIGESTS_BY_IMAGE=()
+
+          for GAR_IMAGE in "${GAR_IMAGES[@]}"; do
+            FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
+
+            echo "Processing GAR image: $FULL_GAR_REPO"
+
+            mapfile -t DIGESTS < <(
+              gcloud artifacts docker images list "$FULL_GAR_REPO" \
+                --sort-by=~UPDATE_TIME \
+                --format="value(DIGEST)" || true
+            )
+
+            GAR_IMAGE_DIGESTS_BY_IMAGE["$GAR_IMAGE"]="$(printf '%s\n' "${DIGESTS[@]}")"
+
+            for ((i=0; i<KEEP && i<${#DIGESTS[@]}; i++)); do
+              KEEP_DIGESTS["${DIGESTS[$i]}"]=1
+            done
+
+            LATEST_DIGEST=$(
+              gcloud artifacts docker images list "$FULL_GAR_REPO" \
+                --filter="tags:latest" \
+                --format="value(DIGEST)" \
+                --limit=1 || true
+            )
+
+            if [[ -n "$LATEST_DIGEST" ]]; then
+              KEEP_DIGESTS["$LATEST_DIGEST"]=1
+            fi
           done
-
-          # Keep latest tag digest (best-effort)
-          LATEST_GAR_DIGEST=$(gcloud artifacts docker images list "$FULL_GAR_REPO" \
-            --filter="tags:latest" \
-            --format="value(DIGEST)" \
-            --limit=1 || true)
-
-          if [[ -n "$LATEST_GAR_DIGEST" ]]; then
-            KEEP_DIGESTS["$LATEST_GAR_DIGEST"]=1
-          fi
 
 
           # DELETE PASS (all registries)
@@ -428,14 +443,20 @@ jobs:
           done
 
           # GAR delete
-          for digest in "${GAR_DIGESTS[@]}"; do
-            if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
-              echo "GAR delete: $digest"
-              gcloud artifacts docker images delete \
-                "${FULL_GAR_REPO}@${digest}" \
-                --delete-tags \
-                --quiet || true
-            fi
+          for GAR_IMAGE in "${GAR_IMAGES[@]}"; do
+            FULL_GAR_REPO="${GAR_LOCATION}-docker.pkg.dev/${GAR_PROJECT}/${GAR_REPO}/${GAR_IMAGE}"
+
+            while IFS= read -r digest; do
+              [[ -z "$digest" ]] && continue
+
+              if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
+                echo "GAR delete: ${FULL_GAR_REPO}@${digest}"
+                gcloud artifacts docker images delete \
+                  "${FULL_GAR_REPO}@${digest}" \
+                  --delete-tags \
+                  --quiet || true
+              fi
+            done <<< "${GAR_IMAGE_DIGESTS_BY_IMAGE[$GAR_IMAGE]}"
           done
 
           echo "Cleanup complete."
