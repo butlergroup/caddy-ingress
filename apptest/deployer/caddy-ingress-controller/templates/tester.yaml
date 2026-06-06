@@ -15,10 +15,10 @@ spec:
   # TODO(click-to-deploy/issues/324): Add deadline after migrating to Job
   #  activeDeadlineSeconds: 1200
   # TODO(click-to-deploy/issues/323): Remove following dependency on internal name
-  serviceAccountName: "{{ .Release.Name }}"
+  serviceAccountName: "{{ .Release.Name }}-deployer-sa"
   containers:
     - name: tester
-      image: "{{ .Values.testerImage }}"
+      image: ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/tester:"{{ .Chart.Version }}"
       imagePullPolicy: Always
       env:
         - name: NAMESPACE
