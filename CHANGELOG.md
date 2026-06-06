@@ -4,9 +4,9 @@
 
 #### Improvements
 
-- Updated dependency(s) through automated dependency management
-
 #### Fixes
+
+- Run of workflows to build & push GCP Marketplace-related images & test config
 
 ---
 
