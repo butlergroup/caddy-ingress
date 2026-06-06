@@ -62,7 +62,7 @@ kubectl create secret generic cloudflare-api-token \
 ```sh
 curl -fsSL https://raw.githubusercontent.com/butlergroup/caddy-ingress/main/install_caddy_ingress.sh | \
 bash -s -- \
-  --namespace=caddy-system 
+  --namespace=caddy-system
 ```
 
 3. (b) Install the Helm chart with on-demand TLS enabled & custom values:
@@ -76,6 +76,16 @@ bash -s -- \
   --set ingressController.config.acmeDNSProvider=cloudflare \
   --set ingressController.config.acmeDNSResolvers[0]=1.1.1.1 \
   --set ingressController.config.permissionEndpoint=http://your-permission-endpoint
+```
+
+3. (c) Install the Helm chart on a public cloud:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/butlergroup/caddy-ingress/main/install_caddy_ingress.sh | \
+bash -s -- \
+  --namespace=caddy-system \
+  --awsMarketplace.enabled=true or
+  --gcpMarketplace.enabled=true
 ```
 
 Note: Caddy expects to be able to query a local HTTP endpoint and receive an HTTP 200 OK response
