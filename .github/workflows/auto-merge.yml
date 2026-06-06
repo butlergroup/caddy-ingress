@@ -358,22 +358,23 @@ jobs:
       - name: Merge bot PR
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           set -euo pipefail
 
           gh pr view "$PR_NUMBER" \
+            --repo "$REPO" \
             --json body \
             --jq '.body' > pr-body.md
 
-          gh pr merge \
+          gh pr merge "$PR_NUMBER" \
+            --repo "$REPO" \
             --merge \
             --delete-branch \
             --subject "$PR_TITLE" \
-            --body-file pr-body.md \
-            "$PR_URL"
+            --body-file pr-body.md
 
       - name: Notify on failure
         if: failure()
