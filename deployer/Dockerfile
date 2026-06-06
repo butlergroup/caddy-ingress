@@ -12,7 +12,7 @@ COPY apptest/deployer/$CHART_NAME /tmp/test/chart
 RUN cd /tmp/test \
     && tar -czvf /tmp/test/$CHART_NAME.tar.gz chart/
 
-COPY schema.yaml /tmp/schema.yaml
+COPY deployer/schema.yaml /tmp/schema.yaml
 
 # Provide registry prefix and tag for default values for images.
 ARG REGISTRY
