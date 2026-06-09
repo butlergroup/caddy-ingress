@@ -286,6 +286,8 @@ jobs:
             REGISTRY=us-docker.pkg.dev/containerbutler/caddy-ingress
             TAG=${{ steps.marketplace-version.outputs.marketplace_version }}
           push: true
+          provenance: false
+          sbom: false
           tags: |
             us-docker.pkg.dev/containerbutler/caddy-ingress/deployer:${{ steps.marketplace-version.outputs.marketplace_version }}
       - name: Build and push GCP Marketplace tester image
