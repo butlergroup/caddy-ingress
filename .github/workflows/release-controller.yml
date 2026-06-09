@@ -263,7 +263,7 @@ jobs:
 
           echo "CNAB publish failed after retries"
           exit 1
-      - name: Extract Marketplace version
+      - name: Extract GCP Marketplace version
         id: marketplace-version
         shell: bash
         run: |
@@ -344,11 +344,13 @@ jobs:
 
 
           # 2. ECR
-          echo "Processing ECR..."
+          echo "Processing AWS Marketplace ECR..."
+          ECR_REGISTRY_ID="709825985650"
           ECR_REPO="the-butler-group/caddy-ingress"
 
           mapfile -t ECR_DIGESTS < <(
             aws ecr describe-images \
+              --registry-id "$ECR_REGISTRY_ID" \
               --repository-name "$ECR_REPO" \
               --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
               --output text | tr '\t' '\n' | tac
@@ -358,9 +360,10 @@ jobs:
             KEEP_DIGESTS["${ECR_DIGESTS[$i]}"]=1
           done
 
-          # Keep latest tag (if present)
+          # Keep latest tag, if present
           LATEST_ECR_DIGEST=$(
             aws ecr describe-images \
+              --registry-id "$ECR_REGISTRY_ID" \
               --repository-name "$ECR_REPO" \
               --query "imageDetails[?imageTags && contains(imageTags, \`latest\`)].imageDigest | [0]" \
               --output text || true
@@ -435,6 +438,7 @@ jobs:
             if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
               echo "ECR delete: $digest"
               aws ecr batch-delete-image \
+                --registry-id "$ECR_REGISTRY_ID" \
                 --repository-name "$ECR_REPO" \
                 --image-ids imageDigest="$digest" || true
             fi
