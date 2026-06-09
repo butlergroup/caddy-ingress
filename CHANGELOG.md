@@ -1,3 +1,28 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.147 (06-09-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.14 to v0.2.15 through automated dependency management
+- Updated github.com/go-openapi/swag from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/cmdutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/conv from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/fileutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonname from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/loading from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/mangling from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/netutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/stringutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/typeutils from v0.26.0 to v0.26.1 through automated dependency management
+- Updated github.com/go-openapi/swag/yamlutils from v0.26.0 to v0.26.1 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.146 (06-07-2026)
 
 #### New Features
