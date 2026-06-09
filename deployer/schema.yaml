@@ -98,11 +98,11 @@ properties:
     default: "$REGISTRY/deployer:$TAG"
     x-google-marketplace:
       type: DEPLOYER_IMAGE
-  # reportingSecret:
-  # type: string
-  # x-google-marketplace:
-  #   type: REPORTING_SECRET
+  reportingSecret:
+  type: string
+  x-google-marketplace:
+    type: REPORTING_SECRET
 required:
   - name
   - namespace
-# - reportingSecret
+  - reportingSecret
