@@ -22,7 +22,6 @@ x-google-marketplace:
     # Setting "recommended" to "true" indicates that users are encouraged
     # to update as soon as possible.
     recommended: true
-    isClusterScoped: true
     rbac:
       clusterRules:
         - apiGroups: ["rbac.authorization.k8s.io"]
