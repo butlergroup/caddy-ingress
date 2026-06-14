@@ -1,3 +1,17 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.158 (06-14-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated codecov/codecov-action from 6 to 7 through automated dependency management
+- Updated github.com/caddyserver/caddy/v2 from 2.11.3 to 2.11.4 through automated dependency management
+- updated-dependencies:
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.157 (06-13-2026)
 
 #### New Features
