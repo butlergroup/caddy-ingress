@@ -45,10 +45,10 @@ jobs:
         run: |
           go test -race -covermode atomic -coverprofile=covprofile -v ./...
 
-      - name: Send coverage
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v7
         env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: goveralls -coverprofile=covprofile -service=github
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   chart-test-current:
     name: Test and lint charts
