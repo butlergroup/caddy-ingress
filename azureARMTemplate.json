@@ -99,10 +99,7 @@
         "osSKU": {
             "type": "string",
             "defaultValue": "AzureLinux",
-            "allowedValues": [
-                "AzureLinux",
-                "Ubuntu"
-            ],
+            "allowedValues": [],
             "metadata": {
                 "description": "The Linux SKU to use."
             }
