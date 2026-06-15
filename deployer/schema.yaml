@@ -10,8 +10,7 @@ x-google-marketplace:
   # release tag on the the deployer.
   publishedVersion: "$TAG"
   publishedVersionMetadata:
-    releaseNote: >-
-      Initial release.
+    releaseNote: Initial release.
     # releaseTypes list is optional.
     # "Security" should only be used if this is an important update to patch
     # an existing vulnerability.
