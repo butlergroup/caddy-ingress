@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.161 (06-15-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated golang:1.26 to 792443b through automated dependency management
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.160 (06-15-2026)
 
 #### New Features
