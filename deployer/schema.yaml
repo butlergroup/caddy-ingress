@@ -40,6 +40,17 @@ x-google-marketplace:
         gcpMarketplace.image.tag:
           type: TAG
 
+applicationMetadata:
+  isClusterScoped: true
+  rbac:
+    clusterRules:
+      - apiGroups: ["rbac.authorization.k8s.io"]
+        resources: ["clusterroles", "clusterrolebindings"]
+        verbs: ["get", "create", "delete", "patch", "update"]
+      - apiGroups: ["apiextensions.k8s.io"]
+        resources: ["customresourcedefinitions"]
+        verbs: ["get", "create", "delete", "patch", "update"]
+
 # The Properties and Required sections of v2 are structured the same as those of v1.
 properties:
   name: # maps to Helm's Release.Name directive
