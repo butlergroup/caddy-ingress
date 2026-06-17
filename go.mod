@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.26.4
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.19
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.20
 	github.com/caddyserver/caddy/v2 v2.11.4
 	github.com/caddyserver/certmagic v0.25.3
 	github.com/google/uuid v1.6.0
@@ -173,7 +173,7 @@ require (
 	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	golang.org/x/tools v0.46.0 // indirect
-	google.golang.org/api v0.284.0 // indirect
+	google.golang.org/api v0.285.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260615183401-62b3387ff324 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260615183401-62b3387ff324 // indirect
 	google.golang.org/grpc v1.81.1 // indirect
