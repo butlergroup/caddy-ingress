@@ -12,11 +12,12 @@ spec:
       {{- include "caddy-ingress-controller.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        "cloudmarketplace.googleapis.com/product.metadata": "v1:{\"services\":[{\"service_name\":\"{{ .Values.marketplace.serviceName }}\", \"service_level\":\"{{ .Values.marketplace.serviceLevel }}\"}]}"
-        "com.googleapis.cloudmarketplace.product.service.name": "{{ .Values.marketplace.serviceName }}"
+        cloudmarketplace.googleapis.com/product.metadata: 'v1:{"services":[{"service_name":"{{ .Values.marketplace.serviceName }}","service_level":"{{ .Values.marketplace.serviceLevel }}"}]}'
+        com.googleapis.cloudmarketplace.product.service.name: "{{ .Values.marketplace.serviceName }}"
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
     {{- end }}
       labels:
         {{- include "caddy-ingress-controller.selectorLabels" . | nindent 8 }}
