@@ -1,35 +1,15 @@
 x-google-marketplace:
-  # MUST be v2.
   schemaVersion: v2
-
-  # MUST match the version of the Application custom resource object.
-  # This is the same as the top level applicationApiVersion field in v1.
   applicationApiVersion: v1beta1
-
-  # The release version is required in the schema and MUST match the
-  # release tag on the the deployer.
   publishedVersion: "$TAG"
   publishedVersionMetadata:
     releaseNote: Initial release.
-    # releaseTypes list is optional.
-    # "Security" should only be used if this is an important update to patch
-    # an existing vulnerability.
     releaseTypes:
       - Feature
       - BugFix
       - Security
-    # Setting "recommended" to "true" indicates that users are encouraged
-    # to update as soon as possible.
     recommended: true
-    rbac:
-      clusterRules:
-        - apiGroups: ["rbac.authorization.k8s.io"]
-          resources: ["clusterroles", "clusterrolebindings"]
-          verbs: ["get", "create", "delete", "patch", "update"]
-        - apiGroups: ["apiextensions.k8s.io"]
-          resources: ["customresourcedefinitions"]
-          verbs: ["get", "create", "delete", "patch", "update"]
-  # Image declaration is required here. Refer to the Images section below.
+
   images:
     caddy-ingress:
       properties:
@@ -51,19 +31,21 @@ applicationMetadata:
         resources: ["customresourcedefinitions"]
         verbs: ["get", "create", "delete", "patch", "update"]
 
-# The Properties and Required sections of v2 are structured the same as those of v1.
 properties:
-  name: # maps to Helm's Release.Name directive
+  name:
     type: string
     x-google-marketplace:
       type: NAME
-  namespace: # maps to Helm's Release.Namespace directive
+
+  namespace:
     type: string
     x-google-marketplace:
       type: NAMESPACE
+
   replicaCount:
     type: integer
     default: 1
+
   operatorServiceAccount:
     type: string
     title: Operator Service Account
@@ -93,24 +75,25 @@ properties:
                   - routes
                   - extensions
                   - configmaps
-                verbs:
-                  - list
-                  - get
-                  - watch
+                verbs: ["list", "get", "watch"]
+
   ingress:
     type: boolean
     default: true
     x-google-marketplace:
       type: INGRESS_AVAILABLE
+
   deployer:
     type: string
     default: "$REGISTRY/deployer:$TAG"
     x-google-marketplace:
       type: DEPLOYER_IMAGE
+
   reportingSecret:
-  type: string
-  x-google-marketplace:
-    type: REPORTING_SECRET
+    type: string
+    x-google-marketplace:
+      type: REPORTING_SECRET
+
 required:
   - name
   - namespace
