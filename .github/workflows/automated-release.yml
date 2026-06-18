@@ -16,7 +16,11 @@ on:
       - Dockerfile.dev
       - go.mod
       - go.sum
+      - azureARMTemplate.json
+      - azureUIDefinition.json
+      - azureManifest.yaml.tpl
       - "**/cmd/**"
+      - "**/deployer/**"
       - "**/internal/**"
       - "**/kubernetes/**"
       - "**/pkg/**"
