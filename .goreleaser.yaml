@@ -61,6 +61,7 @@ dockers_v2:
       - "us-docker.pkg.dev/containerbutler/caddy-ingress/{{ .ProjectName }}"
     tags:
       - "{{ .Version }}"
+      - "{{ .Major }}.{{ .Minor }}"
       - "{{ if .IsNightly }}nightly{{ else }}latest{{ end }}"
     platforms:
       - linux/amd64
