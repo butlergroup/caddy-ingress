@@ -298,6 +298,8 @@ jobs:
           context: ./apptest/tester
           file: ./apptest/tester/Dockerfile
           push: true
+          provenance: false
+          sbom: false
           tags: |
             us-docker.pkg.dev/containerbutler/caddy-ingress/tester:${{ github.ref_name }}
           annotations: |
