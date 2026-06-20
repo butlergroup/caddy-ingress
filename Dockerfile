@@ -1,8 +1,8 @@
-FROM cgr.dev/chainguard/wolfi-base:latest AS certs
+FROM chainguard/wolfi-base:latest AS certs
 RUN apk add --no-cache \
     ca-certificates
 
-FROM cgr.dev/chainguard/wolfi-base:latest
+FROM chainguard/wolfi-base:latest
 
 RUN apk update && apk upgrade && apk add --no-cache \
     libcap \
