@@ -14,9 +14,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -xeo pipefail
-shopt -s nullglob
+set -euo pipefail
 
-for test in /tests/*; do
-  testrunner -logtostderr "--test_spec=${test}"
-done
+echo "Starting Caddy ingress Marketplace tester"
+echo "NAMESPACE=${NAMESPACE:-}"
+echo "APP_INSTANCE_NAME=${APP_INSTANCE_NAME:-}"
+
+if [[ -z "${NAMESPACE:-}" ]]; then
+  echo "ERROR: NAMESPACE is not set"
+  exit 1
+fi
+
+if [[ -z "${APP_INSTANCE_NAME:-}" ]]; then
+  echo "ERROR: APP_INSTANCE_NAME is not set"
+  exit 1
+fi
+
+exec /testrunner \
+  -logtostderr \
+  --test_spec=/tests/basic-suite.yaml

@@ -15,6 +15,7 @@ RUN set -eux; \
 
 COPY tests/basic-suite.yaml /tests/basic-suite.yaml
 COPY tester.sh /tester.sh
+RUN chmod 755 /tester.sh
 
 WORKDIR /
 ENTRYPOINT ["/tester.sh"]
