@@ -301,7 +301,7 @@ jobs:
           provenance: false
           sbom: false
           tags: |
-            us-docker.pkg.dev/containerbutler/caddy-ingress/tester:${{ github.ref_name }}
+            us-docker.pkg.dev/containerbutler/caddy-ingress/tester:${{ steps.marketplace-version.outputs.marketplace_version }}
           annotations: |
             com.googleapis.cloudmarketplace.product.service.name=services/caddy-k8s-ingress-controller-k8s-app.endpoints.containerbutler.cloud.goog
       - name: Multi-registry retention cleanup (keep last 10 tags + latest)
