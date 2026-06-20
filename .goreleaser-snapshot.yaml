@@ -25,7 +25,6 @@ dockers_v2:
     platforms:
       - linux/amd64
       - linux/arm64
-      - linux/s390x
     labels:
       "org.opencontainers.image.description": "Caddy Ingress Controller for Kubernetes - with Cloudflare support!"
       "org.opencontainers.image.created": "{{.Date}}"
