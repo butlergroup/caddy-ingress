@@ -45,26 +45,33 @@ properties:
           - type: ClusterRole
             rulesType: CUSTOM
             rules:
-              - apiGroups:
-                  - ""
-                  - "networking.k8s.io"
-                  - "coordination.k8s.io"
-                resources:
-                  - ingresses
-                  - ingresses/status
-                  - secrets
-                  - leases
-                verbs: ["get", "list", "watch", "create", "update", "delete"]
-              - apiGroups:
-                  - ""
+              - apiGroups: [""]
                 resources:
                   - services
                   - pods
+                  - pods/log
                   - nodes
-                  - routes
-                  - extensions
+                  - secrets
                   - configmaps
-                verbs: ["list", "get", "watch"]
+                verbs: ["get", "list", "watch", "create", "update", "delete"]
+
+              - apiGroups: ["apps"]
+                resources:
+                  - deployments
+                  - deployments/status
+                verbs: ["get", "list", "watch", "create", "update", "delete"]
+
+              - apiGroups: ["networking.k8s.io"]
+                resources:
+                  - ingresses
+                  - ingresses/status
+                  - ingressclasses
+                verbs: ["get", "list", "watch", "create", "update", "delete"]
+
+              - apiGroups: ["coordination.k8s.io"]
+                resources:
+                  - leases
+                verbs: ["get", "list", "watch", "create", "update", "delete"]
 
   ingress:
     type: boolean

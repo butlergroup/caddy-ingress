@@ -18,24 +18,24 @@ actions:
         exitCode:
           equals: 0
 
-  - name: Verify controller pod is running
+  - name: Verify controller pods are running
     bashTest:
       script: |
         kubectl get pods \
           --namespace "${NAMESPACE}" \
-          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}" \
+          -l app.kubernetes.io/instance="${APP_INSTANCE_NAME}" \
           -o json \
         | jq -e '.items | length >= 1 and all(.[]; .status.phase == "Running")'
       expect:
         exitCode:
           equals: 0
 
-  - name: Verify service exists
+  - name: Verify Caddy service exists
     bashTest:
       script: |
         kubectl get service \
           --namespace "${NAMESPACE}" \
-          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}"
+          "${APP_INSTANCE_NAME}"
       expect:
         exitCode:
           equals: 0
@@ -125,6 +125,13 @@ actions:
         exitCode:
           equals: 0
 
+  - name: Wait for Caddy to process ingress
+    bashTest:
+      script: sleep 20
+      expect:
+        exitCode:
+          equals: 0
+
   - name: Verify test ingress exists
     bashTest:
       script: |
@@ -135,14 +142,34 @@ actions:
         exitCode:
           equals: 0
 
+  - name: Test HTTP routing through Caddy service
+    bashTest:
+      script: |
+        CADDY_SERVICE="$(kubectl get service \
+          --namespace "${NAMESPACE}" \
+          -l app.kubernetes.io/instance="${APP_INSTANCE_NAME}" \
+          -o jsonpath='{.items[0].metadata.name}')"
+
+        kubectl run caddy-ingress-curl-test \
+          --namespace "${NAMESPACE}" \
+          --rm -i \
+          --restart=Never \
+          --image=curlimages/curl:8.10.1 \
+          -- \
+          curl -fsS \
+            -H "Host: smoke-test.example.local" \
+            "http://${CADDY_SERVICE}/"
+      expect:
+        exitCode:
+          equals: 0
+
   - name: Check controller logs after ingress creation
     bashTest:
       script: |
         kubectl logs \
           --namespace "${NAMESPACE}" \
-          -l app.kubernetes.io/name="${APP_INSTANCE_NAME}" \
-          --tail=200 \
-        | grep -E "caddy-ingress-smoke-test|ingress|Ingress|reload|config" || true
+          -l app.kubernetes.io/instance="${APP_INSTANCE_NAME}" \
+          --tail=200 || true
       expect:
         exitCode:
           equals: 0
@@ -150,6 +177,7 @@ actions:
   - name: Delete test ingress and backend
     bashTest:
       script: |
+        kubectl delete pod caddy-ingress-curl-test --namespace "${NAMESPACE}" --ignore-not-found
         kubectl delete ingress caddy-ingress-smoke-test --namespace "${NAMESPACE}" --ignore-not-found
         kubectl delete service caddy-ingress-test-backend --namespace "${NAMESPACE}" --ignore-not-found
         kubectl delete deployment caddy-ingress-test-backend --namespace "${NAMESPACE}" --ignore-not-found
