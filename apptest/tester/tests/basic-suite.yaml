@@ -150,15 +150,9 @@ actions:
           -l app.kubernetes.io/instance="${APP_INSTANCE_NAME}" \
           -o jsonpath='{.items[0].metadata.name}')"
 
-        kubectl run caddy-ingress-curl-test \
-          --namespace "${NAMESPACE}" \
-          --rm -i \
-          --restart=Never \
-          --image=curlimages/curl:8.10.1 \
-          -- \
-          curl -fsS \
-            -H "Host: smoke-test.example.local" \
-            "http://${CADDY_SERVICE}/"
+        curl -fsS \
+          -H "Host: smoke-test.example.local" \
+          "http://${CADDY_SERVICE}.${NAMESPACE}.svc.cluster.local/"
       expect:
         exitCode:
           equals: 0
