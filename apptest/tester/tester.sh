@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Copyright 2019 Google LLC
 #
@@ -20,15 +20,33 @@ echo "Starting Caddy ingress Marketplace tester"
 echo "NAMESPACE=${NAMESPACE:-}"
 echo "APP_INSTANCE_NAME=${APP_INSTANCE_NAME:-}"
 
-if [[ -z "${NAMESPACE:-}" ]]; then
-  echo "ERROR: NAMESPACE is not set"
-  exit 1
-fi
+dump_debug() {
+  echo "========== DEBUG: namespace =========="
+  kubectl get namespace "${NAMESPACE}" -o yaml || true
 
-if [[ -z "${APP_INSTANCE_NAME:-}" ]]; then
-  echo "ERROR: APP_INSTANCE_NAME is not set"
-  exit 1
-fi
+  echo "========== DEBUG: service account =========="
+  kubectl get sa "${APP_INSTANCE_NAME}-deployer-sa" -n "${NAMESPACE}" -o yaml || true
+
+  echo "========== DEBUG: auth can-i =========="
+  kubectl auth can-i get pods -n "${NAMESPACE}" || true
+  kubectl auth can-i get pods/log -n "${NAMESPACE}" || true
+  kubectl auth can-i create pods -n "${NAMESPACE}" || true
+  kubectl auth can-i delete pods -n "${NAMESPACE}" || true
+  kubectl auth can-i get services -n "${NAMESPACE}" || true
+  kubectl auth can-i create services -n "${NAMESPACE}" || true
+  kubectl auth can-i create deployments.apps -n "${NAMESPACE}" || true
+  kubectl auth can-i create ingresses.networking.k8s.io -n "${NAMESPACE}" || true
+
+  echo "========== DEBUG: resources =========="
+  kubectl get all -n "${NAMESPACE}" -o wide || true
+  kubectl get ingress -n "${NAMESPACE}" -o wide || true
+  kubectl get events -n "${NAMESPACE}" --sort-by=.lastTimestamp || true
+
+  echo "========== DEBUG: controller logs =========="
+  kubectl logs -n "${NAMESPACE}" -l app.kubernetes.io/instance="${APP_INSTANCE_NAME}" --tail=300 || true
+}
+
+trap dump_debug EXIT
 
 exec /testrunner \
   -logtostderr \

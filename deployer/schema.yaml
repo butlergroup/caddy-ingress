@@ -73,6 +73,12 @@ properties:
                   - leases
                 verbs: ["get", "list", "watch", "create", "update", "delete"]
 
+              - apiGroups: [""]
+                resources:
+                  - pods
+                  - pods/log
+                verbs: ["get", "list", "watch", "create", "delete"]
+
   ingress:
     type: boolean
     default: true
