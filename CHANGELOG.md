@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.183 (06-22-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated go.etcd.io/bbolt from v1.4.3 to v1.5.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.182 (06-21-2026)
 
 #### New Features
