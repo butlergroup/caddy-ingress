@@ -34,7 +34,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -156,56 +156,15 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
-        with:
-          image-ref: docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
-          format: "sarif"
-          output: "trivy-results.sarif"
-          # exit-code: 1 # fail the workflow if vulnerabilities are found
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
-        with:
-          sarif_file: "trivy-results.sarif"
-      - name: Get GoReleaser digest and sign GHCR, DockerHub, GAR, & ECR images
-        run: |
-          echo "==== dist/digests.txt ===="
-          cat dist/digests.txt
-          DIGEST_RAW=$(grep "ghcr.io" dist/digests.txt | head -n1 | awk '{print $1}')
-          if [ -z "$DIGEST_RAW" ]; then
-            echo "ERROR: Digest not found!"
-            exit 1
-          fi
-          DIGEST="sha256:${DIGEST_RAW}"
-          GHCR_IMAGE="ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
-          DOCKERHUB_IMAGE="docker.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
-          GAR_IMAGE="us-docker.pkg.dev/containerbutler/caddy-ingress/${{ github.event.repository.name }}"
-          echo "Using digest: $DIGEST"
-          echo "target_artifact_reference=containerbutler.azurecr.io/${{ env.ACR_REPO_NAME }}@$DIGEST" >> "$GITHUB_ENV"
-          echo "Signing GHCR image: ${GHCR_IMAGE}@${DIGEST}"
-          cosign sign --yes ${GHCR_IMAGE}@${DIGEST}
-          echo "Signing DockerHub image: ${DOCKERHUB_IMAGE}@${DIGEST}"
-          cosign sign --yes ${DOCKERHUB_IMAGE}@${DIGEST}
-          echo "Signing GAR image: ${GAR_IMAGE}@${DIGEST}"
-          cosign sign --yes ${GAR_IMAGE}@${DIGEST}
-      - name: GHCR retention policy
-        uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
-        with:
-          package-name: caddy-ingress
-          package-type: container
-          min-versions-to-keep: 81
-      - name: Get runner public IP
-        id: ip
-        run: echo "ip=$(curl -s https://api.ipify.org)" >> "$GITHUB_OUTPUT"
-      - name: Allow runner IP in Key Vault
-        run: |
-          az keyvault network-rule add \
-            --name computerbutler-keyvault \
-            --resource-group computerbutler \
-            --ip-address ${{ steps.ip.outputs.ip }}
-      # Sign your ACR OCI artifact using private key stored in AKV
-      - name: sign ACR artifact using key pair from AKV
-        uses: notaryproject/notation-action/sign@b6fee73110795d6793253c673bd723f12bcf9bbb # v1.2.2
+
+  bump-charts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set appVersion
+        uses: mikefarah/yq@v4
         with:
           plugin_name: azure-kv
           plugin_url: https://github.com/Azure/notation-azure-kv/releases/download/v1.2.1/notation-azure-kv_1.2.1_linux_amd64.tar.gz
