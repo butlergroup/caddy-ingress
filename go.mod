@@ -3,9 +3,9 @@ module github.com/butlergroup/caddy-ingress
 go 1.26.4
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.21
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.22
 	github.com/caddyserver/caddy/v2 v2.11.4
-	github.com/caddyserver/certmagic v0.25.3
+	github.com/caddyserver/certmagic v0.25.4
 	github.com/google/uuid v1.6.0
 	github.com/mholt/acmez/v3 v3.1.6
 	github.com/mitchellh/mapstructure v1.5.0
@@ -40,7 +40,7 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
-	github.com/cloudflare/circl v1.6.3 // indirect
+	github.com/cloudflare/circl v1.6.4 // indirect
 	github.com/coreos/go-oidc/v3 v3.19.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -173,9 +173,9 @@ require (
 	golang.org/x/text v0.38.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	golang.org/x/tools v0.46.0 // indirect
-	google.golang.org/api v0.285.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260618152121-87f3d3e198d3 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260618152121-87f3d3e198d3 // indirect
+	google.golang.org/api v0.286.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260622175928-b703f567277d // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
 	google.golang.org/grpc v1.81.1 // indirect
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.6.2 // indirect
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
@@ -185,7 +185,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	howett.net/plist v1.0.1 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
-	k8s.io/kube-openapi v0.0.0-20260618221249-bc653b64f974 // indirect
+	k8s.io/kube-openapi v0.0.0-20260623045532-0b43c5e46c6b // indirect
 	k8s.io/utils v0.0.0-20260617174310-a95e086a2553 // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
