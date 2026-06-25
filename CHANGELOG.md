@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.193 (06-25-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated chainguard/wolfi-base to 2f7a5c1 through automated dependency management
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.192 (06-25-2026)
 
 #### New Features
