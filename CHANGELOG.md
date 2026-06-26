@@ -1,3 +1,18 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.194 (06-26-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.23 to v0.2.25 through automated dependency management
+- Updated go.step.sm/crypto from v0.84.0 to v0.84.1 through automated dependency management
+- Updated golang.org/x/tools from v0.46.0 to v0.47.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.193 (06-25-2026)
 
 #### New Features
