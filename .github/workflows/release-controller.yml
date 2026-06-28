@@ -263,7 +263,7 @@ jobs:
 
           echo "CNAB publish failed after retries"
           exit 1
-      - name: Extract GCP Marketplace version
+      - name: Extract GCP Marketplace major.minor version without patch
         id: marketplace-version
         shell: bash
         run: |
