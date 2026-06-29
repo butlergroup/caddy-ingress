@@ -271,7 +271,7 @@ jobs:
 
           FULL_VERSION="${{ github.ref_name }}"
 
-          MARKETPLACE_VERSION="$(cut -d. -f1,2 <<< "$FULL_VERSION")"
+          MARKETPLACE_VERSION="$(cut -d. -f1,2 <<< "$FULL_VERSION").0"
 
           echo "marketplace_version=$MARKETPLACE_VERSION" >> "$GITHUB_OUTPUT"
 
