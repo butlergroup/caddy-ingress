@@ -1,3 +1,28 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.199 (06-30-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/go-openapi/jsonpointer from v0.23.2 to v0.24.0 through automated dependency management
+- Updated github.com/go-openapi/swag from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/cmdutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/conv from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/fileutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/loading from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/mangling from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/netutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/stringutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/typeutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated github.com/go-openapi/swag/yamlutils from v0.26.1 to v0.27.0 through automated dependency management
+- Updated golang.org/x/crypto/x509roots/fallback from v0.0.0-20260626155920-5b7f84159940 to v0.0.0-20260629172317-6435c37ab681 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.198 (06-29-2026)
 
 #### New Features
