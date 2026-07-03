@@ -20,6 +20,8 @@ jobs:
       pull-requests: write
       checks: read
       actions: write
+      issues: write
+      security-events: read
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
@@ -132,12 +134,14 @@ jobs:
                 --arg repo "$repo_name" \
                 '{
                   repositories: [$repo],
-                  permissions: {
-                    contents: "write",
-                    pull_requests: "write",
-                    checks: "read",
-                    actions: "write"
-                  }
+                  "permissions": {
+                    "contents": "write",
+                    "pull_requests": "write",
+                    "checks": "read",
+                    "actions": "write",
+                    "issues": "write",
+                    "workflows": "write"
+                  },
                 }')"
           )"
 
