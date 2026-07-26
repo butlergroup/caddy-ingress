@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.241 (07-26-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/google/cel-go from v0.29.2 to v0.30.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.240 (07-26-2026)
 
 #### New Features
