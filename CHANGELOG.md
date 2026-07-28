@@ -1,3 +1,31 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.243 (07-28-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/go-openapi/swag from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/cmdutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/conv from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/fileutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/loading from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/mangling from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/netutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/pools from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/stringutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/typeutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated github.com/go-openapi/swag/yamlutils from v0.27.3 to v0.28.0 through automated dependency management
+- Updated go.step.sm/crypto from v0.85.0 to v0.86.0 through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20260718201538-764159d718ef to v0.0.0-20260727155853-b88d891fe743 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/api from v0.0.0-20260724162435-b2f20204f0df to v0.0.0-20260727163830-6c54dddc4772 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/rpc from v0.0.0-20260724162435-b2f20204f0df to v0.0.0-20260727163830-6c54dddc4772 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.242 (07-27-2026)
 
 #### New Features
