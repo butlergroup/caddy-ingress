@@ -1,3 +1,20 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.245 (07-30-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/smallstep/pkcs7 from v0.2.2 to v0.2.3 through automated dependency management
+- Updated go.step.sm/crypto from v0.86.0 to v0.87.0 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/api from v0.0.0-20260727163830-6c54dddc4772 to v0.0.0-20260729162451-8efbd57d26e0 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/rpc from v0.0.0-20260727163830-6c54dddc4772 to v0.0.0-20260729162451-8efbd57d26e0 through automated dependency management
+- Updated google.golang.org/grpc from v1.82.1 to v1.83.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.244 (07-29-2026)
 
 #### New Features
