@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.247 (08-05-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated debian:13-slim to 3a39a05 through automated dependency management
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.246 (08-04-2026)
 
 #### New Features
