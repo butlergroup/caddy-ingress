@@ -1,3 +1,20 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.248 (08-05-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/grpc-ecosystem/grpc-gateway/v2 from v2.29.0 to v2.30.0 through automated dependency management
+- Updated go.opentelemetry.io/contrib/bridges/prometheus from v0.69.0 to v0.70.0 through automated dependency management
+- Updated go.opentelemetry.io/contrib/exporters/autoexport from v0.69.0 to v0.70.0 through automated dependency management
+- Updated go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp from v0.69.0 to v0.70.0 through automated dependency management
+- Updated google.golang.org/api from v0.291.0 to v0.292.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.247 (08-05-2026)
 
 #### New Features
