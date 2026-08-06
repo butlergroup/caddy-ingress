@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.252 (08-06-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/cloudflare/circl from v1.6.4 to v1.6.5 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.251 (08-05-2026)
 
 #### New Features
