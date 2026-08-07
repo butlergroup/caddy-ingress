@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.253 (08-07-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/klauspost/compress from v1.19.1 to v1.19.2 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.252 (08-06-2026)
 
 #### New Features
