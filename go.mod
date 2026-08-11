@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.26.5
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.37
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.38
 	github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5
 	github.com/caddyserver/certmagic v0.25.4
 	github.com/google/uuid v1.6.0
@@ -166,8 +166,8 @@ require (
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.54.0 // indirect
 	golang.org/x/crypto/x509roots/fallback v0.0.0-20260804050112-5ed494470b06 // indirect
-	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743 // indirect
-	golang.org/x/mod v0.38.0 // indirect
+	golang.org/x/exp v0.0.0-20260810151157-a8b543ca52da // indirect
+	golang.org/x/mod v0.39.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
@@ -177,11 +177,11 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	golang.org/x/tools v0.48.0 // indirect
 	google.golang.org/api v0.292.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260807164820-c8921c73eeea // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260807164820-c8921c73eeea // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260810153831-ec0a7760b754 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260810153831-ec0a7760b754 // indirect
 	google.golang.org/grpc v1.83.0 // indirect
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.6.2 // indirect
-	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
