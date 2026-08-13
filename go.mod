@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.26.5
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.39
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.40
 	github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5
 	github.com/caddyserver/certmagic v0.25.4
 	github.com/google/uuid v1.6.0
@@ -166,9 +166,9 @@ require (
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.55.0 // indirect
 	golang.org/x/crypto/x509roots/fallback v0.0.0-20260811175631-f44d03d253a1 // indirect
-	golang.org/x/exp v0.0.0-20260811152304-ee035b5b010f // indirect
+	golang.org/x/exp v0.0.0-20260812173653-3d80eb74bc5b // indirect
 	golang.org/x/mod v0.39.0 // indirect
-	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
