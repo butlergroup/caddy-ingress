@@ -1,3 +1,17 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.270 (08-15-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/dunglas/go-urlpattern from v0.0.0-20260716093037-fb05c4998526 to v1.0.0 through automated dependency management
+- Updated go.step.sm/crypto from v0.87.0 to v0.88.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.269 (08-14-2026)
 
 #### New Features
