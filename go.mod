@@ -1,6 +1,6 @@
 module github.com/butlergroup/caddy-ingress
 
-go 1.26.6
+go 1.27.0
 
 require (
 	github.com/butlergroup/caddy-dns-cloudflare v0.2.43
