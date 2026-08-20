@@ -1,3 +1,33 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.278 (08-20-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.43 to v0.2.45 through automated dependency management
+- Updated github.com/go-openapi/swag from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/cmdutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/conv from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/fileutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/loading from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/mangling from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/netutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/pools from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/stringutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/typeutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/go-openapi/swag/yamlutils from v0.28.0 to v0.29.0 through automated dependency management
+- Updated github.com/miekg/dns from v1.1.72 to v1.1.73 through automated dependency management
+- Updated golang.org/x/crypto/x509roots/fallback from v0.0.0-20260817153406-593c81af8aa6 to v0.0.0-20260819204246-82adefa711cb through automated dependency management
+- Updated google.golang.org/genproto/googleapis/api from v0.0.0-20260818201246-1b0934165a6f to v0.0.0-20260819154853-08b0e4226688 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/rpc from v0.0.0-20260818201246-1b0934165a6f to v0.0.0-20260819154853-08b0e4226688 through automated dependency management
+- Updated google.golang.org/grpc from v1.83.0 to v1.83.1 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.277 (08-20-2026)
 
 #### New Features
