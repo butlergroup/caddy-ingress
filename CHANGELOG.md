@@ -1,3 +1,30 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.283 (08-22-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/go-openapi/swag from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/cmdutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/conv from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/fileutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/jsonutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/loading from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/mangling from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/netutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/pools from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/stringutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/typeutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/go-openapi/swag/yamlutils from v0.29.0 to v0.29.1 through automated dependency management
+- Updated github.com/googleapis/gax-go/v2 from v2.23.0 to v2.24.0 through automated dependency management
+- Updated github.com/slackhq/nebula from v1.11.0 to v1.11.1 through automated dependency management
+- Updated k8s.io/kube-openapi from v0.0.0-20260721132016-d427ff9ee9ad to v0.0.0-20260821135717-be32def86098 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.282 (08-22-2026)
 
 #### New Features
