@@ -28,8 +28,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/toml v1.5.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/DeRuina/timberjack v1.4.2 h1:4bKlzhKdsR+2oNkgef9mqb4n11ICow8VK88RfzJPzN8=
 github.com/DeRuina/timberjack v1.4.2/go.mod h1:RLoeQrwrCGIEF8gO5nV5b/gMD0QIy7bzQhBUgpp1EqE=
-github.com/KimMachineGun/automemlimit v1.0.0 h1:+MqlvDE/pkJNjk1rU+O14QsH8k10nJAD0frB0lsxyvw=
-github.com/KimMachineGun/automemlimit v1.0.0/go.mod h1:n+BSXxQWDFS1DKh67Rqo0lgTsowsg6x65ak5uyngML0=
+github.com/KimMachineGun/automemlimit v0.7.5 h1:RkbaC0MwhjL1ZuBKunGDjE/ggwAX43DwZrJqVwyveTk=
+github.com/KimMachineGun/automemlimit v0.7.5/go.mod h1:QZxpHaGOQoYvFhv/r4u3U0JTC2ZcOwbSr11UZF46UBM=
 github.com/Masterminds/goutils v1.1.1 h1:5nUrii3FMTL5diU80unEVvNevw1nH4+ZV4DSLVJLSYI=
 github.com/Masterminds/goutils v1.1.1/go.mod h1:8cTjp+g8YejhMuvIA5y2vz3BpJxksy863GQaJW2MFNU=
 github.com/Masterminds/semver/v3 v3.5.0 h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE=
@@ -78,8 +78,8 @@ github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6r
 github.com/bits-and-blooms/bitset v1.20.0/go.mod h1:7hO7Gc7Pp1vODcmWvKMRA9BNmbv6a/7QIWpPxHddWR8=
 github.com/bits-and-blooms/bitset v1.25.0 h1:0Ro0qF4abCkM6SqWPVj29sFhAbMPAZpaDD7xhJ10beM=
 github.com/bits-and-blooms/bitset v1.25.0/go.mod h1:7hO7Gc7Pp1vODcmWvKMRA9BNmbv6a/7QIWpPxHddWR8=
-github.com/butlergroup/caddy-dns-cloudflare v0.2.46 h1:Q47y0KsfBmBo8RekbX1XpxVOzaSo9ZSgM2SWUzeiiKA=
-github.com/butlergroup/caddy-dns-cloudflare v0.2.46/go.mod h1:A1q1ShNx2PcXK5SmN0jIyA6Q8F4TdwJw7sxfWXxlXq4=
+github.com/butlergroup/caddy-dns-cloudflare v0.2.45 h1:lYkgvLhnl5/VmiNWmSCCc+dOnmiVyastxss71Z9Nh/g=
+github.com/butlergroup/caddy-dns-cloudflare v0.2.45/go.mod h1:A1q1ShNx2PcXK5SmN0jIyA6Q8F4TdwJw7sxfWXxlXq4=
 github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5 h1:DdHEZp738xDLFxX27Y0jGlnPXQmZ9UKnmlaj94mB8rc=
 github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5/go.mod h1:6dNR9RD/o0fW7IFydfGun3gaCZDykqYi5wS4rz5+J84=
 github.com/caddyserver/certmagic v0.25.4 h1:8eIXh0HC3MsGnNo8One+BCxMGTbe5zb/oz+2KsxBFQg=
@@ -495,10 +495,10 @@ golang.org/x/crypto v0.32.0/go.mod h1:ZnnJkOaASj8g0AjIduWNlq2NRxL0PlBrbKVyZ6V/Ug
 golang.org/x/crypto v0.33.0/go.mod h1:bVdXmD7IV/4GdElGPozy6U7lWdRXA4qyRVGJV57uQ5M=
 golang.org/x/crypto v0.55.0 h1:+KWHjbgOaAQ66dh/YlkZKHlz9ZUlq61AFirAR9ntP8M=
 golang.org/x/crypto v0.55.0/go.mod h1:uq0V9dE/fzQuJtbnL+2EhWOE63vo164FY8xqEnV9xis=
-golang.org/x/crypto/x509roots/fallback v0.0.0-20260824205408-89f4e9bb5b38 h1:KOTVVE9EBLJYMOieQRB5IdYazO/s7TMqVqRNQdO7CGk=
-golang.org/x/crypto/x509roots/fallback v0.0.0-20260824205408-89f4e9bb5b38/go.mod h1:HPze8vhfG6fO06AM+VSvxRm4E3+5Yk375mgrJ5M2z1E=
-golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa h1:QSyA8ishJCyT21kER9KwNt0b7BM3iRK4x9QXhjN5Fdk=
-golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa/go.mod h1:zeBbvyFKDaLwa7CH/zI8KXt7gTl14SF7sO08Pl5jBCM=
+golang.org/x/crypto/x509roots/fallback v0.0.0-20260823135319-71488c48c2df h1:yRHHA6z1n6yeK1vRX1wzJIB/eBGd5C4oA7pwNLSk93Y=
+golang.org/x/crypto/x509roots/fallback v0.0.0-20260823135319-71488c48c2df/go.mod h1:HPze8vhfG6fO06AM+VSvxRm4E3+5Yk375mgrJ5M2z1E=
+golang.org/x/exp v0.0.0-20260820142414-ca536658362e h1:01Ju2A/fZKkci4zqx0eZxw//DnRYOnBiGJG14hFBhO8=
+golang.org/x/exp v0.0.0-20260820142414-ca536658362e/go.mod h1:zeBbvyFKDaLwa7CH/zI8KXt7gTl14SF7sO08Pl5jBCM=
 golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4/go.mod h1:jJ57K6gSWd91VN4djpZkiMVwK6gcyfeH4XE8wZrZaV4=
 golang.org/x/mod v0.8.0/go.mod h1:iBbtSCu2XBx23ZKBPSOrRkjjQPZFPuis4dIYUhu/chs=
 golang.org/x/mod v0.12.0/go.mod h1:iBbtSCu2XBx23ZKBPSOrRkjjQPZFPuis4dIYUhu/chs=
