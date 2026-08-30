@@ -78,8 +78,8 @@ github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6r
 github.com/bits-and-blooms/bitset v1.20.0/go.mod h1:7hO7Gc7Pp1vODcmWvKMRA9BNmbv6a/7QIWpPxHddWR8=
 github.com/bits-and-blooms/bitset v1.25.0 h1:0Ro0qF4abCkM6SqWPVj29sFhAbMPAZpaDD7xhJ10beM=
 github.com/bits-and-blooms/bitset v1.25.0/go.mod h1:7hO7Gc7Pp1vODcmWvKMRA9BNmbv6a/7QIWpPxHddWR8=
-github.com/butlergroup/caddy-dns-cloudflare v0.2.47 h1:Bisg1sv0KNYSOZNVuNfHSW8QsNTuMWA19DJ8Witx2Lc=
-github.com/butlergroup/caddy-dns-cloudflare v0.2.47/go.mod h1:DT3ROw/eGUqr85+5YeJz2Gi8RoBdGY0AW12pUroyxzE=
+github.com/butlergroup/caddy-dns-cloudflare v0.2.48 h1:/FxQkrUmAnGDUaHFHP3GNIq5NuZ6aVyBxXGTkHl+saA=
+github.com/butlergroup/caddy-dns-cloudflare v0.2.48/go.mod h1:BuFKlHJrWohK1ESRRawQGYyrIclfVBn1cxT8FEhjpQo=
 github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5 h1:DdHEZp738xDLFxX27Y0jGlnPXQmZ9UKnmlaj94mB8rc=
 github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5/go.mod h1:6dNR9RD/o0fW7IFydfGun3gaCZDykqYi5wS4rz5+J84=
 github.com/caddyserver/certmagic v0.25.4 h1:8eIXh0HC3MsGnNo8One+BCxMGTbe5zb/oz+2KsxBFQg=
@@ -326,8 +326,8 @@ github.com/quic-go/go-ossfuzz-seeds v0.1.0 h1:APacT+iIaNF6fd8AGEiN3bT/Jtkd2jz4v4
 github.com/quic-go/go-ossfuzz-seeds v0.1.0/go.mod h1:3IOHRbJIc+L6YKMwfDtJAM9Vj9k0YY4muhuyUYk5tbk=
 github.com/quic-go/qpack v0.6.0 h1:g7W+BMYynC1LbYLSqRt8PBg5Tgwxn214ZZR34VIOjz8=
 github.com/quic-go/qpack v0.6.0/go.mod h1:lUpLKChi8njB4ty2bFLX2x4gzDqXwUpaO1DP9qMDZII=
-github.com/quic-go/quic-go v0.61.0 h1:ui88A53s8MSVYLC56en0KQ17HARk+9986Dn0SBfKNvA=
-github.com/quic-go/quic-go v0.61.0/go.mod h1:9So2anK4Tp22URSQq00k+Vo2PNkle96ycDPDHL4s9vs=
+github.com/quic-go/quic-go v0.62.0 h1:ZHDjCk5OacATwGvs8PWE97CTvX7AqZiVoW7++ZOXTf8=
+github.com/quic-go/quic-go v0.62.0/go.mod h1:RAro2j2yN9a9EiPACLHT9IB2NXCvGQmmo/alT0yYI0w=
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=
 github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7so1lCWt35ZSgc=
 github.com/rs/xid v1.6.0 h1:fV591PaemRlL6JfRxGDEPl69wICngIQ3shQtzfy2gxU=
