@@ -1,20 +1,10 @@
-## Caddy K8s Ingress Controller & Helm Chart Version 1.5.291 (08-31-2026)
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.296 (08-31-2026)
 
 #### New Features
 
 #### Improvements
 
-- Updated <code>brace-expansion</code> from 1.1.12 to 1.1.18 through automated dependency management
-- Updated <code>picomatch</code> from 2.3.1 to 2.3.2 through automated dependency management
-- Updated Azure/login from 3.0.1 to 3.0.2 through automated dependency management
-- Updated brace-expansion from 1.1.12 to 1.1.18 through automated dependency management
-- Updated chainguard/wolfi-base to e624c5d through automated dependency management
-- Updated default CodeQL bundle version to <a through automated dependency management
-- Updated default bundle to codeql-bundle-v2.26.4</li> through automated dependency management
-- Updated github/codeql-action/upload-sarif from 4.37.8 to 4.37.9 through automated dependency management
-- Updated picomatch from 2.3.1 to 2.3.2 through automated dependency management
-- Updated renovatebot/github-action from 46.2.2 to 46.2.4 through automated dependency management
-- updated-dependencies:
+- Updated dependency(s) through automated dependency management
 
 #### Fixes
 
