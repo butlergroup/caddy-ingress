@@ -4,9 +4,9 @@ RUN apk add --no-cache \
 
 FROM chainguard/wolfi-base@sha256:1d95114038f76513a9ace6fca107d5582b08c65981f81f61cb56bf7fd2ef216d
 
-RUN apk update && apk upgrade && apk add --no-cache \
+RUN apk update && apk upgrade && apk add --no-cache --upgrade\
     libcap \
-    libcap-utils
+    libcap-utils zlib
 
 # Define username and working directory
 ARG username="caddyingress"
