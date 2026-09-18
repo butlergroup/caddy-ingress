@@ -1,3 +1,15 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.314 (09-18-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated alpine:latest to 5b02b42 through automated dependency management
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.313 (09-16-2026)
 
 #### New Features
