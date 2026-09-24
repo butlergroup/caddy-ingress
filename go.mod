@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.27.1
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.55
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.58
 	github.com/caddyserver/caddy/v2 v2.11.5-0.20260718081438-93c0721156e5
 	github.com/caddyserver/certmagic v0.25.4
 	github.com/google/uuid v1.6.0
@@ -13,9 +13,9 @@ require (
 	github.com/stretchr/testify v1.12.1
 	go.uber.org/zap v1.28.0
 	gopkg.in/go-playground/pool.v3 v3.1.1
-	k8s.io/api v0.37.0
-	k8s.io/apimachinery v0.37.0
-	k8s.io/client-go v0.37.0
+	k8s.io/api v0.37.1
+	k8s.io/apimachinery v0.37.1
+	k8s.io/client-go v0.37.1
 )
 
 require (
@@ -79,7 +79,7 @@ require (
 	github.com/google/gnostic-models v0.7.1 // indirect
 	github.com/google/s2a-go v0.1.10 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.22 // indirect
-	github.com/googleapis/gax-go/v2 v2.24.1 // indirect
+	github.com/googleapis/gax-go/v2 v2.26.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.30.0 // indirect
 	github.com/huandu/xstrings v1.6.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -113,12 +113,12 @@ require (
 	github.com/prometheus/otlptranslator v1.0.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
-	github.com/quic-go/quic-go v0.62.0 // indirect
+	github.com/quic-go/quic-go v0.63.0 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
-	github.com/slackhq/nebula v1.11.1 // indirect
+	github.com/slackhq/nebula v1.11.2 // indirect
 	github.com/smallstep/certificates v0.30.2 // indirect
 	github.com/smallstep/cli-utils v0.12.2 // indirect
 	github.com/smallstep/linkedca v0.26.0 // indirect
@@ -174,9 +174,9 @@ require (
 	golang.org/x/term v0.46.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	google.golang.org/api v0.298.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260918162117-cecb64721679 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260918162117-cecb64721679 // indirect
+	google.golang.org/api v0.299.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260921155816-b14227669459 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260921155816-b14227669459 // indirect
 	google.golang.org/grpc v1.85.0-dev.0.20260825072537-93e31b48545e // indirect
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.6.2 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
