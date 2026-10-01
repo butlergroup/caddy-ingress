@@ -1,3 +1,18 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.330 (10-01-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/caddyserver/certmagic from v0.25.4 to v0.25.6 through automated dependency management
+- Updated github.com/caddyserver/zerossl from v0.1.5 to v0.1.6 through automated dependency management
+- Updated go.opentelemetry.io/proto/otlp from v1.11.0 to v1.11.1 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.329 (09-30-2026)
 
 #### New Features
