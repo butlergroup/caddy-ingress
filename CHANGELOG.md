@@ -1,3 +1,18 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.332 (10-02-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated go.opentelemetry.io/contrib/bridges/prometheus from v0.71.0 to v0.72.0 through automated dependency management
+- Updated go.opentelemetry.io/contrib/exporters/autoexport from v0.71.0 to v0.72.0 through automated dependency management
+- Updated go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp from v0.71.0 to v0.72.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.331 (10-02-2026)
 
 #### New Features
