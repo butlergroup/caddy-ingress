@@ -1,3 +1,35 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.331 (10-02-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/google/s2a-go from v0.1.10 to v0.1.11 through automated dependency management
+- Updated go.opentelemetry.io/otel from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc from v0.22.0 to v0.23.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp from v0.22.0 to v0.23.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlptrace from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/prometheus from v0.68.0 to v0.69.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/stdout/stdoutlog from v0.22.0 to v0.23.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/stdout/stdoutmetric from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/exporters/stdout/stdouttrace from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/log from v0.22.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/metric from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/sdk from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/sdk/log from v0.22.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/sdk/metric from v1.46.0 to v1.47.0 through automated dependency management
+- Updated go.opentelemetry.io/otel/trace from v1.46.0 to v1.47.0 through automated dependency management
+- Updated google.golang.org/api from v0.299.0 to v0.300.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.330 (10-01-2026)
 
 #### New Features
