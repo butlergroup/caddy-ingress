@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+
+set -euo pipefail
 
 PINNED=(
     "github.com/KimMachineGun/automemlimit@v0.7.5"
@@ -17,7 +18,27 @@ for dependency in "${PINNED[@]}"; do
 done
 
 echo "Cleaning graph..."
+
 go mod tidy
 
+echo "Verifying pinned dependencies..."
+
+for dependency in "${PINNED[@]}"; do
+    module="${dependency%@*}"
+    version="${dependency#*@}"
+
+    actual=$(go list -m -f '{{.Version}}' "$module")
+
+    if [[ "$actual" != "$version" ]]; then
+        echo "ERROR: $module is $actual, expected $version"
+        exit 1
+    fi
+
+    echo "OK: $module@$actual"
+done
+
 echo "Verifying modules..."
+
 go mod verify
+
+echo "Dependency update complete."
