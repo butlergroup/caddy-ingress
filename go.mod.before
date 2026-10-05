@@ -3,8 +3,8 @@ module github.com/butlergroup/caddy-ingress
 go 1.27.1
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.62
-	github.com/caddyserver/caddy/v2 v2.11.6
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.63
+	github.com/caddyserver/caddy/v2 v2.11.7
 	github.com/caddyserver/certmagic v0.25.6
 	github.com/google/uuid v1.6.0
 	github.com/mholt/acmez/v3 v3.1.7
@@ -51,6 +51,7 @@ require (
 	github.com/dgraph-io/ristretto v0.2.0 // indirect
 	github.com/dgryski/go-farm v0.0.0-20240924180020-3414d57e47da // indirect
 	github.com/dunglas/go-urlpattern v1.0.0 // indirect
+	github.com/dunglas/httpsfv v1.1.2 // indirect
 	github.com/dustin/go-humanize v1.1.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
 	github.com/felixge/httpsnoop v1.1.0 // indirect
