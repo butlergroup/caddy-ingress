@@ -1,3 +1,17 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.342 (10-07-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/fxamacker/cbor/v2 from v2.9.4 to v2.9.6 through automated dependency management
+- Updated github.com/googleapis/enterprise-certificate-proxy from v0.3.22 to v0.3.23 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.341 (10-06-2026)
 
 #### New Features
