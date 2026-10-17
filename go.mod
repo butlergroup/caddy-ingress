@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.27.2
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.68
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.70
 	github.com/caddyserver/caddy/v2 v2.11.7
 	github.com/caddyserver/certmagic v0.25.6
 	github.com/google/uuid v1.6.0
@@ -90,7 +90,7 @@ require (
 	github.com/jackc/puddle/v2 v2.2.3 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.20.3 // indirect
-	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.4.1 // indirect
 	github.com/libdns/cloudflare v0.2.2 // indirect
 	github.com/libdns/libdns v1.1.1 // indirect
 	github.com/manifoldco/promptui v0.9.0 // indirect
@@ -166,7 +166,7 @@ require (
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
-	golang.org/x/crypto/x509roots/fallback v0.0.0-20261014201258-cf169cd0986f // indirect
+	golang.org/x/crypto/x509roots/fallback v0.0.0-20261016151342-0ae6809b7559 // indirect
 	golang.org/x/exp v0.0.0-20261014143641-f0251eb4aa3e // indirect
 	golang.org/x/net v0.61.0 // indirect
 	golang.org/x/oauth2 v0.37.0 // indirect
