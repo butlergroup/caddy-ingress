@@ -117,7 +117,7 @@ require (
 	github.com/quic-go/quic-go v0.64.0 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/shopspring/decimal v1.5.0 // indirect
+	github.com/shopspring/decimal v1.6.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/slackhq/nebula v1.11.2 // indirect
 	github.com/smallstep/certificates v0.30.2 // indirect
