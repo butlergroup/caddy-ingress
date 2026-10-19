@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.357 (10-19-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/shopspring/decimal from v1.5.0 to v1.6.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.356 (10-17-2026)
 
 #### New Features
