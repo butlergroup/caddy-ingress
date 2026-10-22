@@ -1,3 +1,19 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.367 (10-22-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/KimMachineGun/automemlimit from v1.0.0 to v1.0.1 through automated dependency management
+- Updated github.com/googleapis/enterprise-certificate-proxy from v0.3.23 to v0.3.24 through automated dependency management
+- Updated github.com/googleapis/gax-go/v2 from v2.26.2 to v2.27.0 through automated dependency management
+- Updated google.golang.org/api from v0.306.0 to v0.307.0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.366 (10-22-2026)
 
 #### New Features
