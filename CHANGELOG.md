@@ -1,3 +1,20 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.378 (10-28-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated cel.dev/cel-go from v0.33.0 to v0.33.1 through automated dependency management
+- Updated github.com/bits-and-blooms/bitset from v1.26.0 to v1.27.0 through automated dependency management
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.75 to v0.2.76 through automated dependency management
+- Updated github.com/grpc-ecosystem/grpc-gateway/v2 from v2.32.0 to v2.33.0 through automated dependency management
+- Updated go.step.sm/crypto from v0.91.0 to v0.91.1 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.377 (10-28-2026)
 
 #### New Features
