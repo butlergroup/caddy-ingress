@@ -3,7 +3,7 @@ module github.com/butlergroup/caddy-ingress
 go 1.27.3
 
 require (
-	github.com/butlergroup/caddy-dns-cloudflare v0.2.75
+	github.com/butlergroup/caddy-dns-cloudflare v0.2.76
 	github.com/caddyserver/caddy/v2 v2.11.7
 	github.com/caddyserver/certmagic v0.25.6
 	github.com/google/uuid v1.6.0
@@ -19,7 +19,7 @@ require (
 )
 
 require (
-	cel.dev/cel-go v0.33.0 // indirect
+	cel.dev/cel-go v0.33.1 // indirect
 	cel.dev/expr v0.25.3 // indirect
 	cloud.google.com/go/auth v0.24.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.3.0 // indirect
@@ -35,7 +35,7 @@ require (
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/aryann/difflib v0.0.0-20210328193216-ff5ff6dc229b // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bits-and-blooms/bitset v1.26.0 // indirect
+	github.com/bits-and-blooms/bitset v1.27.0 // indirect
 	github.com/caddyserver/zerossl v0.1.6 // indirect
 	github.com/ccoveille/go-safecast/v2 v2.0.1 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
@@ -81,7 +81,7 @@ require (
 	github.com/google/s2a-go v0.1.11 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.24 // indirect
 	github.com/googleapis/gax-go/v2 v2.27.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.32.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.33.0 // indirect
 	github.com/huandu/xstrings v1.6.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -159,7 +159,7 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.47.0 // indirect
 	go.opentelemetry.io/otel/trace v1.47.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.11.1 // indirect
-	go.step.sm/crypto v0.91.0 // indirect
+	go.step.sm/crypto v0.91.1 // indirect
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap/exp v0.3.0 // indirect
