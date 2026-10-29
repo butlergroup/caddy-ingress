@@ -1,3 +1,26 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.382 (10-29-2026)
+
+#### New Features
+
+#### Improvements
+
+- Added github.com/hashicorp/go-uuid at v1.0.4 through automated dependency management
+- Added github.com/pandatix/go-abnf at v0.5.1 through automated dependency management
+- Updated cloud.google.com/go/auth from v0.24.1 to v0.24.2 through automated dependency management
+- Updated cloud.google.com/go/auth/oauth2adapt from v0.3.0 to v0.3.1 through automated dependency management
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.76 to v0.2.77 through automated dependency management
+- Updated github.com/fxamacker/cbor/v2 from v2.9.6 to v2.10.0 through automated dependency management
+- Updated github.com/prometheus/common from v0.72.1 to v0.73.0 through automated dependency management
+- Updated google.golang.org/api from v0.309.0 to v0.310.0 through automated dependency management
+- Updated k8s.io/api from v0.37.1 to v0.37.2 through automated dependency management
+- Updated k8s.io/apimachinery from v0.37.1 to v0.37.2 through automated dependency management
+- Updated k8s.io/client-go from v0.37.1 to v0.37.2 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.381 (10-28-2026)
 
 #### New Features
