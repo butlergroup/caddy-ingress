@@ -1,3 +1,20 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.383 (10-30-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/bits-and-blooms/bitset from v1.27.0 to v1.28.0 through automated dependency management
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.77 to v0.2.78 through automated dependency management
+- Updated github.com/pandatix/go-abnf from v0.5.1 to v0.5.3 through automated dependency management
+- Updated github.com/slackhq/nebula from v1.11.2 to v1.12.0 through automated dependency management
+- Updated golang.org/x/crypto/x509roots/fallback from v0.0.0-20261027005312-1da6254a58cf to v0.0.0-20261029161132-16804593e8b0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.382 (10-29-2026)
 
 #### New Features
