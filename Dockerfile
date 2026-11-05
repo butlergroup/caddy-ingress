@@ -6,7 +6,7 @@ FROM chainguard/wolfi-base:latest@sha256:771146c2dfc880902a185f060c3db5571473c46
 
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     libcap \
-    libcap-utils zlib libcrypt
+    libcap-utils zlib libcrypt1-2.44
 
 # Define username and working directory
 ARG username="caddyingress"
