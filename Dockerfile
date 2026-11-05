@@ -1,12 +1,12 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:32d119bfa89c4302e0608f5c120b39c6b8f80b592c7fb46aa27008b2669ce220 AS certs
-RUN apk add --no-cache \
+RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     ca-certificates
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:32d119bfa89c4302e0608f5c120b39c6b8f80b592c7fb46aa27008b2669ce220
 
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     libcap \
-    libcap-utils zlib
+    libcap-utils zlib libcrypt
 
 # Define username and working directory
 ARG username="caddyingress"
