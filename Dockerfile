@@ -1,8 +1,8 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:32d119bfa89c4302e0608f5c120b39c6b8f80b592c7fb46aa27008b2669ce220 AS certs
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:771146c2dfc880902a185f060c3db5571473c46b267edd98c3119c83068dfb61 AS certs
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     ca-certificates
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:32d119bfa89c4302e0608f5c120b39c6b8f80b592c7fb46aa27008b2669ce220
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:771146c2dfc880902a185f060c3db5571473c46b267edd98c3119c83068dfb61
 
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     libcap \
