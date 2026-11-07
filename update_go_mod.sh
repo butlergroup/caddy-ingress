@@ -9,6 +9,7 @@ echo "Restoring pinned dependencies..."
 
 go get "k8s.io/kube-openapi@v0.0.0-20260821135717-be32def86098"
 go get "github.com/quic-go/quic-go@v0.64.1"
+go get "github.com/go-jose/go-jose/v4@v4.1.8"
 
 echo "Cleaning graph..."
 go mod tidy
