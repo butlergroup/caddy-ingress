@@ -1,3 +1,27 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.412 (11-10-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated cel.dev/expr from v0.25.3 to v0.26.0 through automated dependency management
+- Updated github.com/butlergroup/caddy-dns-cloudflare from v0.2.91 to v0.2.92 through automated dependency management
+- Updated github.com/klauspost/compress from v1.20.3 to v1.20.4 through automated dependency management
+- Updated golang.org/x/crypto/x509roots/fallback from v0.0.0-20261105095718-a1058eb15227 to v0.0.0-20261109165751-4e10f38b063d through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20261106192419-47ce03d25ef0 to v0.0.0-20261109185158-a52e3aef5920 through automated dependency management
+- Updated golang.org/x/oauth2 from v0.37.0 to v0.38.0 through automated dependency management
+- Updated golang.org/x/sync from v0.24.0 to v0.25.0 through automated dependency management
+- Updated golang.org/x/sys from v0.49.0 to v0.50.0 through automated dependency management
+- Updated golang.org/x/term from v0.47.0 to v0.48.0 through automated dependency management
+- Updated golang.org/x/text from v0.43.0 to v0.44.0 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/api from v0.0.0-20261104224025-d1e00e9f33ab to v0.0.0-20261110000943-09e21b237f2c through automated dependency management
+- Updated google.golang.org/genproto/googleapis/rpc from v0.0.0-20261104224025-d1e00e9f33ab to v0.0.0-20261110000943-09e21b237f2c through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.411 (11-10-2026)
 
 #### New Features
