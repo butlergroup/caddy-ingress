@@ -1,8 +1,8 @@
-FROM chainguard/wolfi-base:latest@sha256:ae9575b121f5776e2f04e192064bc2c5665af9d1c425d620dc773aca31698712 AS certs
+FROM chainguard/wolfi-base:latest@sha256:1f6b749929164c3d9e7cad0289254f39b2ba51e1dddaeb0fa57532ea03f2db31 AS certs
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     ca-certificates ca-certificates-bundle
 
-FROM chainguard/wolfi-base:latest@sha256:ae9575b121f5776e2f04e192064bc2c5665af9d1c425d620dc773aca31698712
+FROM chainguard/wolfi-base:latest@sha256:1f6b749929164c3d9e7cad0289254f39b2ba51e1dddaeb0fa57532ea03f2db31
 
 RUN apk update && apk upgrade && apk add --no-cache --upgrade \
     libcap \
