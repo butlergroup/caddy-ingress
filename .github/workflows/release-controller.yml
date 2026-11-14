@@ -317,38 +317,61 @@ jobs:
           # Helper: build KEEP DIGEST SET
           declare -A KEEP_DIGESTS=()
 
-          # 1. ACR - collect manifests
+          # 1. ACR - retain the newest 10 tags
           echo "Processing ACR..."
 
           ACR_REG="${{ env.ACR_REGISTRY_NAME }}"
+          KEEP_ACR=10
 
-          # Get digests sorted by push time (newest first)
-          mapfile -t ACR_DIGESTS < <(
-            az acr manifest list-metadata \
-              --registry "$ACR_REG" \
-              --name "$REPO" \
+          # Retrieve all tags, newest first
+          mapfile -t ACR_TAGS < <(
+            az acr repository show-tags \
+              --name "$ACR_REG" \
+              --repository "$REPO" \
               --orderby time_desc \
-              --query "[].digest" \
               -o tsv
           )
 
-          # Always keep latest KEEP digests
-          for ((i=0; i<KEEP && i<${#ACR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${ACR_DIGESTS[$i]}"]=1
-          done
+          echo "Found ${#ACR_TAGS[@]} tags in ACR."
 
-          # Always keep latest tag digest
-          LATEST_ACR_DIGEST=$(
+          # Identify tags beyond the retention limit
+          if (( ${#ACR_TAGS[@]} > KEEP_ACR )); then
+            OLD_TAGS=("${ACR_TAGS[@]:KEEP_ACR}")
+
+            echo "Removing ${#OLD_TAGS[@]} outdated tags..."
+
+            for TAG in "${OLD_TAGS[@]}"; do
+              echo "Removing tag: $TAG"
+
+              az acr repository untag \
+                --name "$ACR_REG" \
+                --image "$REPO:$TAG"
+            done
+          else
+            echo "No outdated tags to remove."
+          fi
+
+          # Remove manifests that no longer have any tags
+          echo "Cleaning up untagged manifests..."
+
+          mapfile -t UNTAGGED_DIGESTS < <(
             az acr manifest list-metadata \
               --registry "$ACR_REG" \
               --name "$REPO" \
-              --query "[?tags[?name=='latest']].digest | [0]" \
-              -o tsv || true
+              --query "[?length(tags || \`[]\`) == \`0\`].digest" \
+              -o tsv
           )
 
-          if [[ -n "$LATEST_ACR_DIGEST" ]]; then
-            KEEP_DIGESTS["$LATEST_ACR_DIGEST"]=1
-          fi
+          for DIGEST in "${UNTAGGED_DIGESTS[@]}"; do
+            echo "Deleting untagged manifest: $DIGEST"
+
+            az acr repository delete \
+              --name "$ACR_REG" \
+              --image "$REPO@$DIGEST" \
+              --yes
+          done
+
+          echo "ACR cleanup completed."
 
 
           # 2. ECR
