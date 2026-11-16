@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.426 (11-16-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/KimMachineGun/automemlimit from v1.0.1 to v1.0.2 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.425 (11-16-2026)
 
 #### New Features
