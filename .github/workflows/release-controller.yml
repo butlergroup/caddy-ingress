@@ -363,14 +363,47 @@ jobs:
               -o tsv
           )
 
+          echo "Found ${#UNTAGGED_DIGESTS[@]} untagged manifests."
+
+          DELETED=0
+          ALREADY_GONE=0
+          FAILED=0
+
           for DIGEST in "${UNTAGGED_DIGESTS[@]}"; do
             echo "Deleting untagged manifest: $DIGEST"
 
-            az acr repository delete \
+            if DELETE_OUTPUT=$(az acr repository delete \
               --name "$ACR_REG" \
               --image "$REPO@$DIGEST" \
-              --yes
+              --yes 2>&1); then
+
+              echo "Successfully deleted: $DIGEST"
+              ((DELETED+=1))
+
+            elif grep -Eiq 'manifest.*not found|MANIFEST_UNKNOWN|manifest.*unknown' <<< "$DELETE_OUTPUT"; then
+
+              echo "Manifest already removed; skipping: $DIGEST"
+              ((ALREADY_GONE+=1))
+
+            else
+
+              echo "::error::Failed to delete manifest $DIGEST"
+              echo "$DELETE_OUTPUT"
+              ((FAILED+=1))
+
+            fi
           done
+
+          echo ""
+          echo "ACR cleanup summary:"
+          echo "  Deleted:       $DELETED"
+          echo "  Already gone:  $ALREADY_GONE"
+          echo "  Failed:        $FAILED"
+
+          if (( FAILED > 0 )); then
+            echo "::error::$FAILED manifest deletion(s) failed."
+            exit 1
+          fi
 
           echo "ACR cleanup completed."
 
