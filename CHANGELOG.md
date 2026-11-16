@@ -1,3 +1,16 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.425 (11-16-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated golang.org/x/crypto/x509roots/fallback from v0.0.0-20261113174652-9ccaac6145fb to v0.0.0-20261115193255-739070949446 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.424 (11-15-2026)
 
 #### New Features
