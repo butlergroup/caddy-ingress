@@ -408,38 +408,7 @@ jobs:
           echo "ACR cleanup completed."
 
 
-          # 2. ECR
-          echo "Processing AWS Marketplace ECR..."
-          ECR_REGISTRY_ID="709825985650"
-          ECR_REPO="the-butler-group/caddy-ingress"
-
-          mapfile -t ECR_DIGESTS < <(
-            aws ecr describe-images \
-              --registry-id "$ECR_REGISTRY_ID" \
-              --repository-name "$ECR_REPO" \
-              --query 'sort_by(imageDetails,& imagePushedAt)[].imageDigest' \
-              --output text | tr '\t' '\n' | tac
-          )
-
-          for ((i=0; i<KEEP && i<${#ECR_DIGESTS[@]}; i++)); do
-            KEEP_DIGESTS["${ECR_DIGESTS[$i]}"]=1
-          done
-
-          # Keep latest tag, if present
-          LATEST_ECR_DIGEST=$(
-            aws ecr describe-images \
-              --registry-id "$ECR_REGISTRY_ID" \
-              --repository-name "$ECR_REPO" \
-              --query "imageDetails[?imageTags && contains(imageTags, \`latest\`)].imageDigest | [0]" \
-              --output text || true
-          )
-
-          if [[ -n "$LATEST_ECR_DIGEST" && "$LATEST_ECR_DIGEST" != "None" ]]; then
-            KEEP_DIGESTS["$LATEST_ECR_DIGEST"]=1
-          fi
-
-
-          # 3. GAR
+          # 2. GAR
           echo "Processing GAR..."
 
           GAR_LOCATION="us-docker.pkg.dev"
@@ -495,17 +464,6 @@ jobs:
                 --name "$ACR_REG" \
                 --image "${REPO}@${digest}" \
                 --yes || true
-            fi
-          done
-
-          # ECR delete
-          for digest in "${ECR_DIGESTS[@]}"; do
-            if [[ -z "${KEEP_DIGESTS[$digest]+x}" ]]; then
-              echo "ECR delete: $digest"
-              aws ecr batch-delete-image \
-                --registry-id "$ECR_REGISTRY_ID" \
-                --repository-name "$ECR_REPO" \
-                --image-ids imageDigest="$digest" || true
             fi
           done
 
