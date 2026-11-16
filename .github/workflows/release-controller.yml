@@ -215,6 +215,7 @@ jobs:
           signature_format: cose
           plugin_config: |-
             self_signed=true
+            credential_type=azurecli
           # If you are using self-signed certificate from AKV, then the `plugin_config` should be:
           # plugin_config: |-
           #   self_signed=true
