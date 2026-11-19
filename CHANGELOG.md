@@ -1,3 +1,20 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.435 (11-19-2026)
+
+#### New Features
+
+#### Improvements
+
+- Added github.com/nationallibraryofnorway/whatwg-url at v0.9.1 through automated dependency management
+- Updated github.com/dunglas/go-urlpattern from v1.0.0 to v1.0.1 through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20261117202309-7a49493bfd90 to v0.0.0-20261118215729-2791e4028fd4 through automated dependency management
+- Updated google.golang.org/genproto/googleapis/api from v0.0.0-20261116203732-fd2c7689a808 to v0.0.0-20261118221215-c8830f628b3f through automated dependency management
+- Updated google.golang.org/genproto/googleapis/rpc from v0.0.0-20261116203732-fd2c7689a808 to v0.0.0-20261118221215-c8830f628b3f through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.434 (11-19-2026)
 
 #### New Features
