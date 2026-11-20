@@ -1,3 +1,17 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.437 (11-20-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/smallstep/scep from v0.0.0-20261014185058-63893dadfda8 to v0.1.0 through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20261118215729-2791e4028fd4 to v0.0.0-20261119141654-b15d094f3610 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.436 (11-19-2026)
 
 #### New Features
