@@ -1,3 +1,19 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.438 (11-21-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/huandu/xstrings from v1.6.3 to v1.6.4 through automated dependency management
+- Updated github.com/klauspost/compress from v1.20.4 to v1.20.5 through automated dependency management
+- Updated go.opentelemetry.io/auto/sdk from v1.2.1 to v1.2.2 through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20261119141654-b15d094f3610 to v0.0.0-20261120182113-8801fbdfac81 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.437 (11-20-2026)
 
 #### New Features
