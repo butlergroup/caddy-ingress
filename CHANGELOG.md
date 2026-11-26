@@ -1,3 +1,19 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.448 (11-26-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/huandu/xstrings from v1.6.5 to v1.6.6 through automated dependency management
+- Updated k8s.io/api from v0.37.2 to v0.37.3 through automated dependency management
+- Updated k8s.io/apimachinery from v0.37.2 to v0.37.3 through automated dependency management
+- Updated k8s.io/client-go from v0.37.2 to v0.37.3 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.447 (11-26-2026)
 
 #### New Features
