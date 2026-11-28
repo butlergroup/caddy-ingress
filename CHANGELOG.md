@@ -1,3 +1,17 @@
+## Caddy K8s Ingress Controller & Helm Chart Version 1.5.453 (11-28-2026)
+
+#### New Features
+
+#### Improvements
+
+- Updated github.com/go-sql-driver/mysql from v1.10.2 to v1.11.0 through automated dependency management
+- Updated golang.org/x/exp from v0.0.0-20261124000051-d6646c509b6d to v0.0.0-20261128033645-f63ec7c7eed0 through automated dependency management
+- chore: Update go.mod dependencies
+
+#### Fixes
+
+---
+
 ## Caddy K8s Ingress Controller & Helm Chart Version 1.5.452 (11-28-2026)
 
 #### New Features
